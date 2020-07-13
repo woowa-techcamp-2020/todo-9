@@ -13,6 +13,10 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "tsc": "^1.20150623.0",
+    "tslint": "^6.1.2",
+    "typecript": "0.0.1-security",
+    "typescript": "^3.9.6"
   }
 }
