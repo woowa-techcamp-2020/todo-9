@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "declaration": true,
+    "moduleResolution": "node",
+    "target": "ES2018",
+    "allowJs": true,
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "plugins": [{ "transform": "@zerollup/ts-transform-paths" }],
+    "lib": ["ES2020.String", "ESNext.AsyncIterable"],
+    "types": ["node", "jest"]
+  },
+  "include": ["src/index.ts", "**/*.spec.ts", "**/*.test.ts"],
+  "exclude": ["node_modules", "build"]
+}
