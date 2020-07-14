@@ -1,10 +1,10 @@
-const eventTypes = ['click', 'input'] as const
-
-type TypeOfEvent = typeof eventTypes[number]
+type TypeOfEvent = 'click' | 'input'
 type EventHandler = {
   [eventName in TypeOfEvent]?: (e: Event) => void
 }
-export interface IAttribute extends Partial<Element>, EventHandler {}
+export interface IAttribute extends Partial<Element>, EventHandler {
+  text?: string
+}
 
 export const generateElement = (
   tagName: string,
@@ -19,20 +19,31 @@ export const generateElement = (
       newElement.setAttribute('class', value)
       continue
     }
+
     // text
+    if (key === 'textContent') {
+      const textNode = document.createTextNode(value)
+      newElement.appendChild(textNode)
+      continue
+    }
 
     // event
+    if (typeof value === 'function') {
+      newElement.addEventListener(key, value)
+      continue
+    }
+
     newElement.setAttribute(key, value)
   }
 
   // childNodes
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
-    fragment.appendChild(node)
+    newElement.appendChild(node)
 
     // comopnent
 
-    // generaterEle
+    // generaterElement
   }
   newElement.appendChild(fragment)
 
