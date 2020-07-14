@@ -20,7 +20,7 @@ export const generateElement = (
       continue
     }
     // text
-
+    const a = '1'
     // event
     newElement.setAttribute(key, value)
   }
