@@ -2,21 +2,14 @@ export abstract class Component<P, S> {
   protected element: HTMLElement
 
   constructor(public props?: P, private state?: S) {
-    const { setState, getState, ...prototypeOfComopnent } = Component.prototype
-
-    // if (state) {
-    //   this.setState = this.setState.bind(this)
-    //   this.getState = this.getState.bind(this)
-    // }
-    // Object.setPrototypeOf(this, prototypeOfComopnent)
     Object.setPrototypeOf(this, Component.prototype)
   }
 
-  getElement() {
+  getElement(): HTMLElement {
     return this.element
   }
 
-  reRender() {
+  private reRender() {
     const oldElement = this.element
     const newElement = this.render()
     this.element.replaceWith(newElement)
@@ -24,12 +17,8 @@ export abstract class Component<P, S> {
     oldElement.remove()
   }
 
-  setState(key: keyof S, value: any) {
+  protected setState(key: keyof S, value: S[keyof S]) {
     if (!this.state) {
-      return
-    }
-
-    if (typeof this.state[key] !== typeof value) {
       return
     }
 
@@ -37,7 +26,7 @@ export abstract class Component<P, S> {
     this.reRender()
   }
 
-  getState(key: keyof S) {
+  protected getState(key: keyof S) {
     if (!this.state) {
       return
     }
@@ -45,10 +34,11 @@ export abstract class Component<P, S> {
     return this.state[key]
   }
 
-  init() {
+  protected init() {
     this.element = this.render()
     // this.componentDidMount()
   }
-  abstract render?()
-  //   abstract componentDidMount?()
+
+  protected abstract render?()
+  protected abstract componentDidMount?()
 }

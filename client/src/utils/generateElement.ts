@@ -10,7 +10,7 @@ export interface IAttribute extends Partial<Element>, EventHandler {
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: Array<HTMLElement | Function>
+  ...childNodes: HTMLElement[]
 ) => {
   const newElement = document.createElement(tagName)
 
@@ -40,14 +40,6 @@ export const generateElement = (
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
     // comopnent
-
-    // generaterElement
-    if (typeof node === 'function') {
-      console.log(node)
-      const childNode = node()
-      fragment.appendChild(childNode)
-      continue
-    }
 
     newElement.appendChild(node)
   }

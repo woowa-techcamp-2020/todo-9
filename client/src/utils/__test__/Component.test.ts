@@ -1,6 +1,7 @@
-import { generateElement } from '../generateElement'
-import { div } from '../defaultElements'
+import { fireEvent } from '@testing-library/dom'
+import { div, p } from '../defaultElements'
 import { Component } from '../Component'
+import NeactDom from '../renderDom'
 
 let testComponent
 let app: HTMLElement = null
@@ -21,13 +22,15 @@ afterAll(() => {
 })
 
 describe('[test component which extends Component]', () => {
-  test('test component가 props만 가지고 있을 때, props를 찾을 수 있다', () => {
+  test('props만 가진 컴포넌트를 렌더했을 때, 정상적으로 등록된다', () => {
     //given
     const name = 'andy'
     interface IProps {
       name: string
     }
     class TestComponent extends Component<IProps, {}> {
+      protected componentDidMount: undefined
+
       constructor(props: IProps) {
         super(props)
 
@@ -36,53 +39,66 @@ describe('[test component which extends Component]', () => {
       }
 
       render() {
+        return div({ textContent: 'andy' })
+      }
+    }
+
+    // when
+    testComponent = new TestComponent({ name })
+    NeactDom.render(testComponent, app)
+
+    // then
+    expect(document.hasChildNodes).toBeTruthy()
+    expect(document.contains(testComponent.getElement())).toBeTruthy()
+    const child = app.querySelector('div')
+    expect(child.textContent).toBe(name)
+  })
+
+  test('state를 가진 컴포넌트를 생성했을 때, 스테이트가 변경되면 변경된 값을 기반으로 다시 렌더된다', () => {
+    //given
+    const counter = 0
+
+    interface IState {
+      counter: number
+    }
+    class TestComponent extends Component<any, IState> {
+      protected componentDidMount: undefined
+
+      constructor({}, state: IState) {
+        super({}, state)
+
+        Object.setPrototypeOf(this, TestComponent.prototype)
+        this.init()
+      }
+
+      onClickHandler(e: Event) {
+        this.setState('counter', this.getState('counter') + 1)
+      }
+
+      render() {
         return div(
-          { className: this.props.name },
-          div(
-            { className: this.props.name },
-            div({ className: this.props.name }),
-            div({ className: this.props.name }),
-            div({ className: this.props.name }),
-            div({ className: this.props.name })
-          )
+          {},
+          div({
+            className: 'add-btn',
+            textContent: 'add',
+            click: (e: Event) => this.onClickHandler(e),
+          }),
+          p({ textContent: this.getState('counter').toString() })
         )
       }
     }
 
-    testComponent = new TestComponent({ name })
-    app.appendChild(testComponent.getElement())
+    // when
+    testComponent = new TestComponent({}, { counter })
+    NeactDom.render(testComponent, app)
 
-    const andyDom = document.querySelector(`.${name}`)
-    expect(andyDom.classList.length).toBe(1)
-  })
+    // then
+    const counterElement = app.querySelector('p') as HTMLElement
+    expect(counterElement.textContent).toBe(counter.toString())
+    const addButton = app.querySelector('.add-btn')
+    fireEvent.click(addButton)
+    const updatedCounterElement = app.querySelector('p') as HTMLElement
 
-  test('test component가 props만 가지고 있을 때, props를 찾을 수 있다', () => {
-    //given
-    const name = 'andy'
-    const counter = 0
-    interface IProps {
-      name: string
-    }
-    interface IState {
-      counter: number
-    }
-    class TestComponent extends Component<IProps, IState> {
-      constructor(props: IProps, state: IState) {
-        super(props, state)
-
-        Object.setPrototypeOf(this, TestComponent.prototype)
-
-        this.element = this.render()
-      }
-      render() {
-        return div({ className: this.props.name })
-      }
-    }
-
-    testComponent = new TestComponent({ name }, { counter })
-    app.appendChild(testComponent.getElement())
-    expect(testComponent.getState('counter')).toBe(counter)
-    testComponent.setState('counter', 'wsd')
-    expect(testComponent.getState('counter')).toBe(3)
+    expect(updatedCounterElement.textContent).toBe((counter + 1).toString())
   })
 })
