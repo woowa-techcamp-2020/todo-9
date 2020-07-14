@@ -6,8 +6,10 @@ export const [
   div,
   p,
 ] = tagNames.map(
-  (tagName) => (attributes: IAttribute, ...childNodes: HTMLElement[]) =>
-    generateElement(tagName, attributes, ...childNodes)
+  (tagName) => (
+    attributes: IAttribute,
+    ...childNodes: Array<HTMLElement | Function>
+  ) => generateElement(tagName, attributes, ...childNodes)
 )
 
 // <div>

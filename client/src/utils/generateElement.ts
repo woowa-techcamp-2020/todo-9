@@ -2,6 +2,7 @@ type TypeOfEvent = 'click' | 'input'
 type EventHandler = {
   [eventName in TypeOfEvent]?: (e: Event) => void
 }
+
 export interface IAttribute extends Partial<Element>, EventHandler {
   text?: string
 }
@@ -9,11 +10,10 @@ export interface IAttribute extends Partial<Element>, EventHandler {
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: HTMLElement[]
+  ...childNodes: Array<HTMLElement | Function>
 ) => {
   const newElement = document.createElement(tagName)
 
-  // attribute를 element한테 잘 붙여주면 댐
   for (const [key, value] of Object.entries(attributes)) {
     if (key === 'className') {
       newElement.setAttribute('class', value)
@@ -39,11 +39,17 @@ export const generateElement = (
   // childNodes
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
-    newElement.appendChild(node)
-
     // comopnent
 
     // generaterElement
+    if (typeof node === 'function') {
+      console.log(node)
+      const childNode = node()
+      fragment.appendChild(childNode)
+      continue
+    }
+
+    newElement.appendChild(node)
   }
   newElement.appendChild(fragment)
 

@@ -34,6 +34,7 @@ describe('[test component which extends Component]', () => {
         Object.setPrototypeOf(this, TestComponent.prototype)
         this.init()
       }
+
       render() {
         return div(
           { className: this.props.name },

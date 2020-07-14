@@ -41,16 +41,16 @@ describe('[generateElement]', () => {
 
   test('attribute로 이벤트와 이벤트 리스너를 받으면 element에 해당 이벤트를 바인딩한다.', () => {
     const eventName = 'click'
-    const eventHandler = (e) => (e.currentTarget.dataset.isSuccess = true)
+    const eventHandler = (e) => (e.currentTarget.dataset.isClicked = true)
 
     const $newElement = generateElement('div', {
       className: '',
       [eventName]: eventHandler,
     })
 
-    expect($newElement.dataset.isSuccess).toBeFalsy() // false인지 체크한다.
+    expect($newElement.dataset.isClicked).toBeFalsy() // false인지 체크한다.
     fireEvent($newElement, new MouseEvent('click'))
-    expect($newElement.dataset.isSuccess).toBeTruthy()
+    expect($newElement.dataset.isClicked).toBeTruthy()
   })
 
   test('세번째 인자로 받는 child는, 해당 엘리먼트의 자식 노드로 존재해야 한다', () => {
@@ -70,9 +70,18 @@ describe('[generateElement]', () => {
   })
 
   test('세번째 인자로 받은 child가 generateELement function이면 함수를 실행하여 자식으로 append한다.', () => {
+    const CURRENT_CLASS_NAME = 'parent'
+    const CHILD_CLASS_NAME = 'child'
+
     const $newElement = div(
-      { className: 'parent' },
-      div({ className: 'child' })
+      { className: CURRENT_CLASS_NAME },
+      div({ className: CHILD_CLASS_NAME })
     )
+
+    expect($newElement.hasChildNodes()).toBeTruthy()
+    expect($newElement.className).toBe(CURRENT_CLASS_NAME)
+
+    const childNode = $newElement.childNodes[0] as HTMLElement // 타입을 HTMLElement로 선언
+    expect(childNode.className).toBe(CHILD_CLASS_NAME)
   })
 })
