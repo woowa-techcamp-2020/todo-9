@@ -1,5 +1,4 @@
-export abstract class Component<P = {}, S = {}> {
-  // 여기 default값 줬어 형
+export abstract class Component<P, S> {
   protected element: HTMLElement
 
   constructor(public props?: P, private state?: S) {
@@ -27,7 +26,7 @@ export abstract class Component<P = {}, S = {}> {
     this.reRender()
   }
 
-  protected getState(key: keyof S) {
+  public getState(key: keyof S) {
     if (!this.state) {
       return
     }
@@ -37,9 +36,9 @@ export abstract class Component<P = {}, S = {}> {
 
   protected init() {
     this.element = this.render()
-    // this.componentDidMount()
+    this.componentDidMount()
   }
 
   protected abstract render?()
-  protected abstract componentDidMount?()
+  protected componentDidMount() {}
 }
