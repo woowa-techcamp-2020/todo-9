@@ -1,6 +1,7 @@
 import { Component } from '../../utils/Component'
 import { header, div, span, button } from '../../utils/defaultElements'
 import { textSpanIntersectsWithTextSpan } from 'typescript'
+import './header.css'
 
 interface IProps {
   title: string
