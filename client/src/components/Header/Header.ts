@@ -1,6 +1,6 @@
-import { Component } from '../../utils/Component'
-import { header, div, span, button } from '../../utils/defaultElements'
-import { textSpanIntersectsWithTextSpan } from 'typescript'
+import { Component } from '../../utils/wooact'
+import { header, div, span, button } from '../../utils/wooact/defaultElements'
+import './header.scss'
 
 interface IProps {
   title: string
@@ -9,17 +9,13 @@ interface IProps {
 
 interface IState {}
 
-export class Header extends Component<IProps, IState> {
+class Header extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
 
     Object.setPrototypeOf(this, Header.prototype)
     this.init()
   }
-
-  // onClickMenu() {
-  //   this.setState('menuVisible', !this.getState('menuVisible'))
-  // }
 
   render() {
     const {
@@ -40,3 +36,5 @@ export class Header extends Component<IProps, IState> {
     )
   }
 }
+
+export default Header

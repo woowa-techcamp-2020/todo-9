@@ -1,4 +1,4 @@
-export abstract class Component<P, S> {
+abstract class Component<P, S> {
   protected element: HTMLElement
 
   constructor(public props?: P, private state?: S) {
@@ -41,4 +41,7 @@ export abstract class Component<P, S> {
 
   protected abstract render?()
   protected componentDidMount() {}
+  protected comopnentWillUnmount() {}
 }
+
+export default Component

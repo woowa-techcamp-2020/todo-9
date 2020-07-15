@@ -1,0 +1,11 @@
+// .title-content {
+// 	color: red;
+// }
+$big-font: 40px;
+
+div {
+	span {
+		color: red;
+		font-size: $big-font;
+	}
+}

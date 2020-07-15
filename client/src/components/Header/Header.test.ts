@@ -1,7 +1,5 @@
-import { fireEvent } from '@testing-library/dom'
-import NeactDom from '../../utils/renderDom'
-import { Header } from './Header'
-import { Component } from '../../utils/Component'
+import { Header } from './'
+import { domRenderer } from '../../utils/wooact'
 
 let headerComponent: Header
 let headerElement: HTMLElement
@@ -14,7 +12,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   headerComponent = new Header({ title: 'woowa', onClickMenu: () => {} })
-  NeactDom.render(headerComponent, app)
+  domRenderer(headerComponent, app)
   headerElement = headerComponent.getElement()
 })
 
