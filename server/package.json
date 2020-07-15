@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "cp ./.env.test ./.env && jest",
+    "test:watch": "cp ./.env.test ./.env && jest --watchAll",
+    "dev": "cp ./.env.dev ./.env && ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/main"
   },
