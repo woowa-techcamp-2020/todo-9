@@ -93,7 +93,7 @@ describe('[generateElement]', () => {
     const TEXT_CONTENT = 'childText'
 
     interface IProps {}
-    class TestComponent extends Component {
+    class TestComponent extends Component<any, any> {
       protected componentDidMount: undefined
 
       constructor() {

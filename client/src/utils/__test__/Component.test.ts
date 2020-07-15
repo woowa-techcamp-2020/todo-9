@@ -62,7 +62,7 @@ describe('[test component which extends Component]', () => {
       counter: number
     }
     class TestComponent extends Component<any, IState> {
-      protected componentDidMount: undefined
+      // protected componentDidMount: undefined
 
       constructor({}, state: IState) {
         super({}, state)
