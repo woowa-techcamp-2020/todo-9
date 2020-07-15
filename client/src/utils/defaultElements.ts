@@ -1,4 +1,5 @@
 import { IAttribute, generateElement } from './generateElement'
+import { Component } from './Component'
 
 const htmlTagNames = [
   'a',
@@ -206,13 +207,6 @@ export const [
   option,
   output,
   p,
-<<<<<<< HEAD
-] = tagNames.map(
-  (tagName) => (
-    attributes: IAttribute,
-    ...childNodes: Array<HTMLElement | Function>
-  ) => generateElement(tagName, attributes, ...childNodes)
-=======
   param,
   picture,
   pre,
@@ -254,7 +248,8 @@ export const [
   video,
   wbr,
 ] = htmlTagNames.map(
-  (tagName) => (attributes: IAttribute, ...childNodes: HTMLElement[]) =>
-    generateElement(tagName, attributes, ...childNodes)
->>>>>>> 863f3d6f087078204194baeb245c4285cf097fdc
+  (tagName) => (
+    attributes: IAttribute,
+    ...childNodes: HTMLElement[] | Component[]
+  ) => generateElement(tagName, attributes, ...childNodes)
 )

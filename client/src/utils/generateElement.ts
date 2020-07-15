@@ -1,3 +1,5 @@
+import { Component } from './Component'
+
 type TypeOfEvent = 'click' | 'input'
 type EventHandler = {
   [eventName in TypeOfEvent]?: (e: Event) => void
@@ -10,7 +12,7 @@ export interface IAttribute extends Partial<Element>, EventHandler {
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: HTMLElement[]
+  ...childNodes: HTMLElement[] | Component[]
 ) => {
   const newElement = document.createElement(tagName)
 
@@ -40,6 +42,10 @@ export const generateElement = (
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
     // comopnent
+    if (node instanceof Component) {
+      fragment.appendChild(node.getElement())
+      continue
+    }
 
     newElement.appendChild(node)
   }

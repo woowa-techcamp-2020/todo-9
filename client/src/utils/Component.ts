@@ -1,4 +1,5 @@
-export abstract class Component<P, S> {
+export abstract class Component<P = {}, S = {}> {
+  // 여기 default값 줬어 형
   protected element: HTMLElement
 
   constructor(public props?: P, private state?: S) {

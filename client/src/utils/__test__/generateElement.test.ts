@@ -1,4 +1,5 @@
 import { fireEvent } from '@testing-library/dom'
+import { Component } from '../Component'
 import { generateElement } from '../generateElement'
 import { div } from '../defaultElements'
 
@@ -83,5 +84,40 @@ describe('[generateElement]', () => {
 
     const childNode = $newElement.childNodes[0] as HTMLElement // 타입을 HTMLElement로 선언
     expect(childNode.className).toBe(CHILD_CLASS_NAME)
+  })
+
+  test('세번째 인자로 받은 child가 Component이면 DOM 요소를 가져와서 현재요소에 append 해준다.', () => {
+    // given
+    const PARENT_CLASS_NAME = 'parent'
+    const CHILD_CLASS_NAME = 'child'
+    const TEXT_CONTENT = 'childText'
+
+    interface IProps {}
+    class TestComponent extends Component {
+      protected componentDidMount: undefined
+
+      constructor() {
+        super()
+
+        Object.setPrototypeOf(this, TestComponent.prototype)
+        this.init()
+      }
+
+      render() {
+        return div({ className: CHILD_CLASS_NAME, textContent: TEXT_CONTENT })
+      }
+    }
+
+    // when
+    const $newElement = div(
+      { className: PARENT_CLASS_NAME },
+      new TestComponent()
+    )
+
+    // then
+    expect($newElement.hasChildNodes()).toBeTruthy()
+    const $childElement = Array.from($newElement.childNodes)[0] as HTMLElement
+    expect($childElement.className).toBe(CHILD_CLASS_NAME)
+    expect($childElement.textContent).toBe(TEXT_CONTENT)
   })
 })
