@@ -1,6 +1,5 @@
-import { Component } from '../../utils/Component'
-import { header, div, span, button } from '../../utils/defaultElements'
-import { textSpanIntersectsWithTextSpan } from 'typescript'
+import { Component } from '../../utils/wooact'
+import { header, div, span, button } from '../../utils/wooact/defaultElements'
 import './header.css'
 
 interface IProps {
@@ -17,10 +16,6 @@ export class Header extends Component<IProps, IState> {
     Object.setPrototypeOf(this, Header.prototype)
     this.init()
   }
-
-  // onClickMenu() {
-  //   this.setState('menuVisible', !this.getState('menuVisible'))
-  // }
 
   render() {
     const {

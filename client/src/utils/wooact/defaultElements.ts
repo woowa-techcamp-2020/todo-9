@@ -1,5 +1,5 @@
 import { IAttribute, generateElement } from './generateElement'
-import { Component } from './Component'
+import { Component } from './'
 
 const htmlTagNames = [
   'a',
@@ -253,3 +253,14 @@ export const [
     ...childNodes: HTMLElement[] | Component<any, any>[]
   ) => generateElement(tagName, attributes, ...childNodes)
 )
+
+// export default htmlTagNames.reduce(
+//   (acc, tagName) => (
+//     attributes: IAttribute,
+//     ...childNodes: HTMLElement[] | Component<any, any>[]
+//   ) => {
+//     acc[tagName] = generateElement(tagName, attributes, ...childNodes)
+//     return acc
+//   },
+//   {}
+// )

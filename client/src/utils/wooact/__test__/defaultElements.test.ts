@@ -1,5 +1,3 @@
-import { fireEvent } from '@testing-library/dom'
-import { generateElement } from '../generateElement'
 import { div } from '../defaultElements'
 
 describe('[default elements]', () => {

@@ -1,4 +1,4 @@
-import { Component } from './Component'
+import { Component } from './'
 
 type TypeOfEvent = 'click' | 'input'
 type EventHandler = {

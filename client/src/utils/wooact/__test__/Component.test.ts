@@ -1,7 +1,6 @@
 import { fireEvent } from '@testing-library/dom'
 import { div, p } from '../defaultElements'
-import { Component } from '../Component'
-import NeactDom from '../renderDom'
+import { Component, domRenderer } from '../'
 
 let testComponent
 let app: HTMLElement = null
@@ -45,7 +44,7 @@ describe('[test component which extends Component]', () => {
 
     // when
     testComponent = new TestComponent({ name })
-    NeactDom.render(testComponent, app)
+    domRenderer(testComponent, app)
 
     // then
     expect(document.hasChildNodes).toBeTruthy()
@@ -90,7 +89,7 @@ describe('[test component which extends Component]', () => {
 
     // when
     testComponent = new TestComponent({}, { counter })
-    NeactDom.render(testComponent, app)
+    domRenderer(testComponent, app)
 
     // then
     const counterElement = app.querySelector('p') as HTMLElement

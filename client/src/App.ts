@@ -1,6 +1,7 @@
-import { Component } from './utils/Component'
+// import { Component } from './utils/wooact'
 import { Header } from './components/Header/Header'
-import { main, div } from './utils/defaultElements'
+import { main, div } from './utils/wooact/defaultElements'
+import { Component } from './utils/wooact'
 
 interface IProps {}
 

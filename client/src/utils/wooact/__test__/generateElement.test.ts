@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/dom'
-import { Component } from '../Component'
+import { Component } from '../'
 import { generateElement } from '../generateElement'
 import { div } from '../defaultElements'
 

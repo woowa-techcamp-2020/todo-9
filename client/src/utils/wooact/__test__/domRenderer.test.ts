@@ -1,8 +1,5 @@
-import { Component } from '../Component'
-
-import { fireEvent } from '@testing-library/dom'
-import { div, p } from '../defaultElements'
-import NeactDom from '../renderDom'
+import { Component, domRenderer } from '../'
+import { div } from '../defaultElements'
 
 let testComponent
 let app: HTMLElement = null
@@ -40,7 +37,7 @@ describe('[NeactDom]', () => {
 
     // when
     testComponent = new TestComponent({ name })
-    NeactDom.render(testComponent, app)
+    domRenderer(testComponent, app)
 
     // then
     expect(document.hasChildNodes).toBeTruthy()
