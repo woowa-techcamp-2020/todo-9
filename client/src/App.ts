@@ -1,5 +1,5 @@
 // import { Component } from './utils/wooact'
-import { Header } from './components/Header/Header'
+import { Header } from './components/Header'
 import { main, div } from './utils/wooact/defaultElements'
 import { Component } from './utils/wooact'
 

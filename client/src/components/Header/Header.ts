@@ -9,7 +9,7 @@ interface IProps {
 
 interface IState {}
 
-export class Header extends Component<IProps, IState> {
+class Header extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
 
@@ -36,3 +36,5 @@ export class Header extends Component<IProps, IState> {
     )
   }
 }
+
+export default Header
