@@ -1,7 +1,7 @@
-// import { Component } from './utils/wooact'
-import { Header } from './components/Header'
 import { main, div } from './utils/wooact/defaultElements'
 import { Component } from './utils/wooact'
+import { Modal } from './components/Modal'
+import { Header } from './components/Header'
 
 interface IProps {}
 
@@ -18,6 +18,7 @@ export default class App extends Component<IProps, IState> {
   render() {
     return div(
       { className: 'container' },
+      new Modal(),
       new Header({ title: 'donguk-9', toggleSideMenu: () => {} })
     )
   }
