@@ -73,4 +73,23 @@ describe('[App Component]', () => {
       .querySelector('.sidebar-container')
     expect($newSideBar.classList.contains('visible')).toBeTruthy()
   })
+
+  test('Sidebar 컴포넌트에서 x버튼을 클릭하면 Sidebar가 remove된다.', () => {
+    // given
+    const $menuButton = appComponent
+      .getElement()
+      .querySelector('.menu-container')
+    fireEvent.click($menuButton)
+    const $closeButton = appComponent.getElement().querySelector('.side-close')
+
+    // when
+    fireEvent.click($closeButton)
+
+    // then
+
+    const $sideBar = appComponent
+      .getElement()
+      .querySelector('.sidebar-container')
+    expect($sideBar.classList.contains('visible')).toBeFalsy()
+  })
 })

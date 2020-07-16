@@ -2,13 +2,14 @@ import { Component } from '../../utils/wooact'
 import { aside, div, i, span } from '../../utils/wooact/defaultElements'
 
 // 개발용
-import { SideBarItem } from '../SideBarItem'
+// import { SideBarItem } from '../SideBarItem'
 
 // 테스트용
-// import SidebarItem from '../SideBarItem/SideBarItem'
+import SideBarItem from '../SideBarItem/SideBarItem'
 
 interface IProps {
   visible: boolean
+  onToggleSideMenu: () => void
 }
 interface IState {}
 
@@ -21,6 +22,7 @@ class SideBar extends Component<IProps, IState> {
   }
 
   render() {
+    const { onToggleSideMenu } = this.props
     return aside(
       {
         className: `sidebar-container ${this.props.visible ? 'visible' : ''}`,
@@ -38,7 +40,11 @@ class SideBar extends Component<IProps, IState> {
         { className: 'icon-container' },
         div(
           { className: 'left-icon' },
-          i({ className: 'f7-icons f7-icon', textContent: 'bell_fill' }),
+          i({
+            className: 'f7-icons f7-icon side-close',
+            textContent: 'bell_fill',
+            click: onToggleSideMenu,
+          }),
           span({ className: 'icon-title', textContent: 'Activity' })
         )
       ),
