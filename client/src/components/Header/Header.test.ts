@@ -1,4 +1,4 @@
-import { Header } from './'
+import { default as Header } from './Header'
 import { domRenderer } from '../../utils/wooact'
 
 let headerComponent: Header
@@ -11,7 +11,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  headerComponent = new Header({ title: 'woowa', onClickMenu: () => {} })
+  headerComponent = new Header({ title: 'woowa', toggleSideMenu: () => {} })
   domRenderer(headerComponent, app)
   headerElement = headerComponent.getElement()
 })

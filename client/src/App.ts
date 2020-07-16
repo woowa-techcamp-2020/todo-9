@@ -18,7 +18,7 @@ export default class App extends Component<IProps, IState> {
   render() {
     return div(
       { className: 'container' },
-      new Header({ title: 'donguk-9', onClickMenu: () => {} })
+      new Header({ title: 'donguk-9', toggleSideMenu: () => {} })
     )
   }
 }

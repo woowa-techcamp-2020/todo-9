@@ -1,6 +1,5 @@
 import { Component } from '../../utils/wooact'
 import { header, div, span, button } from '../../utils/wooact/defaultElements'
-import './header.scss'
 
 interface IProps {
   title: string
