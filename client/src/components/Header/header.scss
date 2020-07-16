@@ -1,11 +1,11 @@
 @use '../../styles/definitions';
 
 .page-container {
-  height: 7vh;
+  height: 100px;
   background-color: black;
   display: flex;
   justify-content: space-between;
-  padding: 1.2rem 3rem;
+  padding: 30px 3rem;
   color: white;
 
   .title-container {
