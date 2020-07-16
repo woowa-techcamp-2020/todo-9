@@ -55,14 +55,22 @@ describe('[App Component]', () => {
 
   test('Header 컴포넌트의 menu버튼을 클릭하면 Sidebar가 렌더링된다.', () => {
     // given
-    const $menuButton = document.querySelector('.menu-container')
-    const $sidebar = document.querySelector('.sidebar-container')
+    const $menuButton = appComponent
+      .getElement()
+      .querySelector('.menu-container')
+    const $sidebar = appComponent
+      .getElement()
+      .querySelector('.sidebar-container')
     expect($sidebar.classList.contains('visible')).toBeFalsy()
 
     // when
     fireEvent.click($menuButton)
 
     // expect
-    expect($sidebar.classList.contains('visible')).toBeTruthy()
+    // render되면 새로운 노드로 테스트해야함
+    const $newSideBar = appComponent
+      .getElement()
+      .querySelector('.sidebar-container')
+    expect($newSideBar.classList.contains('visible')).toBeTruthy()
   })
 })
