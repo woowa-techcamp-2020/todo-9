@@ -2,10 +2,10 @@ import { Component } from '../../utils/wooact'
 import { aside, div, i, span } from '../../utils/wooact/defaultElements'
 
 // 개발용
-// import { SideBarItem } from '../SideBarItem'
+import { SideBarItem } from '../SideBarItem'
 
 // 테스트용
-import SideBarItem from '../SideBarItem/SideBarItem'
+// import SideBarItem from '../SideBarItem/SideBarItem'
 
 interface IProps {
   visible: boolean
@@ -22,7 +22,6 @@ class SideBar extends Component<IProps, IState> {
   }
 
   render() {
-    const { onToggleSideMenu } = this.props
     return aside(
       {
         className: `sidebar-container ${this.props.visible ? 'visible' : ''}`,
@@ -31,19 +30,25 @@ class SideBar extends Component<IProps, IState> {
         { className: 'icon-container' },
         div(
           { className: 'left-icon' },
-          i({ className: 'f7-icons f7-icon', textContent: 'menu' }),
+          i({
+            className: 'f7-icons f7-icon',
+            textContent: 'menu',
+          }),
           span({ className: 'icon-title', textContent: 'Menu' })
         ),
-        i({ className: 'f7-icons f7-icon', textContent: 'multiply' })
+        i({
+          className: 'f7-icons f7-icon side-close',
+          textContent: 'multiply',
+          click: this.props.onToggleSideMenu,
+        })
       ),
       div(
         { className: 'icon-container' },
         div(
           { className: 'left-icon' },
           i({
-            className: 'f7-icons f7-icon side-close',
+            className: 'f7-icons f7-icon',
             textContent: 'bell_fill',
-            click: onToggleSideMenu,
           }),
           span({ className: 'icon-title', textContent: 'Activity' })
         )

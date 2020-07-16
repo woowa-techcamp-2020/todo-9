@@ -2,14 +2,14 @@ import { Component } from '../../utils/wooact'
 import { div } from '../../utils/wooact/defaultElements'
 
 // 개발용
-// import { Modal } from '../Modal'
-// import { Header } from '../Header'
-// import { SideBar } from '../SideBar'
+import { Modal } from '../Modal'
+import { Header } from '../Header'
+import { SideBar } from '../SideBar'
 
 // 테스팅용
-import Modal from '../Modal/Modal'
-import Header from '../Header/Header'
-import SideBar from '../SideBar/SideBar'
+// import Modal from '../Modal/Modal'
+// import Header from '../Header/Header'
+// import SideBar from '../SideBar/SideBar'
 
 interface IProps {}
 interface IState {

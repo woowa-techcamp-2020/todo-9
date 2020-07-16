@@ -41,10 +41,17 @@
         }
       }
     }
+
+    .side-close {
+      cursor: pointer;
+    }
   }
 }
 
 .visible {
-  transition: all 0.5s ease;
   right: 0;
+  transition: all 5s ease;
+  -webkit-transition: all 5s ease;
+  -moz-transition: all 5s ease;
+  -o-transition: all 5s ease;
 }
