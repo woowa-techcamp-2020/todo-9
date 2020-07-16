@@ -7,6 +7,7 @@ type EventHandler = {
 
 export interface IAttribute extends Partial<Element>, EventHandler {
   text?: string
+  src?: string
 }
 
 export const generateElement = (

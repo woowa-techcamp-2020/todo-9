@@ -1,11 +1,12 @@
 @use '../../styles/definitions';
 
 .header-container {
-  height: 100px;
+  height: 80px;
   background-color: black;
   display: flex;
   justify-content: space-between;
-  padding: 30px 3rem;
+  align-items: center;
+  padding: 0px 3rem;
   color: white;
 
   .title-container {
@@ -28,5 +29,6 @@
       size: 30px;
       weight: 600;
     }
+    line-height: 80px;
   }
 }

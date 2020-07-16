@@ -1,5 +1,75 @@
 @use '../../styles/_definitions.scss';
 
-.color-black {
-  color: black;
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30vw;
+  z-index: 5;
+  background-color: white;
+  border: {
+    left: 1px solid rgba(100, 100, 100, 0.4);
+  }
+
+  .icon-container {
+    background-color: rgba(100, 100, 100, 0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: {
+      left: 20px;
+      right: 10px;
+    }
+    height: 50px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.4);
+
+    .left-icon {
+      display: flex;
+
+      .f7-icon {
+        font-size: 25px;
+      }
+
+      .icon-title {
+        font: {
+          size: 17px;
+          weight: 600;
+        }
+        padding: {
+          top: 6px;
+          left: 3px;
+        }
+      }
+    }
+  }
+
+  .log-item {
+    padding: 20px;
+    display: flex;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.4);
+    .bg-image {
+      background-color: #46d6c9;
+      min-width: 25px;
+      height: 25px;
+    }
+
+    .log-contents-container {
+      padding-left: 20px;
+      line-height: 22px;
+
+      .author,
+      .content {
+        color: blue;
+      }
+
+      .place {
+        font-weight: 600;
+      }
+
+      .updatedAt {
+        margin-top: 5px;
+        color: rgba(100, 100, 100, 0.5);
+      }
+    }
+  }
 }
