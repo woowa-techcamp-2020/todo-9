@@ -19,7 +19,7 @@ export default class App extends Component<IProps, IState> {
     return div(
       { className: 'container' },
       new Modal(),
-      new Header({ title: 'donguk-9', toggleSideMenu: () => {} })
+      new Header({ title: 'TODO 서비스', toggleSideMenu: () => {} })
     )
   }
 }

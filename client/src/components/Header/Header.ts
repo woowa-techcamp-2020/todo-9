@@ -22,9 +22,9 @@ class Header extends Component<IProps, IState> {
     } = this
 
     return header(
-      {},
+      { className: 'page-container' },
       div(
-        { className: 'title-container' },
+        { className: 'title-container', click: () => alert('개발예정') },
         span({ className: 'title-content', textContent: title })
       ),
       button({

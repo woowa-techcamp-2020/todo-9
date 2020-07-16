@@ -1,11 +1,32 @@
-// .title-content {
-// 	color: red;
-// }
-$big-font: 40px;
+@use '../../styles/definitions';
 
-div {
-  span {
-    color: red;
-    font-size: $big-font;
+.page-container {
+  height: 7vh;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  color: white;
+
+  .title-container {
+    font: {
+      size: 30px;
+      weight: 600;
+    }
+
+    .title-content {
+      cursor: pointer;
+    }
+  }
+
+  .menu-container {
+    background-color: black;
+    border: none;
+    outline: none;
+    color: white;
+    font: {
+      size: 25px;
+      weight: 600;
+    }
   }
 }
