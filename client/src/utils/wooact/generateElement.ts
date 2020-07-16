@@ -6,8 +6,20 @@ type EventHandler = {
 }
 
 export interface IAttribute
-  extends Partial<HTMLElement & Element>,
-    EventHandler {
+  extends Partial<
+    HTMLElement &
+      Element &
+      EventHandler &
+      HTMLDivElement &
+      HTMLAnchorElement &
+      HTMLParagraphElement &
+      HTMLSpanElement &
+      HTMLButtonElement &
+      HTMLInputElement &
+      HTMLFormElement &
+      HTMLLabelElement &
+      HTMLQuoteElement
+  > {
   text?: string
   role?: string
 }
@@ -15,7 +27,7 @@ export interface IAttribute
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: HTMLElement[] | Component<any, any>[]
+  ...childNodes: (HTMLElement | Component<any, any> | undefined)[]
 ) => {
   const newElement = document.createElement(tagName)
 
@@ -44,6 +56,9 @@ export const generateElement = (
   // childNodes
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
+    if (node === undefined) {
+      continue
+    }
     // comopnent
     if (node instanceof Component) {
       fragment.appendChild(node.getElement())
