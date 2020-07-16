@@ -46,10 +46,23 @@ describe('[App Component]', () => {
     const $target = $header.getElement().querySelector('.menu-container')
     expect(appComponent.getState('menuVisible')).toBe(false)
 
-    //when
+    // when
     fireEvent.click($target)
 
-    //expect
+    // expect
     expect(appComponent.getState('menuVisible')).toBe(true)
+  })
+
+  test('Header 컴포넌트의 menu버튼을 클릭하면 Sidebar가 렌더링된다.', () => {
+    // given
+    const $menuButton = document.querySelector('.menu-container')
+    const $sidebar = document.querySelector('.sidebar-container')
+    expect($sidebar.classList.contains('visible')).toBeFalsy()
+
+    // when
+    fireEvent.click($menuButton)
+
+    // expect
+    expect($sidebar.classList.contains('visible')).toBeTruthy()
   })
 })

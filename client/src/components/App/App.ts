@@ -1,8 +1,15 @@
 import { Component } from '../../utils/wooact'
 import { div } from '../../utils/wooact/defaultElements'
-import { Modal } from '../Modal'
-import { Header } from '../Header'
-import { SideBar } from '../SideBar'
+
+// 개발용
+// import { Modal } from '../Modal'
+// import { Header } from '../Header'
+// import { SideBar } from '../SideBar'
+
+// 테스팅용
+import Modal from '../Modal/Modal'
+import Header from '../Header/Header'
+import SideBar from '../SideBar/SideBar'
 
 interface IProps {}
 interface IState {
@@ -17,7 +24,7 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
-  onToggleSideMenu() {
+  onToggleSideMenu = () => {
     this.setState('menuVisible', !this.getState('menuVisible'))
   }
 
@@ -27,7 +34,7 @@ class App extends Component<IProps, IState> {
       { className: 'container' },
       new Modal(),
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
-      new SideBar()
+      new SideBar({ visible: this.getState('menuVisible') }, {})
     )
   }
 }

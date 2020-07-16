@@ -11,7 +11,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  sidebarComponent = new SideBar()
+  sidebarComponent = new SideBar({ visible: false }, {})
   domRenderer(sidebarComponent, app)
   sidebarElement = sidebarComponent.getElement()
 })
@@ -37,6 +37,3 @@ describe('[SideBar Component]', () => {
     expect(app.contains(sidebarElement)).toBeTruthy()
   })
 })
-
-
-
