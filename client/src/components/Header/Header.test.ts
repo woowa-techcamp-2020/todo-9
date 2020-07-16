@@ -11,7 +11,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  headerComponent = new Header({ title: 'woowa', toggleSideMenu: () => {} })
+  headerComponent = new Header({ title: 'woowa', onToggleSideMenu: () => {} })
   domRenderer(headerComponent, app)
   headerElement = headerComponent.getElement()
 })
