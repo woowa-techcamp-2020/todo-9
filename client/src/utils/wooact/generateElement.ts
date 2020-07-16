@@ -1,12 +1,15 @@
 import { Component } from './'
 
-type TypeOfEvent = 'click' | 'input'
+type TypeOfEvent = 'input'
 type EventHandler = {
   [eventName in TypeOfEvent]?: (e?: Event) => void
 }
 
-export interface IAttribute extends Partial<Element>, EventHandler {
+export interface IAttribute
+  extends Partial<HTMLElement & Element>,
+    EventHandler {
   text?: string
+  role?: string
 }
 
 export const generateElement = (
