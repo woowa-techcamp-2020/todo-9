@@ -1,19 +1,85 @@
 import { Component } from '../../utils/wooact'
-import { div } from '../../utils/wooact/defaultElements'
+import { div, h1, input, i, button } from '../../utils/wooact/defaultElements'
+import { BoxInput } from '../BoxInput'
+import { BoxButton } from '../BoxButton'
 
-interface IProps {}
+interface IProps {
+  title: string
+  toggleModal: () => void
+  boxInput?: BoxInput
+  boxButton?: BoxButton
+}
 interface IState {}
 
 class Modal extends Component<IProps, IState> {
-  constructor() {
-    super()
+  constructor(props: IProps) {
+    super(props)
 
     Object.setPrototypeOf(this, Modal.prototype)
     this.init()
   }
 
+  renderButtons() {
+    const {
+      props: { boxButton },
+    } = this
+
+    if (!boxButton) {
+      return undefined
+    }
+
+    return div(
+      {
+        className: 'button-container',
+      },
+      boxButton
+    )
+  }
+
+  renderInputs() {
+    const {
+      props: { boxInput },
+    } = this
+    if (!boxInput) {
+      return undefined
+    }
+
+    return div(
+      {
+        className: 'input-container',
+      },
+      boxInput
+    )
+  }
+
   render() {
-    return div({ className: 'modal-container' })
+    const {
+      props: { title, boxInput },
+    } = this
+
+    return div(
+      { className: 'page-container' },
+      div({ className: 'page-background' }),
+      div(
+        { className: 'modal-container' },
+        div(
+          { className: 'modal-header-container' },
+          h1({
+            className: 'modal-header-title',
+            textContent: title,
+          }),
+          button(
+            {
+              className: 'right-aligned-icon',
+              click: () => console.log('close modal'),
+            },
+            i({ className: 'f7-icons', textContent: 'X' })
+          )
+        ),
+        this.renderInputs(),
+        this.renderButtons()
+      )
+    )
   }
 }
 
