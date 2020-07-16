@@ -4,7 +4,7 @@ import './header.scss'
 
 interface IProps {
   title: string
-  onClickMenu: () => void
+  toggleSideMenu: () => void
 }
 
 interface IState {}
@@ -19,7 +19,7 @@ class Header extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { title, onClickMenu },
+      props: { title, toggleSideMenu },
     } = this
 
     return header(
@@ -31,7 +31,7 @@ class Header extends Component<IProps, IState> {
       button({
         className: 'menu-container',
         textContent: 'menu',
-        click: () => onClickMenu(),
+        click: () => toggleSideMenu(),
       })
     )
   }
