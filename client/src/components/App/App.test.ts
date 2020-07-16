@@ -67,7 +67,7 @@ describe('[App Component]', () => {
     fireEvent.click($menuButton)
 
     // expect
-    // render되면 새로운 노드로 테스트해야함
+    // render되면 새로운 노드로 테스트해야함 ( 참조하는 객체가 다르니까 )
     const $newSideBar = appComponent
       .getElement()
       .querySelector('.sidebar-container')

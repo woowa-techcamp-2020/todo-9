@@ -1,5 +1,11 @@
 import { Component } from '../../utils/wooact'
-import { aside, div, i, span, q, img } from '../../utils/wooact/defaultElements'
+import { aside, div, i, span } from '../../utils/wooact/defaultElements'
+
+// 개발용
+import { SideBarItem } from '../SideBarItem'
+
+// 테스트용
+// import SidebarItem from '../SideBarItem/SideBarItem'
 
 interface IProps {
   visible: boolean
@@ -35,7 +41,8 @@ class SideBar extends Component<IProps, IState> {
           i({ className: 'f7-icons f7-icon', textContent: 'bell_fill' }),
           span({ className: 'icon-title', textContent: 'Activity' })
         )
-      )
+      ),
+      ...new Array(10).fill(0).map(() => new SideBarItem().getElement())
       // item 없는 경우 white-bg 설정 해야함
     )
   }

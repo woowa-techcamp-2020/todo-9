@@ -4,7 +4,7 @@ import { div, img, span, q } from '../../utils/wooact/defaultElements'
 interface IProps {}
 interface IState {}
 
-class SdeBarItem extends Component<IProps, IState> {
+class SideBarItem extends Component<IProps, IState> {
   // constructor(props: IProps) {
   // super(props)
   // constructor(props: IProps, state: IState) {
@@ -12,7 +12,7 @@ class SdeBarItem extends Component<IProps, IState> {
   constructor() {
     super()
 
-    Object.setPrototypeOf(this, SdeBarItem.prototype)
+    Object.setPrototypeOf(this, SideBarItem.prototype)
     this.init()
   }
 
@@ -46,4 +46,4 @@ class SdeBarItem extends Component<IProps, IState> {
   }
 }
 
-export default SdeBarItem
+export default SideBarItem
