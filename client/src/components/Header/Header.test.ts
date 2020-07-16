@@ -37,16 +37,6 @@ describe('[Header Component]', () => {
     expect(headerTitle.textContent).toBe('woowa')
   })
 
-  // test('aside bar를 클릭했을 때 state가 변경된다.', () => {
-  //   //given
-  //   const button = headerElement.querySelector('button')
-  //   expect(headerComponent.getState('menuVisible')).toBeFalsy()
-  //   // when
-  //   fireEvent.click(button)
-  //   // the
-  //   expect(headerComponent.getState('menuVisible')).toBeTruthy()
-  // })
-
   // test('menu 버튼이 눌리면, logger 컴포넌트가 렌더된다', () => {
   //   //given
   //   const button = headerElement.querySelector('button')

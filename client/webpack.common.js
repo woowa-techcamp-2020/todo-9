@@ -24,6 +24,7 @@ const config = {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      { test: /\.(woff|woff2|eot|ttf)$/, loader: 'url-loader?limit=100000' },
     ],
   },
   resolve: {

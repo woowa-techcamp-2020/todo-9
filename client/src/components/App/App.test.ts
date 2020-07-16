@@ -1,6 +1,6 @@
 import { default as App } from './App'
 import { domRenderer } from '../../utils/wooact'
-import { Header } from '../Header'
+import Header from '../Header/Header'
 import { fireEvent } from '@testing-library/dom'
 
 let appComponent: App

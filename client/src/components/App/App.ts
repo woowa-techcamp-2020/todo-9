@@ -2,6 +2,7 @@ import { Component } from '../../utils/wooact'
 import { div } from '../../utils/wooact/defaultElements'
 import { Modal } from '../Modal'
 import { Header } from '../Header'
+import { SideBar } from '../SideBar'
 
 interface IProps {}
 interface IState {
@@ -16,7 +17,7 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
-  onToggleSideMenu = () => {
+  onToggleSideMenu() {
     this.setState('menuVisible', !this.getState('menuVisible'))
   }
 
@@ -25,7 +26,8 @@ class App extends Component<IProps, IState> {
     return div(
       { className: 'container' },
       new Modal(),
-      new Header({ title: 'TODO 서비스', onToggleSideMenu })
+      new Header({ title: 'TODO 서비스', onToggleSideMenu }),
+      new SideBar()
     )
   }
 }

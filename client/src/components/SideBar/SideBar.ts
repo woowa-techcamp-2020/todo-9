@@ -1,6 +1,5 @@
-import { Component } from '../../utils/wooact';
-import { div } from '../../utils/wooact/defaultElements'
-
+import { Component } from '../../utils/wooact'
+import { aside, div, i } from '../../utils/wooact/defaultElements'
 
 interface IProps {}
 interface IState {}
@@ -18,10 +17,17 @@ class SideBar extends Component<IProps, IState> {
   }
 
   render() {
-    return div({ className: 'container' })
+    return aside(
+      { className: 'sidebar-container' },
+      div(
+        { className: 'icon-container' },
+        div(
+          { className: 'left-icon' },
+          i({ className: 'f7-icons color-black', textContent: 'house' })
+        )
+      )
+    )
   }
 }
 
-export default SideBar;
-
-
+export default SideBar
