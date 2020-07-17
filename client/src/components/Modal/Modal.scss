@@ -1,0 +1,56 @@
+@use '../../styles/_definitions.scss';
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-container {
+  padding: 20px;
+  z-index: 6;
+  width: 30%;
+
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 3px grey;
+
+  .modal-header-container {
+    position: sticky;
+    height: 30px;
+    padding: 5px;
+
+    border-bottom: 1px solid gray;
+  }
+
+  h1 {
+    font-weight: 700;
+    background-color: white;
+    color: black;
+  }
+}
+
+.button-container {
+  padding: 5px;
+  display: flex;
+  // align-items: center;
+  // width: 50%;
+  justify-content: center;
+}
+
+.right-aligned-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: none;
+  background: none;
+}

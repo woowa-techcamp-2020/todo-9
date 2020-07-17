@@ -1,20 +1,39 @@
 import { Component } from './'
 
-type TypeOfEvent = 'click' | 'input'
+type TypeOfEvent = 'input'
 type EventHandler = {
   [eventName in TypeOfEvent]?: (e?: Event) => void
 }
 
-export interface IAttribute extends Partial<Element>, EventHandler {
+export interface IAttribute
+  extends Partial<
+    HTMLElement &
+      Element &
+      EventHandler &
+      HTMLDivElement &
+      HTMLAnchorElement &
+      HTMLParagraphElement &
+      HTMLSpanElement &
+      HTMLButtonElement &
+      HTMLInputElement &
+      HTMLFormElement &
+      HTMLLabelElement &
+      HTMLQuoteElement
+  > {
   text?: string
+  type?: string
+  src?: string
 }
 
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: HTMLElement[] | Component<any, any>[]
+  ...childNodes: (HTMLElement | Component<any, any> | undefined)[]
 ) => {
   const newElement = document.createElement(tagName)
+  if (tagName === 'aside') {
+    console.log('rendered')
+  }
 
   for (const [key, value] of Object.entries(attributes)) {
     if (key === 'className') {
@@ -41,13 +60,16 @@ export const generateElement = (
   // childNodes
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
+    if (node === undefined) {
+      continue
+    }
     // comopnent
     if (node instanceof Component) {
       fragment.appendChild(node.getElement())
       continue
     }
 
-    newElement.appendChild(node)
+    fragment.appendChild(node)
   }
   newElement.appendChild(fragment)
 

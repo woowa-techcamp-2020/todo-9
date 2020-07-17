@@ -11,17 +11,15 @@ FOLDER="components"
 FILE_NAME=$1
 LOWER="$(tr '[:upper:]' '[:lower:]' <<< ${FILE_NAME:0})"
 
-STYLED_COMPONENT="import styled from 'styled-components';\n\nexport const Container = styled.div``"
-
 echo `mkdir src/${FOLDER}/${FILE_NAME}`
 
-echo `touch src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.scss`
+echo `echo "@use '../../styles/_definitions.scss'; "> src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.scss`
 
-echo `echo "export { default as ${FILE_NAME} } from './${FILE_NAME}'" > src/${FOLDER}/${FILE_NAME}/index.ts`
+echo `echo "import './${FILE_NAME}.scss'
+export { default as ${FILE_NAME} } from './${FILE_NAME}'" > src/${FOLDER}/${FILE_NAME}/index.ts`
 
 echo `echo "import { Component } from '../../utils/wooact';
 import { div } from '../../utils/wooact/defaultElements'
-import './${FILE_NAME}.scss'
 
 interface IProps {}
 interface IState {}
@@ -45,9 +43,9 @@ class ${FILE_NAME} extends Component<IProps, IState> {
 
 export default ${FILE_NAME};
 
-" > src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.tsx`
+" > src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.ts`
 
-echo `echo "import { ${FILE_NAME} } from './'
+echo `echo "import { default as ${FILE_NAME} } from './${FILE_NAME}'
 import { domRenderer } from '../../utils/wooact'
 
 let ${LOWER}Component: ${FILE_NAME}
@@ -88,4 +86,4 @@ describe('[${FILE_NAME} Component]', () => {
 })
 
 
-" > src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.test.tsx`
+" > src/${FOLDER}/${FILE_NAME}/${FILE_NAME}.test.ts`
