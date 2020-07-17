@@ -31,6 +31,9 @@ export const generateElement = (
   ...childNodes: (HTMLElement | Component<any, any> | undefined)[]
 ) => {
   const newElement = document.createElement(tagName)
+  if (tagName === 'aside') {
+    console.log('rendered')
+  }
 
   for (const [key, value] of Object.entries(attributes)) {
     if (key === 'className') {
@@ -66,7 +69,7 @@ export const generateElement = (
       continue
     }
 
-    newElement.appendChild(node)
+    fragment.appendChild(node)
   }
   newElement.appendChild(fragment)
 
