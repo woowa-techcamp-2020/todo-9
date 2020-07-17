@@ -1,9 +1,15 @@
 import { Component } from '../../utils/wooact'
-import { header, div, span, button } from '../../utils/wooact/defaultElements'
+import {
+  header,
+  div,
+  span,
+  button,
+  input,
+} from '../../utils/wooact/defaultElements'
 
 interface IProps {
   title: string
-  toggleSideMenu: () => void
+  onToggleSideMenu: () => void
 }
 
 interface IState {}
@@ -18,19 +24,19 @@ class Header extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { title, toggleSideMenu },
+      props: { title, onToggleSideMenu },
     } = this
 
     return header(
-      {},
+      { className: 'header-container' },
       div(
-        { className: 'title-container' },
+        { className: 'title-container', click: () => alert('개발예정') },
         span({ className: 'title-content', textContent: title })
       ),
       button({
         className: 'menu-container',
         textContent: 'menu',
-        click: () => toggleSideMenu(),
+        click: () => onToggleSideMenu(),
       })
     )
   }

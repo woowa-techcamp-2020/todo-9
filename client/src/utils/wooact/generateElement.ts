@@ -21,7 +21,8 @@ export interface IAttribute
       HTMLQuoteElement
   > {
   text?: string
-  role?: string
+  type?: string
+  src?: string
 }
 
 export const generateElement = (

@@ -11,7 +11,10 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  sidebarComponent = new SideBar()
+  sidebarComponent = new SideBar(
+    { visible: false, onToggleSideMenu: () => {} },
+    {}
+  )
   domRenderer(sidebarComponent, app)
   sidebarElement = sidebarComponent.getElement()
 })
@@ -37,6 +40,3 @@ describe('[SideBar Component]', () => {
     expect(app.contains(sidebarElement)).toBeTruthy()
   })
 })
-
-
-
