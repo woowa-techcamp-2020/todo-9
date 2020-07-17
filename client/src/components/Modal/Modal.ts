@@ -7,7 +7,7 @@ interface IProps {
   title: string
   toggleModal: () => void
   boxInput?: BoxInput
-  boxButton?: BoxButton
+  boxButtons?: BoxButton[]
 }
 interface IState {}
 
@@ -21,10 +21,10 @@ class Modal extends Component<IProps, IState> {
 
   renderButtons() {
     const {
-      props: { boxButton },
+      props: { boxButtons },
     } = this
 
-    if (!boxButton) {
+    if (!boxButtons) {
       return undefined
     }
 
@@ -32,7 +32,7 @@ class Modal extends Component<IProps, IState> {
       {
         className: 'button-container',
       },
-      boxButton
+      ...boxButtons
     )
   }
 
