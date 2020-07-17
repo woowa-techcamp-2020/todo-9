@@ -53,7 +53,7 @@ class SideBar extends Component<IProps, IState> {
           span({ className: 'icon-title', textContent: 'Activity' })
         )
       ),
-      ...new Array(10).fill(0).map(() => new SideBarItem().getElement())
+      ...new Array(10).fill(0).map(() => new SideBarItem())
       // item 없는 경우 white-bg 설정 해야함
     )
   }
