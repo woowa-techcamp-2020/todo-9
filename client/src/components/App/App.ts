@@ -5,6 +5,7 @@ import { div } from '../../utils/wooact/defaultElements'
 import { Modal } from '../Modal'
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
+import AddItemInput from '../AddItemInput/AddItemInput'
 
 // 테스팅용
 // import Modal from '../Modal/Modal'
@@ -24,20 +25,28 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
+  // onToggleSideMenu = () => {
+  //   this.setState('menuVisible', !this.getState('menuVisible'))
+  // }
+
   onToggleSideMenu = () => {
-    this.setState('menuVisible', !this.getState('menuVisible'))
+    const sidebar = document.querySelector('.sidebar-container')
+    sidebar.classList.add('visible')
   }
 
   render() {
     const { onToggleSideMenu } = this
     return div(
       { className: 'container' },
-      new Modal(),
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
       new SideBar(
-        { visible: this.getState('menuVisible'), onToggleSideMenu },
+        {
+          visible: this.getState('menuVisible'),
+          onToggleSideMenu: () => this.onToggleSideMenu(),
+        },
         {}
-      )
+      ),
+      new AddItemInput({ toggleAddItemInput: () => {} }, { inputText: '' })
     )
   }
 }
