@@ -1,1 +1,23 @@
-@use '../../styles/_definitions.scss'; 
+@use '../../styles/_definitions.scss';
+
+.btn {
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  color: white;
+}
+
+.negative {
+  border-color: red;
+}
+
+.positive {
+  border-color: green;
+}
+
+.fill.negative {
+  background-color: lightcoral;
+}
+
+.fill.positive {
+  background-color: lightgreen;
+}

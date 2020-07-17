@@ -1,9 +1,15 @@
 import { Component } from '../../utils/wooact'
 import { div, button } from '../../utils/wooact/defaultElements'
 
+type TypeOfButton = 'negative' | 'positive' | 'default'
+
 interface IProps {
   buttonText: string
+  type: TypeOfButton
+  isFilled: boolean
+  onClickHandler: () => void
 }
+
 interface IState {}
 
 class BoxButton extends Component<IProps, IState> {
@@ -19,9 +25,15 @@ class BoxButton extends Component<IProps, IState> {
   }
 
   render() {
+    const {
+      props: { type, isFilled, onClickHandler },
+    } = this
+    const buttonClass = `btn${isFilled ? ' fill' : ''} ${type}`
+
     return button({
-      className: 'button',
+      className: buttonClass,
       textContent: this.props.buttonText,
+      click: () => onClickHandler(),
     })
   }
 }
