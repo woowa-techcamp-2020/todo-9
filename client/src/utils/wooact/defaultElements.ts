@@ -250,7 +250,7 @@ export const [
 ] = htmlTagNames.map(
   (tagName) => (
     attributes: IAttribute,
-    ...childNodes: HTMLElement[] | Component<any, any>[]
+    ...childNodes: (HTMLElement | Component<any, any>)[]
   ) => generateElement(tagName, attributes, ...childNodes)
 )
 

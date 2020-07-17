@@ -1,1 +1,10 @@
 @use '../../styles/_definitions.scss';
+
+.main-container {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: start;
+  overflow-y: hidden;
+  overflow-x: auto;
+}

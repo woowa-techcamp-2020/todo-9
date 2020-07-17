@@ -1,0 +1,52 @@
+@use '../../styles/_definitions.scss';
+
+.column-container {
+  padding: 15px;
+  min-width: 550px;
+  display: inline-block;
+
+  .column-wrapper {
+    background-color: rgba(100, 100, 100, 0.1);
+    height: calc(100vh - 100px);
+    border-radius: 5px;
+    padding: 15px;
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+
+      .header-left {
+        .todo-count {
+          background-color: rgba(100, 100, 100, 0.3);
+          border-radius: 50%;
+          font: {
+            size: 15px;
+            weight: 600;
+          }
+          padding: {
+            left: 5px;
+            right: 5px;
+            bottom: 1px;
+          }
+
+          margin-right: 10px;
+        }
+        .todo-title {
+          font-weight: 600;
+          font-size: 15px;
+        }
+      }
+
+      .header-right {
+        .todo-add-button,
+        .todo-more-button {
+          font-size: 25px;
+        }
+
+        .f7-icons + .f7-icons {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
