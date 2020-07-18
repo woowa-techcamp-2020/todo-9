@@ -34,6 +34,7 @@ class App extends Component<IProps, IState> {
       { className: 'container' },
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
       main(
+        // Column + Column Add Button
         {},
         ul(
           { className: 'main-container' },

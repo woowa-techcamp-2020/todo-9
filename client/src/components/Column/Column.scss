@@ -6,14 +6,15 @@
   display: inline-block;
 
   .column-wrapper {
-    background-color: rgba(100, 100, 100, 0.1);
+    background-color: rgba(100, 100, 100, 0.3);
     height: calc(100vh - 100px);
-    border-radius: 5px;
+    border-radius: 7px;
     padding: 15px;
 
     .column-header {
       display: flex;
       justify-content: space-between;
+      padding-bottom: 15px;
 
       .header-left {
         .todo-count {
@@ -41,10 +42,61 @@
         .todo-add-button,
         .todo-more-button {
           font-size: 25px;
+          cursor: pointer;
         }
 
         .f7-icons + .f7-icons {
           margin-left: 5px;
+        }
+      }
+    }
+
+    .item-container {
+      height: 100%;
+      padding-bottom: 15px;
+      ul {
+        overflow-y: scroll;
+        height: 100%;
+        padding-bottom: 25px;
+
+        .item-wrapper {
+          padding: 15px;
+          background-color: white;
+          border-radius: 7px;
+          width: calc(100% - 3px);
+          box-shadow: 5px 5px 5px 3px rgba(100, 100, 100, 0.1);
+          cursor: pointer;
+
+          .item-top {
+            display: flex;
+            justify-content: space-between;
+
+            .item-contents {
+              width: 100%;
+              font-size: 20px;
+              margin-left: 15px;
+            }
+
+            .f7-icons {
+              font-size: 20px;
+            }
+
+            .todo-close {
+              cursor: pointer;
+            }
+          }
+
+          .item-bottom {
+            margin-top: 30px;
+            margin-left: 35px;
+            todo-author {
+              font-weight: 600;
+            }
+          }
+        }
+
+        .item-wrapper + .item-wrapper {
+          margin-top: 15px;
         }
       }
     }
