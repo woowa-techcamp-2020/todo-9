@@ -48,10 +48,7 @@ class Column extends Component<IProps, IState> {
             })
           )
         ),
-        section(
-          { className: 'item-container' },
-          ul({}, ...new Array(10).fill(0).map(() => new TodoItem()))
-        )
+        ul({}, ...new Array(10).fill(0).map(() => new TodoItem()))
       )
     )
   }
