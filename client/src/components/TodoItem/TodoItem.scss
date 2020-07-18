@@ -1,1 +1,40 @@
-@use '../../styles/_definitions.scss'; 
+@use '../../styles/_definitions.scss';
+
+.item-wrapper {
+  padding: 15px;
+  background-color: white;
+  border-radius: 7px;
+  box-shadow: 5px 5px 5px rgba(100, 100, 100, 0.1);
+  cursor: pointer;
+
+  .item-top {
+    display: flex;
+    justify-content: space-between;
+
+    .item-contents {
+      width: 100%;
+      font-size: 20px;
+      margin-left: 15px;
+    }
+
+    .f7-icons {
+      font-size: 20px;
+    }
+
+    .todo-close {
+      cursor: pointer;
+    }
+  }
+
+  .item-bottom {
+    margin-top: 30px;
+    margin-left: 35px;
+    todo-author {
+      font-weight: 600;
+    }
+  }
+}
+
+.item-wrapper + .item-wrapper {
+  margin-top: 15px;
+}

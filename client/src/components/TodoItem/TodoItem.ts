@@ -5,10 +5,6 @@ interface IProps {}
 interface IState {}
 
 class TodoItem extends Component<IProps, IState> {
-  // constructor(props: IProps) {
-  // super(props)
-  // constructor(props: IProps, state: IState) {
-  //   super(props, state)
   constructor() {
     super()
 
