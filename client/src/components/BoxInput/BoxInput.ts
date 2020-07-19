@@ -4,7 +4,7 @@ import { input, textarea, p } from '../../utils/wooact/defaultElements'
 interface IProps {
   value: string
   placeholder: string
-  onChangeHandler: (e: InputEvent) => void
+  // onChangeHandler: (e: InputEvent) => void
 }
 interface IState {}
 
@@ -18,7 +18,8 @@ class BoxInput extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { value, placeholder, onChangeHandler },
+      // props: { value, placeholder, onChangeHandler },
+      props: { value, placeholder },
     } = this
 
     return textarea({
@@ -26,7 +27,7 @@ class BoxInput extends Component<IProps, IState> {
       type: 'textaea',
       rows: '3',
       placeholder,
-      oninput: onChangeHandler,
+      // oninput: onChangeHandler,
       textContent: value,
       autofocus: true,
     })

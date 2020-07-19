@@ -29,29 +29,40 @@ class AddItemInput extends Component<IProps, IState> {
   }
 
   onClickCancel() {
-    const element = this.getElement()
-    element.classList.add('close')
+    console.log(this.element)
+    console.log(this.element.style)
+    console.log(this.element.style.height)
+    if (this.element.classList.contains('close')) {
+      console.log(this.element.style.height)
+      this.element.classList.add('close')
+      // this.element.hidden = false
+      return
+    }
+    // this.element.hidden = true
+    this.element.classList.add('close')
     // element.style.transform = '200px'
     // this.getElement().remove()
   }
 
   render() {
-    console.log(this.getElement())
+    console.log('reendered')
     const inputBox = new BoxInput({
       value: this.getState('inputText'),
       placeholder: 'Enter a note',
-      onChangeHandler: (e: InputEvent) => this.onChangeHandler(e),
+      // onChangeHandler: (e: InputEvent) => this.onChangeHandler(e),
     })
 
     const addButton = new BoxButton({
       type: 'positive',
       buttonText: 'Add',
-      onClickHandler: () => this.onClickCancel(),
+      onClickHandler: () => {
+        openModal('hello')
+      },
       // disabed: this.getState('inputText').length === 0 || false,
     })
     const cancelButton = new BoxButton({
       buttonText: 'Cancel',
-      onClickHandler: () => openModal('hello'),
+      onClickHandler: () => this.onClickCancel(),
     })
 
     return div(
