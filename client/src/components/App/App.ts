@@ -6,6 +6,7 @@ import { Header } from '../Header'
 import { SideBar } from '../SideBar'
 import { Column } from '../Column'
 import { ColumnAddButton } from '../ColumnAddButton'
+import AddItemInput from '../AddItemInput/AddItemInput'
 
 // 테스팅용
 // import Header from '../Header/Header'
@@ -25,8 +26,13 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
+  // onToggleSideMenu = () => {
+  //   this.setState('menuVisible', !this.getState('menuVisible'))
+  // }
+
   onToggleSideMenu = () => {
-    this.setState('menuVisible', !this.getState('menuVisible'))
+    const sidebar = document.querySelector('.sidebar-container')
+    sidebar.classList.add('visible')
   }
 
   render() {
@@ -44,9 +50,13 @@ class App extends Component<IProps, IState> {
         )
       ),
       new SideBar(
-        { visible: this.getState('menuVisible'), onToggleSideMenu },
+        {
+          visible: this.getState('menuVisible'),
+          onToggleSideMenu: () => this.onToggleSideMenu(),
+        },
         {}
-      )
+      ),
+      new AddItemInput({ toggleAddItemInput: () => {} }, { inputText: '' })
     )
   }
 }

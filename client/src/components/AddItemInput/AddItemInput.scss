@@ -1,0 +1,13 @@
+@use '../../styles/_definitions.scss';
+
+.add-input-container {
+  height: 200px;
+
+  transition: all 5s ease;
+}
+
+.add-input-container + .close {
+  // height: 0px;
+  display: none;
+}
+

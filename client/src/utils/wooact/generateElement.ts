@@ -50,7 +50,8 @@ export const generateElement = (
 
     // event
     if (typeof value === 'function') {
-      newElement.addEventListener(key, value)
+      const event = key.includes('on') ? key.slice(2) : key
+      newElement.addEventListener(event, value)
       continue
     }
 
