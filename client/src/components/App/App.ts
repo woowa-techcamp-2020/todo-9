@@ -5,6 +5,7 @@ import { div, main, ul } from '../../utils/wooact/defaultElements'
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
 import { Column } from '../Column'
+import { ColumnAddButton } from '../ColumnAddButton'
 
 // 테스팅용
 // import Header from '../Header/Header'
@@ -38,7 +39,8 @@ class App extends Component<IProps, IState> {
         {},
         ul(
           { className: 'main-container' },
-          ...new Array(5).fill(0).map(() => new Column())
+          ...new Array(1).fill(0).map(() => new Column()),
+          new ColumnAddButton()
         )
       ),
       new SideBar(

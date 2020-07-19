@@ -1,20 +1,22 @@
 @use '../../styles/_definitions.scss';
 
 .column-container {
-  padding: 15px;
   min-width: 550px;
   display: inline-block;
+  height: 100%;
 
   .column-wrapper {
-    background-color: rgba(100, 100, 100, 0.3);
-    height: calc(100vh - 100px);
+    background-color: rgba(100, 100, 100, 0.2);
+    height: 100%;
     border-radius: 7px;
     padding: 15px;
+    border: 1px solid rgba(100, 100, 100, 0.3);
 
     .column-header {
       display: flex;
       justify-content: space-between;
       padding-bottom: 15px;
+      height: 40px;
 
       .header-left {
         .todo-count {
@@ -50,55 +52,13 @@
         }
       }
     }
-
-    .item-container {
-      height: 100%;
-      padding-bottom: 15px;
-      ul {
-        overflow-y: scroll;
-        height: 100%;
-        padding-bottom: 25px;
-
-        .item-wrapper {
-          padding: 15px;
-          background-color: white;
-          border-radius: 7px;
-          width: calc(100% - 3px);
-          box-shadow: 5px 5px 5px 3px rgba(100, 100, 100, 0.1);
-          cursor: pointer;
-
-          .item-top {
-            display: flex;
-            justify-content: space-between;
-
-            .item-contents {
-              width: 100%;
-              font-size: 20px;
-              margin-left: 15px;
-            }
-
-            .f7-icons {
-              font-size: 20px;
-            }
-
-            .todo-close {
-              cursor: pointer;
-            }
-          }
-
-          .item-bottom {
-            margin-top: 30px;
-            margin-left: 35px;
-            todo-author {
-              font-weight: 600;
-            }
-          }
-        }
-
-        .item-wrapper + .item-wrapper {
-          margin-top: 15px;
-        }
-      }
+    ul {
+      overflow-y: scroll;
+      height: calc(100% - 40px);
     }
   }
+}
+
+.column-container + .column-container {
+  margin-left: 15px;
 }
