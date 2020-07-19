@@ -21,7 +21,6 @@ export { default as ${FILE_NAME} } from './${FILE_NAME}'" > src/${FOLDER}/${FILE
 echo `echo "import { Component } from '../../utils/wooact';
 import { div } from '../../utils/wooact/defaultElements'
 
-
 interface IProps {}
 interface IState {}
 
