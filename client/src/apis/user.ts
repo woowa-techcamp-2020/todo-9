@@ -10,9 +10,12 @@ export interface IgetUsersResponse {}
 export const getUsers = async (): Promise<IUser[]> => {
   try {
     const res = await fetchWrapper<IUser[], undefined>('GET', '/users')
+
     return res
   } catch (e) {
     console.error(e)
+
+    return []
   }
 }
 
