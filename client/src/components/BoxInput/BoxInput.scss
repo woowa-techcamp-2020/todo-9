@@ -1,6 +1,9 @@
 @use '../../styles/_definitions.scss';
 
 .box-input {
-  width: 100%;
-  margin: 10px 0;
+  width: 98%;
+  display: flex;
+  margin: auto;
+  margin-bottom: 5px;
+  border-radius: 5px;
 }

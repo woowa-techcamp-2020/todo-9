@@ -5,8 +5,9 @@ type TypeOfButton = 'negative' | 'positive'
 
 interface IProps {
   buttonText: string
-  type?: TypeOfButton
   onClickHandler: () => void
+  type?: TypeOfButton
+  disabled?: boolean
 }
 
 interface IState {}
@@ -25,7 +26,7 @@ class BoxButton extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { type, onClickHandler },
+      props: { type, onClickHandler, disabled },
     } = this
     const buttonClass = `btn ${type || ''}`
 
@@ -33,6 +34,7 @@ class BoxButton extends Component<IProps, IState> {
       className: buttonClass,
       textContent: this.props.buttonText,
       click: () => onClickHandler(),
+      // disabled: disabled || false,
     })
   }
 }
