@@ -8,18 +8,24 @@ import {
   ul,
 } from '../../utils/wooact/defaultElements'
 import { TodoItem } from '../TodoItem'
+import AddItemInput from '../AddItemInput/AddItemInput'
 
 interface IProps {}
 interface IState {
+  showInput: boolean
   items: string[]
 }
 
 class Column extends Component<IProps, IState> {
-  constructor() {
-    super()
+  constructor(props: IProps, state: IState) {
+    super(props, state)
 
     Object.setPrototypeOf(this, Column.prototype)
     this.init()
+  }
+
+  onToggleInputBox() {
+    this.setState('showInput', !this.getState('showInput'))
   }
 
   render() {
@@ -39,7 +45,7 @@ class Column extends Component<IProps, IState> {
             i({
               className: 'f7-icons todo-add-button',
               textContent: 'plus',
-              click: () => alert('개발 예정'),
+              click: () => this.onToggleInputBox(),
             }),
             i({
               className: 'f7-icons todo-more-button',
@@ -48,6 +54,11 @@ class Column extends Component<IProps, IState> {
             })
           )
         ),
+        this.getState('showInput')
+          ? new AddItemInput({
+              toggleAddItemInput: () => this.onToggleInputBox(),
+            })
+          : null,
         ul({}, ...new Array(10).fill(0).map(() => new TodoItem()))
       )
     )

@@ -8,24 +8,25 @@ interface IProps {
   toggleAddItemInput: () => void
 }
 interface IState {
-  inputText: string
+  // inputText: string
 }
 
 class AddItemInput extends Component<IProps, IState> {
-  // constructor(props: IProps) {
-  // super(props)
-  constructor(props: IProps, state: IState) {
-    super(props, state)
+  constructor(props: IProps) {
+    super(props)
+    // constructor(props: IProps, state: IState) {
+    // super(props, state)
     // constructor() {
     //   super()
 
     Object.setPrototypeOf(this, AddItemInput.prototype)
     this.init()
+    console.log('column rendered')
   }
 
   onChangeHandler(event: InputEvent) {
     const target = event.target as HTMLInputElement
-    this.setState('inputText', target.value)
+    // this.setState('inputText', target.value)
   }
 
   onClickCancel() {
@@ -39,7 +40,7 @@ class AddItemInput extends Component<IProps, IState> {
       return
     }
     // this.element.hidden = true
-    this.element.classList.add('close')
+    this.element.classList.remove('close')
     // element.style.transform = '200px'
     // this.getElement().remove()
   }
@@ -47,7 +48,8 @@ class AddItemInput extends Component<IProps, IState> {
   render() {
     console.log('reendered')
     const inputBox = new BoxInput({
-      value: this.getState('inputText'),
+      // value: this.getState('inputText'),
+      value: '',
       placeholder: 'Enter a note',
       // onChangeHandler: (e: InputEvent) => this.onChangeHandler(e),
     })
@@ -62,7 +64,7 @@ class AddItemInput extends Component<IProps, IState> {
     })
     const cancelButton = new BoxButton({
       buttonText: 'Cancel',
-      onClickHandler: () => this.onClickCancel(),
+      onClickHandler: () => this.props.toggleAddItemInput(),
     })
 
     return div(
