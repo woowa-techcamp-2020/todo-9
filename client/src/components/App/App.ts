@@ -45,7 +45,9 @@ class App extends Component<IProps, IState> {
         {},
         ul(
           { className: 'main-container' },
-          ...new Array(1).fill(0).map(() => new Column()),
+          ...new Array(1)
+            .fill(0)
+            .map(() => new Column({}, { showInput: false, items: [] })),
           new ColumnAddButton()
         )
       ),
@@ -55,8 +57,7 @@ class App extends Component<IProps, IState> {
           onToggleSideMenu: () => this.onToggleSideMenu(),
         },
         {}
-      ),
-      new AddItemInput({ toggleAddItemInput: () => {} }, { inputText: '' })
+      )
     )
   }
 }

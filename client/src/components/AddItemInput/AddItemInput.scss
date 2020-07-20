@@ -3,8 +3,17 @@
 .add-input-container {
   height: 200px;
   width: 100%;
+  display: flex;
 
-  transition: all 5s ease;
+  justify-content: center;
+  align-items: center;
+  // transition: all 5s ease;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+  }
 }
 
 .add-input-container + .close {
@@ -12,3 +21,5 @@
   display: none;
 }
 
+// .buttons-container {
+// }

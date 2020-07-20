@@ -21,29 +21,19 @@ class AddItemInput extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, AddItemInput.prototype)
     this.init()
-    console.log('column rendered')
   }
 
   onChangeHandler(event: InputEvent) {
     const target = event.target as HTMLInputElement
-    // this.setState('inputText', target.value)
   }
 
-  onClickCancel() {
-    console.log(this.element)
-    console.log(this.element.style)
-    console.log(this.element.style.height)
-    if (this.element.classList.contains('close')) {
-      console.log(this.element.style.height)
-      this.element.classList.add('close')
-      // this.element.hidden = false
-      return
-    }
-    // this.element.hidden = true
-    this.element.classList.remove('close')
-    // element.style.transform = '200px'
-    // this.getElement().remove()
-  }
+  // onClickCancel() {
+  //   if (this.element.classList.contains('close')) {
+  //     this.element.classList.add('close')
+  //     return
+  //   }
+  //   this.element.classList.remove('close')
+  // }
 
   render() {
     console.log('reendered')
@@ -51,7 +41,6 @@ class AddItemInput extends Component<IProps, IState> {
       // value: this.getState('inputText'),
       value: '',
       placeholder: 'Enter a note',
-      // onChangeHandler: (e: InputEvent) => this.onChangeHandler(e),
     })
 
     const addButton = new BoxButton({
