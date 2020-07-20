@@ -28,12 +28,9 @@ export interface IAttribute
 export const generateElement = (
   tagName: string,
   attributes: IAttribute,
-  ...childNodes: (HTMLElement | Component<any, any> | undefined)[]
+  ...childNodes: (HTMLElement | Component<any, any> | null)[]
 ) => {
   const newElement = document.createElement(tagName)
-  if (tagName === 'aside') {
-    console.log('rendered')
-  }
 
   for (const [key, value] of Object.entries(attributes)) {
     if (key === 'className') {
@@ -61,7 +58,7 @@ export const generateElement = (
   // childNodes
   const fragment = document.createDocumentFragment()
   for (const node of childNodes) {
-    if (node === undefined) {
+    if (node === null) {
       continue
     }
     // comopnent
