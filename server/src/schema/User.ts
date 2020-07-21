@@ -1,5 +1,7 @@
 import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
+import { promiseHandler } from '../utils/promiseHandler'
+import { queryExecuter } from '../utils/queryExecuter'
 
 class User {
   private conn
@@ -9,25 +11,33 @@ class User {
   }
 
   async read() {
-    try {
-      const [rows] = await this.conn.execute(`SELECT * FROM user;`)
-      return rows
-    } catch (e) {
-      console.error(e)
+    const getAllUserQuery = `SELECT * FROM user;`
+    // const [[rows, _], getAllUserError] = await promiseHandler(
+    //   this.conn.execute(getAllUserQuery)
+    // )
+    const [users, getAllUserError] = await queryExecuter(
+      this.conn,
+      getAllUserQuery
+    )
 
-      return []
+    if (getAllUserError) {
+      throw getAllUserError
     }
+
+    return users
   }
 
   async create(name: string) {
-    try {
-      const { insertId } = await this.conn.execute(
-        `INSERT INTO user(name) VALUES('${name}');`
-      )
-      return insertId
-    } catch (e) {
-      console.error(e)
+    const createNewUserQuery = `INSERT INTO user(name) VALUES('${name}');`
+    const [{ insertId }, createNewUserError] = await promiseHandler(
+      this.conn.execute(createNewUserQuery)
+    )
+
+    if (createNewUserError) {
+      throw createNewUserError
     }
+
+    return insertId
   }
 }
 
