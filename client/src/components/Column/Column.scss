@@ -1,7 +1,7 @@
 @use '../../styles/_definitions.scss';
 
 .column-container {
-  min-width: 550px;
+  min-width: 300px;
   display: inline-block;
   height: 100%;
 
@@ -23,7 +23,7 @@
           background-color: rgba(100, 100, 100, 0.3);
           border-radius: 50%;
           font: {
-            size: 15px;
+            size: 13px;
             weight: 600;
           }
           padding: {
@@ -36,14 +36,14 @@
         }
         .todo-title {
           font-weight: 600;
-          font-size: 15px;
+          font-size: 13px;
         }
       }
 
       .header-right {
         .todo-add-button,
         .todo-more-button {
-          font-size: 25px;
+          font-size: 15px;
           cursor: pointer;
         }
 

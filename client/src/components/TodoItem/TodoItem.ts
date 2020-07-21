@@ -12,9 +12,11 @@ class TodoItem extends Component<IProps, IState> {
     this.init()
   }
 
+  onMouseDown(e: Event) {}
+
   render() {
     return li(
-      { className: 'item-wrapper' },
+      { className: 'item-wrapper', onmousedown: (e) => this.onMouseDown(e) },
       div(
         { className: 'item-top' },
         i({ className: 'f7-icons', textContent: 'calendar' }),
@@ -25,10 +27,10 @@ class TodoItem extends Component<IProps, IState> {
         i({ className: 'f7-icons todo-close', textContent: 'multiply' })
       ),
       div(
-        { className: 'item-bottom', textContent: 'Added By' },
+        { className: 'item-bottom', textContent: 'Added By ' },
         cite({
           className: 'todo-author',
-          textContent: 'Added By Woowa',
+          textContent: 'Woowa',
         })
       )
     )

@@ -1,9 +1,10 @@
 import { Component } from '../../utils/wooact'
-import { div } from '../../utils/wooact/defaultElements'
+import { div, input } from '../../utils/wooact/defaultElements'
 import { BoxButton } from '../BoxButton'
 import { BoxInput } from '../BoxInput'
 import { Modal } from '../Modal'
 import { openModal } from '../../utils/eventsHandler/openModal'
+import { createUser } from '../../apis/user'
 interface IProps {
   toggleAddItemInput: () => void
 }
@@ -27,6 +28,18 @@ class AddItemInput extends Component<IProps, IState> {
     const target = event.target as HTMLInputElement
   }
 
+  async onUserAdd(e: Event) {
+    // console.log(e.target)
+    // const inputElement = (e.target as HTMLElement).closest(
+    //   'textarea'
+    // ) as HTMLTextAreaElement
+    const inputElement = this.element.querySelector('textarea')
+    console.log(inputElement)
+    const name = inputElement.value
+    console.log(name)
+    const newUser = await createUser({ name })
+    console.log(newUser)
+  }
   // onClickCancel() {
   //   if (this.element.classList.contains('close')) {
   //     this.element.classList.add('close')
@@ -46,9 +59,7 @@ class AddItemInput extends Component<IProps, IState> {
     const addButton = new BoxButton({
       type: 'positive',
       buttonText: 'Add',
-      onClickHandler: () => {
-        openModal('hello')
-      },
+      onClickHandler: (e: Event) => this.onUserAdd(e),
       // disabed: this.getState('inputText').length === 0 || false,
     })
     const cancelButton = new BoxButton({
