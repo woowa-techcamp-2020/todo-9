@@ -1,19 +1,19 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { user } from '../schema'
-// import User from '../schema/User'
-// import init from '../schema'
 const app = Router()
 
-app.get('/users', (req: Request, res: Response) => {
-  // user.create('hello')
-  res.status(200).json()
+app.get('/users', async (req: Request, res: Response) => {
+  const users = await user.read()
+  res.status(200).json(users)
 })
 
-app.post('/user', async (req: Request, res: Response) => {
+app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.body
-  const newItem = await user.create(name)
-  console.log(newItem)
-  res.status(201).json(newItem)
+  const insertId = await user.create(name)
+  if (!insertId) {
+    next(new Error("Can't create user"))
+  }
+  res.status(201).json()
 })
 
 export default app

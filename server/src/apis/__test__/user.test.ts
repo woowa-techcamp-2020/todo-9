@@ -1,14 +1,14 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { app } from '../../app'
 import request from 'supertest'
 import { user } from '../../schema'
 import { Database } from '../../schema/Database'
 import { getConnection } from '../../config/db'
-import dotenv from 'dotenv'
 
 beforeAll(async () => {
-  dotenv.config()
   Database.connectedDB = await getConnection()
-  console.log(Database.connectedDB)
 })
 
 test('user with all valid information', async (done) => {
@@ -16,7 +16,7 @@ test('user with all valid information', async (done) => {
 
   // when
 
-  const response = await request(app).get('/api/user')
+  const response = await request(app).get('/api/users')
   //   console.log(response) // expect(response.body).toEqual(expectedResult)
 
   //   await user.delete(response.id)
@@ -28,15 +28,22 @@ test('user with all valid information', async (done) => {
   // given
 
   const body = {
-    name: 'hello',
+    name: 'donguk1',
   }
 
   // when
-  const response = await request(app).post('/api/user').send(body)
-  console.log(response.body)
+  // const response = await request(app).post('/api/user').send(body)
   //   console.log(response) // expect(response.body).toEqual(expectedResult)
 
   //   await user.delete(response.id)
 
   done()
 })
+
+function delay(second) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, second)
+  })
+}
