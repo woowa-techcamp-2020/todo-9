@@ -5,10 +5,10 @@ import { Database } from '../../schema/Database'
 import { getConnection } from '../../config/db'
 import dotenv from 'dotenv'
 
-beforeAll(async () => {
-  dotenv.config()
-  Database.connectedDB = await getConnection()
-})
+// beforeAll(async () => {
+//   dotenv.config()
+//   Database.connectedDB = await getConnection()
+// })
 
 test('item with all valid information', async (done) => {
   // given
@@ -23,19 +23,19 @@ test('item with all valid information', async (done) => {
   done()
 })
 
-test('item with all valid information', async (done) => {
-  // given
+// test('item with all valid information', async (done) => {
+//   // given
 
-  const body = {
-    content: 'test create item',
-  }
+//   const body = {
+//     content: 'test create item',
+//   }
 
-  // when
-  const response = await request(app).post('/api/item').send(body)
-  console.log(response.body)
-  //   console.log(response) // expect(response.body).toEqual(expectedResult)
+//   // when
+//   const response = await request(app).post('/api/item').send(body)
+//   console.log(response.body)
+//   //   console.log(response) // expect(response.body).toEqual(expectedResult)
 
-  //   await item.delete(response.id)
+//   //   await item.delete(response.id)
 
-  done()
-})
+//   done()
+// })

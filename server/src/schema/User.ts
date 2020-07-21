@@ -1,4 +1,3 @@
-import { Database } from './Database'
 import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
 
@@ -9,19 +8,26 @@ class User {
     this.conn = getConnection()
   }
 
+  async read() {
+    try {
+      const [rows] = await this.conn.execute(`SELECT * FROM user;`)
+      return rows
+    } catch (e) {
+      console.error(e)
+
+      return []
+    }
+  }
+
   async create(name: string) {
     try {
-      console.log(this.conn)
-      const newUser = await this.conn.query(
-        `INSERT INTO user(id, name) VALUES(${uuid()}, ${name});`
+      const { insertId } = await this.conn.execute(
+        `INSERT INTO user(name) VALUES('${name}');`
       )
-      return newUser
+      return insertId
     } catch (e) {
       console.error(e)
     }
-    // return await this.conn.query(
-    //   `INSERT INTO user(id, content, user_id, kanban_id) VALUES(${uuid()}, ${content}, ${user_id}, ${kanban_id})`
-    // )
   }
 }
 
