@@ -1,12 +1,18 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { kanban } from '../schema'
 import { Console } from 'console'
+import { promiseHandler } from '../utils/promiseHandler'
 const app = Router()
 
 app.get('/kanban/:userId', async (req: Request, res: Response) => {
   const { userId } = req.params
 
-  const kanbans = await kanban.read(userId)
+  const [kanbans, getKanbanError] = await promiseHandler(kanban.read(userId))
+  if (getKanbanError) {
+    console.error(getKanbanError)
+    throw getKanbanError
+  }
+
   res.status(200).json(kanbans)
 })
 

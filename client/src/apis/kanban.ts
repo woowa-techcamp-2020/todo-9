@@ -62,7 +62,7 @@ export const createKanban = async (body: IKanbanBody) => {
 export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
   try {
     const res = await fetchWrapper<IKanban, IKanbanBody>(
-      'PUT',
+      'PATCH',
       `/kanban/${kanbanId}`,
       body
     )
@@ -83,7 +83,7 @@ interface IUpdateKanbanItemsBody {
 export const updateKanbanItems = async ({ userId, kanbanId, ids }) => {
   try {
     const res = await fetchWrapper<IKanban[], IUpdateKanbanItemsBody>(
-      'PUT',
+      'PATCH',
       `/kanban/${kanbanId}/items`,
       { userId, ids }
     )
