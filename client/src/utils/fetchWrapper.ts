@@ -6,7 +6,7 @@ export const fetchWrapper = async <T, B>(
   body?: B
 ): Promise<T> => {
   try {
-    const baseUrl = '/api'
+    const baseUrl = 'http://localhost:3000/api/'
     const response = await fetch(baseUrl + url, {
       method,
       headers: {
