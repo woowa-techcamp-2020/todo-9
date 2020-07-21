@@ -9,6 +9,7 @@ const start = async () => {
   try {
     dotenv.config()
     Database.connectedDB = await getConnection()
+
     app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}`))
   } catch (e) {
     console.error(e)
