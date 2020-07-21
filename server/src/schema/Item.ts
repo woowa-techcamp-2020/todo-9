@@ -1,5 +1,6 @@
 import { Database } from './Database'
 import { uuid } from 'uuidv4'
+import { getConnection } from '../config/db'
 // Name	Type
 // id	int
 // content	VARCHAR(255)
@@ -10,12 +11,13 @@ class Item {
   private conn
 
   constructor() {
-    this.conn = Database.connectedDB
+    this.conn = getConnection()
   }
 
   async read() {
     return await this.conn.execute('SELECT * FROM item;')
   }
+
   async create(content: string, user_id: string, kanban_id: string) {
     try {
       const newItem = await this.conn.execute(

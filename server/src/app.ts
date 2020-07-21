@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // api
-app.use('/apis', apis)
+app.use('/api', apis)
 
 // app.get('/*', (req, res) => {
 //   // res.sendFile(__dirname + '/public/index.html')

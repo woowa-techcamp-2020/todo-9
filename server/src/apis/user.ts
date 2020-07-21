@@ -5,14 +5,15 @@ import { user } from '../schema'
 const app = Router()
 
 app.get('/users', (req: Request, res: Response) => {
-  user.create('hello')
+  // user.create('hello')
   res.status(200).json()
 })
 
 app.post('/user', async (req: Request, res: Response) => {
-  user.create('hello')
-  // const newUser = await ~~
-  res.status(201).json()
+  const { name } = req.body
+  const newItem = await user.create(name)
+  console.log(newItem)
+  res.status(201).json(newItem)
 })
 
 export default app
