@@ -1,5 +1,6 @@
 const path = require('path')
 const babelConfig = require('./babel.config')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -27,12 +28,19 @@ const config = {
       { test: /\.(woff|woff2|eot|ttf)$/, loader: 'url-loader?limit=100000' },
     ],
   },
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     template: path.resolve(__dirname, './public/index.html'),
+  //     inject: false,
+  //     filename: path.resolve(__dirname, './public/index.html'),
+  //   }),
+  // ],
   resolve: {
     extensions: ['.ts', '.js'],
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './public/'),
+    path: path.resolve(__dirname, '../server/src/public/'),
   },
 }
 

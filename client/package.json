@@ -15,6 +15,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^3.6.0",
     "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
     "jest": "^26.1.0",
     "node-sass": "^4.14.1",
     "sass": "^1.26.10",
@@ -31,6 +32,7 @@
     "test": "jest --config=jest.config.js",
     "test:watch": "jest --config=jest.config.js --watch",
     "dev": "webpack-dev-server --config webpack.dev.js --watch",
+    "dev_build": "webpack --config webpack.dev.js --watch",
     "postbuild": "cp -av ./public ../server/src",
     "build": "webpack --config webpack.prod.js"
   },
