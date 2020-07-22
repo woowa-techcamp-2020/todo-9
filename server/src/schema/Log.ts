@@ -53,7 +53,7 @@ class Log {
       throw errorFromGetLog
     }
 
-    return [logs, errorFromGetLog]
+    return logs
   }
 }
 
