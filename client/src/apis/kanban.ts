@@ -1,15 +1,14 @@
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
-import { IUser } from './user'
 
 export interface IKanban {
-  id: string
+  id: number
   name: string
   userName: string
   items: IItem[]
 }
 
-export const getKanbans = async (userId: string): Promise<IKanban[]> => {
+export const getKanbans = async (userId: number): Promise<IKanban[]> => {
   try {
     const res = await fetchWrapper<IKanban[], undefined>(
       'GET',
