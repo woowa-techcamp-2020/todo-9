@@ -1,6 +1,8 @@
 import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
 import { promiseHandler } from '../utils/promiseHandler'
+import { queryExecuter } from '../utils/queryExecuter'
+
 class Kanban {
   private conn
 
@@ -10,7 +12,7 @@ class Kanban {
 
   async read(userId: string) {
     const getKanbanQuery = `SELECT k.id, k.name, k.ids, u.name as userName FROM kanban k JOIN user u on u.id = k.user_id WHERE k.user_id = ${userId};`
-    const [[rows, _], getKanbanError] = await promiseHandler(
+    const [[kanbans, _], getKanbanError] = await promiseHandler(
       this.conn.execute(getKanbanQuery)
     )
 
@@ -18,72 +20,34 @@ class Kanban {
       throw getKanbanError
     }
 
-    const response = []
+    const getKanbanResponse = new Array(kanbans.length).fill(null)
 
-    for (const row of rows) {
-      const { id, name, userName, ids } = row
-      const items = []
+    await Promise.all(
+      kanbans.map(async (kanban, kanbanIdx) => {
+        const { id, name, userName, ids: itemIndxes } = kanban
+        const items = new Array(itemIndxes.length).fill(null)
 
-      for (const id of ids) {
-        const getItemQuery = `SELECT id, content FROM item WHERE id=${id}`
-        const [[item, _], getItemError] = await promiseHandler(
-          this.conn.execute(getItemQuery)
+        await Promise.all(
+          itemIndxes.map(async (itemIdx, indexOfId) => {
+            const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx}`
+            const [[item, _], getItemError] = await queryExecuter(
+              this.conn,
+              getItemQuery
+            )
+
+            if (getItemError) {
+              throw getItemError
+            }
+
+            items[indexOfId] = item
+          })
         )
 
-        if (getItemError) {
-          throw getItemError
-        }
+        getKanbanResponse[kanbanIdx] = { kanbanId: id, items, name, userName }
+      })
+    )
 
-        items.push(item[0])
-      }
-
-      response.push({ kanbanId: id, items, name, userName })
-    }
-
-    return response
-    // try {
-    //   // await Promise.all(
-    //   //   rows.map(async (row) => {
-    //   //     const { id, name, userName, ids } = row
-    //   //     const items = []
-
-    //   //     await Promise.all(
-    //   //       ids.map(async (id) => {
-    //   //         const [item] = await this.conn.execute(
-    //   //           `SELECT id, content FROM item WHERE id=${id}`
-    //   //         )
-    //   //         items.push(item[0])
-    //   //       })
-    //   //     )
-
-    //   //     response.push({ kanbanId: id, items, name, userName })
-    //   //     console.log('response', response)
-    //   //   })
-    //   // )
-
-    //   // 방법2
-    //   // 장점: 느림 , 하지만 순서가 보장
-    //   for (const row of rows) {
-    //     const { id, name, userName, ids } = row
-    //     const items = []
-
-    //     for (const id of ids) {
-    //       const [item] = await this.conn.execute(
-    //         `SELECT id, content FROM item WHERE id=${id}`
-    //       )
-    //       items.push(item[0])
-    //     }
-
-    //     response.push({ kanbanId: id, items, name, userName })
-    //   }
-
-    //   console.log(JSON.stringify(response, null, 2))
-    //   return response
-    // } catch (e) {
-    //   console.error(e)
-
-    //   return []
-    // }
+    return getKanbanResponse
   }
 
   async create(name: string) {
