@@ -15,37 +15,42 @@ export type MysqlInsertOrUpdateResult = {
 export const selectQueryExecuter = async <T>(
   query: string
 ): Promise<[T[], any]> => {
-  const [[result, _], error] = await promiseHandler(pool.query(query))
+  const conn = await pool.getConnection()
+  const [[result, _], error] = await promiseHandler(conn.query(query))
+  // const response = await promiseHandler(conn.query(query))
+  conn.release()
   return [result as T[], error]
 }
 
 export const insertQueryExecuter = async (
   query: string
 ): Promise<[number, any]> => {
-  const [[{ insertId }, _], error] = await promiseHandler(pool.execute(query))
+  const conn = await pool.getConnection()
+  const [[{ insertId }, _], error] = await promiseHandler(conn.query(query))
+  conn.release()
   return [insertId, error]
 }
 
 export const updateQueryExecuter = async (
   query: string
 ): Promise<[number, any]> => {
-  const [[{ affectedRows }, _], error] = await promiseHandler(
-    pool.execute(query)
-  )
+  const conn = await pool.getConnection()
+  const [[{ affectedRows }, _], error] = await promiseHandler(conn.query(query))
+  conn.release()
   return [affectedRows, error]
 }
 
 export const transactionQueryExecuter = async (...queries: Promise<any>[]) => {
-  // const conn = await pool.getConnection()
-  // try {
-  //   conn.beginTransaction()
-  //   for (const query of queries) {
-  //     await promiseHandler(query)
-  //   }
-  //   conn.commit()
-  //   return true
-  // } catch (e) {
-  //   conn.release()
-  //   return false
-  // }
+  const conn = await pool.getConnection()
+  try {
+    conn.beginTransaction()
+    for (const query of queries) {
+      await promiseHandler(query)
+    }
+    conn.commit()
+    return true
+  } catch (e) {
+    conn.release()
+    return false
+  }
 }

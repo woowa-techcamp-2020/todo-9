@@ -4,9 +4,6 @@ import {
   updateQueryExecuter,
 } from '../utils/query-executor'
 import { IKanban, IItem } from './types'
-import { kanban } from '.'
-
-interface IUpdateName {}
 
 class Kanban {
   async getAll(userId: string) {
@@ -50,7 +47,7 @@ class Kanban {
 
   async getOne(kanbanId: number) {
     const [kanbans, errorFromGetKanban] = await selectQueryExecuter<IKanban>(
-      `SELECT * FROM kanban WHERE and kanban_id='${kanbanId}' limit 1`
+      `SELECT * FROM kanban WHERE is_active=1 and id=${kanbanId} limit 1`
     )
 
     if (errorFromGetKanban) {
@@ -62,7 +59,7 @@ class Kanban {
 
   async create(name: string, userId: string) {
     const [insertId, errorFromCreateKanban] = await insertQueryExecuter(
-      `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
+      `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', ${userId})`
     )
 
     if (errorFromCreateKanban) {
@@ -73,7 +70,7 @@ class Kanban {
 
   async updateName({ newName, userId, kanbanId }) {
     const [affectedRows, errorFromUpdateKanbanName] = await updateQueryExecuter(
-      `UPDATE kanban SET name='${newName}' WHERE user_id='${userId}' and id='${kanbanId}'`
+      `UPDATE kanban SET name='${newName}' WHERE user_id=${userId} and id=${kanbanId}`
     )
 
     if (errorFromUpdateKanbanName) {

@@ -7,12 +7,11 @@ class Item {
   // kanbanId, content
   async create(kanbanId, content) {
     const [insertId, errorFromCreateItem] = await insertQueryExecuter(
-      `INSERT INTO item(content, kanban_id) VALUES('${content}', '${kanbanId}')`
+      `INSERT INTO item(content, kanban_id) VALUES('${content}', ${kanbanId})`
     )
     if (errorFromCreateItem) {
       throw errorFromCreateItem
     }
-
     return insertId
   }
 

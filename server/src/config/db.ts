@@ -5,14 +5,6 @@ export const pool = mysql.createPool({
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
-  // waitForConnections: false,
-  // connectionLimit: 10,
+  connectionLimit: 20,
+  waitForConnections: false,
 })
-
-export const executeQuery = async ({ connection, command, option }) => {
-  try {
-    return await connection.execute(command, option)
-  } catch (e) {
-    console.error(e)
-  }
-}
