@@ -1,4 +1,3 @@
-import { getConnection } from '../config/db'
 import {
   selectQueryExecuter,
   insertQueryExecuter,
@@ -7,12 +6,6 @@ import {
 import { IKanban, IItem } from './types'
 
 class Kanban {
-  private conn
-
-  constructor() {
-    this.conn = getConnection()
-  }
-
   async read(userId: string) {
     const getKanbanQuery = `SELECT k.id, k.name, k.ids as itemIndexes, u.name as userName FROM kanban k JOIN user u on u.id = k.user_id WHERE k.user_id = ${userId} and k.is_active = 1;`
     const [kanbans, getKanbanError] = await selectQueryExecuter<IKanban>(
