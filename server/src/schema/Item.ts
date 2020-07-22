@@ -5,22 +5,33 @@ import {
 
 class Item {
   // kanbanId, content
-  async create(kanbanId, content) {
-    const [insertId, errorFromCreateItem] = await insertQueryExecuter(
+  async create(kanbanId: number, content: string) {
+    const [insertId, error] = await insertQueryExecuter(
       `INSERT INTO item(content, kanban_id) VALUES('${content}', ${kanbanId})`
     )
-    if (errorFromCreateItem) {
-      throw errorFromCreateItem
+    if (error) {
+      throw error
     }
     return insertId
   }
 
-  async update(itemId, newContent) {
-    const [affectedRows, errorFromUpdateItem] = await updateQueryExecuter(
+  async update(itemId: number, newContent: string) {
+    const [affectedRows, error] = await updateQueryExecuter(
       `UPDATE item SET content=${newContent} WHERE id=${itemId}`
     )
-    if (errorFromUpdateItem) {
-      throw errorFromUpdateItem
+    if (error) {
+      throw error
+    }
+
+    return affectedRows
+  }
+
+  async delete(itemId: number) {
+    const [affectedRows, error] = await updateQueryExecuter(
+      `UPDATE item SET is_active=false WHERE id=${itemId}`
+    )
+    if (error) {
+      throw error
     }
 
     return affectedRows

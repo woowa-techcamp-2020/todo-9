@@ -3,6 +3,7 @@ import { item } from '../schema'
 import { promiseHandler } from '../utils/promise-handler'
 import moment from 'moment'
 import { pool } from '../config/db'
+import { nextTick } from 'process'
 const app = Router()
 
 app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
@@ -38,20 +39,36 @@ app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.put('/item/:itemId', async (req: Request, res: Response) => {
-  const {
-    params: { itemId },
-    body: { content: newContent },
-  } = req
-  const [affectedRows, errorFromUpdateItem] = await promiseHandler(
-    item.update(itemId, newContent)
-  )
+app.put(
+  '/item/:itemId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      params: { itemId },
+      body: { content: newContent },
+    } = req
+    const [_, error] = await promiseHandler(
+      item.update(Number(itemId), newContent)
+    )
 
-  if (errorFromUpdateItem) {
-    throw errorFromUpdateItem
+    if (error) {
+      next(error)
+    }
+
+    res.status(201).json()
   }
+)
 
-  res.status(201).json()
-})
+app.delete(
+  '/item/:itemId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { itemId } = req.params
+    const [_, error] = await promiseHandler(item.delete(Number(itemId)))
+    if (error) {
+      next(error)
+    }
+
+    res.status(201).json()
+  }
+)
 
 export default app
