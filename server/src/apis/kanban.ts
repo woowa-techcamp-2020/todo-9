@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Router, Request, Response } from 'express'
 import { kanban } from '../schema'
 import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
@@ -9,7 +9,7 @@ app.get('/kanban/:userId', async (req: Request, res: Response) => {
     throw new Error('request is wrong')
   }
   const [kanbans, errorFromGetKanban] = await promiseHandler(
-    kanban.read(userId)
+    kanban.getAll(userId)
   )
   if (errorFromGetKanban) {
     throw errorFromGetKanban
@@ -27,11 +27,13 @@ app.post('/kanban', async (req: Request, res: Response) => {
   const [insertId, errorFromPostKanban] = await promiseHandler(
     kanban.create(name, userId)
   )
-  if (errorFromPostKanban || !insertId) {
+  if (errorFromPostKanban) {
     throw errorFromPostKanban
   }
 
-  res.status(201).json({ insertId })
+  // kanban 생성을 로그에 넣어줘야함
+
+  res.status(201).json()
 })
 
 app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {

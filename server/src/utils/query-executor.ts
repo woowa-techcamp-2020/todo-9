@@ -41,3 +41,18 @@ export const updateQueryExecuter = async (
   )
   return [affectedRows, error]
 }
+
+export const transactionQueryExecuter = async (...queries: Promise<any>[]) => {
+  const connection = getConnection()
+  try {
+    connection.beginTransaction()
+    for (const query of queries) {
+      await promiseHandler(query)
+    }
+    connection.commit()
+    return true
+  } catch (e) {
+    connection.release()
+    return false
+  }
+}

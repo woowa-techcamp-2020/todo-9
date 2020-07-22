@@ -9,5 +9,6 @@ const router = Router()
 router.use(userRouter)
 router.use(itemRouter)
 router.use(kanbanRouter)
+router.use(logRouter)
 
 export default router
