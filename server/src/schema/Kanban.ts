@@ -5,7 +5,6 @@ import {
   updateQueryExecuter,
 } from '../utils/queryExecuter'
 import { IKanban, IItem } from './types'
-import { kanban } from '.'
 
 class Kanban {
   private conn
@@ -33,7 +32,7 @@ class Kanban {
 
         await Promise.all(
           itemIndexes.map(async (itemIdx, indexOfId) => {
-            const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx}`
+            const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx} and is_active=1`
             const [[item, _], getItemError] = await selectQueryExecuter<IItem>(
               getItemQuery
             )
@@ -69,10 +68,23 @@ class Kanban {
       `UPDATE kanban SET name='${newName}' WHERE user_id='${userId}' and id='${kanbanId}'`
     )
 
-    console.log('affectedRows', affectedRows)
-
     if (errorFromUpdateKanbanName) {
       throw errorFromUpdateKanbanName
+    }
+
+    return affectedRows
+  }
+
+  async updateItems({ userId, kanbanId, newIds }) {
+    const [
+      affectedRows,
+      errorFromUpdateKanbanItems,
+    ] = await updateQueryExecuter(
+      `UPDATE kanban SET ids='[${newIds}]' WHERE user_id='${userId}' and id='${kanbanId}'`
+    )
+
+    if (errorFromUpdateKanbanItems) {
+      throw errorFromUpdateKanbanItems
     }
 
     return affectedRows
