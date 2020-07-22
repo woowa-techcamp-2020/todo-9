@@ -6,7 +6,7 @@ const app = Router()
 app.get('/kanban/:userId', async (req: Request, res: Response) => {
   const { userId } = req.params
   if (!userId) {
-    throw new Error('request body is wrong')
+    throw new Error('request is wrong')
   }
   const [kanbans, errorFromGetKanban] = await promiseHandler(
     kanban.read(userId)
@@ -21,7 +21,7 @@ app.get('/kanban/:userId', async (req: Request, res: Response) => {
 app.post('/kanban', async (req: Request, res: Response) => {
   const { name, userId } = req.body
   if (!name || !userId) {
-    throw new Error('request body is wrong')
+    throw new Error('request is wrong')
   }
 
   const [insertId, errorFromPostKanban] = await promiseHandler(
@@ -40,7 +40,7 @@ app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
     body: { userId, name: newName },
   } = req
   if (!kanbanId || !userId || !newName) {
-    throw new Error('request body is wrong')
+    throw new Error('request is wrong')
   }
   const [affectedRows, errorFromUpdateKanbanName] = await promiseHandler(
     kanban.updateName({ newName, kanbanId, userId })
@@ -59,7 +59,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
     body: { userId, ids: newIds },
   } = req
   if (!kanbanId || !userId || !newIds.length) {
-    throw new Error('request body is wrong')
+    throw new Error('request is wrong')
   }
 
   const [affectedRows, errorFromUpdateKanbanName] = await promiseHandler(
@@ -76,7 +76,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
 app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
   const { kanbanId } = req.params
   if (!kanbanId) {
-    throw new Error('request body is wrong')
+    throw new Error('request is wrong')
   }
 
   const [affectedRows, errorFromDeleteKanban] = await promiseHandler(
