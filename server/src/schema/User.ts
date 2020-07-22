@@ -1,6 +1,6 @@
 import { getConnection } from '../config/db'
-import { promiseHandler } from '../utils/promiseHandler'
-import { selectQueryExecuter } from '../utils/queryExecuter'
+import { promiseHandler } from '../utils/promise-handler'
+import { selectQueryExecuter } from '../utils/query-executor'
 
 class User {
   private conn

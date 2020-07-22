@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { kanban } from '../schema'
-import { promiseHandler } from '../utils/promiseHandler'
+import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
 app.get('/kanban/:userId', async (req: Request, res: Response) => {
@@ -71,6 +71,23 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
   }
 
   res.status(200).json({ affectedRows })
+})
+
+app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
+  const { kanbanId } = req.params
+  if (!kanbanId) {
+    throw new Error('request body is wrong')
+  }
+
+  const [affectedRows, errorFromDeleteKanban] = await promiseHandler(
+    kanban.deleteKanban(kanbanId)
+  )
+
+  if (errorFromDeleteKanban) {
+    throw errorFromDeleteKanban
+  }
+
+  res.status(200).json()
 })
 
 export default app

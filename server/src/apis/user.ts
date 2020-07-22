@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { user } from '../schema'
-import { promiseHandler } from '../utils/promiseHandler'
+import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
 app.get('/users', async (req: Request, res: Response) => {

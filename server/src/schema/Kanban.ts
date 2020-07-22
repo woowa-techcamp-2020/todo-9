@@ -3,7 +3,7 @@ import {
   selectQueryExecuter,
   insertQueryExecuter,
   updateQueryExecuter,
-} from '../utils/queryExecuter'
+} from '../utils/query-executor'
 import { IKanban, IItem } from './types'
 
 class Kanban {
@@ -52,7 +52,7 @@ class Kanban {
     return getKanbanResponse
   }
 
-  async create(name: string, userId: number) {
+  async create(name: string, userId: string) {
     const [insertId, errorFromCreateKanban] = await insertQueryExecuter(
       `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
     )
@@ -85,6 +85,19 @@ class Kanban {
 
     if (errorFromUpdateKanbanItems) {
       throw errorFromUpdateKanbanItems
+    }
+
+    return affectedRows
+  }
+
+  async deleteKanban(kanbanId: string) {
+    // is_active -> false
+    const [affectedRows, errorFromDeleteKanban] = await updateQueryExecuter(
+      `UPDATE kanban SET is_active=false WHERE id='${kanbanId}'`
+    )
+
+    if (errorFromDeleteKanban) {
+      throw errorFromDeleteKanban
     }
 
     return affectedRows

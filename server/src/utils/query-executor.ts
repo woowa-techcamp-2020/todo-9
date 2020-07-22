@@ -1,4 +1,4 @@
-import { promiseHandler } from './promiseHandler'
+import { promiseHandler } from './promise-handler'
 import { getConnection } from '../config/db'
 
 export type MysqlInsertOrUpdateResult = {
