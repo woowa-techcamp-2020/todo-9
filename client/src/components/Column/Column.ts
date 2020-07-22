@@ -44,8 +44,10 @@ class Column extends Component<IProps, IState> {
   render() {
     const { name, userName, items, id } = this.props
 
-    return li(
-      { className: 'column-container' },
+    return div(
+      {
+        className: 'column-container',
+      },
       div(
         { className: 'column-wrapper' },
         div(
@@ -77,7 +79,10 @@ class Column extends Component<IProps, IState> {
               toggleAddItemInput: () => this.onToggleInputBox(),
             })
           : null,
-        ul({}, ...this.renderItems())
+        ul(
+          { className: 'column-items-container', id: `column-${id}` },
+          ...this.renderItems()
+        )
       )
     )
   }
