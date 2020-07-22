@@ -98,7 +98,7 @@ class Kanban {
     return affectedRows
   } // d a d
 
-  async updateItemOne(kanbanId, newItemId) {
+  async updateItemOne(kanbanId: number, newItemId: number) {
     const [affectedRows, errorFromUpdateKanbanItem] = await updateQueryExecuter(
       `UPDATE kanban SET ids=JSON_ARRAY_APPEND(ids, '$', ${newItemId}) WHERE id=${kanbanId}`
     )

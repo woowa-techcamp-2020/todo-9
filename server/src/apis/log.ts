@@ -6,7 +6,6 @@ const app = Router()
 app.get('/logs/:userId', async (req: Request, res: Response) => {
   const { userId } = req.params
   const [logs, errorFromGetLogs] = await promiseHandler(log.getAll(userId))
-
   if (errorFromGetLogs) {
     throw errorFromGetLogs
   }
@@ -19,8 +18,6 @@ app.post('/log', async (req: Request, res: Response) => {
   if (errorFromCreateLog) {
     throw errorFromCreateLog
   }
-
-  console.log('PASS?')
 
   res.status(201).json()
 })

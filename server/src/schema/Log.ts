@@ -45,14 +45,15 @@ class Log {
   }
 
   async getAll(userId) {
-    const [logs, errorFromGetLog] = await selectQueryExecuter<ILog[]>(
+    const [logs, errorFromGetLog] = await selectQueryExecuter<ILog>(
       `SELECT * FROM log WHERE user_id=${userId}`
     )
+
     if (errorFromGetLog) {
       throw errorFromGetLog
     }
 
-    return logs
+    return [logs, errorFromGetLog]
   }
 }
 

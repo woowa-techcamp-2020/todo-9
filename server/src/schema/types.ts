@@ -21,5 +21,6 @@ export interface ILog {
   type: 'item' | 'kanban'
   originName: string
   targetName: string
+  itemName: string
   createAt: Date
 }
