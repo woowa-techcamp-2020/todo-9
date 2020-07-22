@@ -15,4 +15,11 @@ export interface IItem {
   content: string
 }
 
-export interface ILog {}
+export interface ILog {
+  id: number
+  methodType: 'add' | 'delete' | 'update' | 'move'
+  type: 'item' | 'kanban'
+  originName: string
+  targetName: string
+  createAt: Date
+}
