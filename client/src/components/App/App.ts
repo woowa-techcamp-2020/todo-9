@@ -46,6 +46,7 @@ class App extends Component<IProps, IState> {
       { className: 'container' },
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
       new DashBoard({ userId: 1 }, { kanbans: [] }),
+      div({ className: 'float-item' }),
       new SideBar(
         {
           visible: this.getState('menuVisible'),
