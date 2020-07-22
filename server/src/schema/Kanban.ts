@@ -50,15 +50,16 @@ class Kanban {
     return getKanbanResponse
   }
 
-  async create(name: string) {
-    try {
-      const { insertId } = await this.conn.execute(
-        `INSERT INTO user(name) VALUES('${name}');`
+  async create(name: string, userId: number) {
+    const [result, error] = await promiseHandler(
+      this.conn.execute(
+        `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
       )
-      return insertId
-    } catch (e) {
-      console.error(e)
+    )
+    if (error) {
+      throw new Error(error)
     }
+    return result[0].insertId
   }
 }
 

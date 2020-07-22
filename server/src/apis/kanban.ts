@@ -5,23 +5,39 @@ const app = Router()
 
 app.get('/kanban/:userId', async (req: Request, res: Response) => {
   const { userId } = req.params
-
-  const [kanbans, getKanbanError] = await promiseHandler(kanban.read(userId))
-  if (getKanbanError) {
-    console.error(getKanbanError)
-    throw getKanbanError
+  if (!userId) {
+    // error
+  }
+  const [kanbans, errorFromGetKanban] = await promiseHandler(
+    kanban.read(userId)
+  )
+  if (errorFromGetKanban) {
+    throw errorFromGetKanban
   }
 
   res.status(200).json(kanbans)
 })
 
-// app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
-//   const { name } = req.body
-//   const insertId = await user.create(name)
-//   if (!insertId) {
-//     next(new Error("Can't create user"))
-//   }
-//   res.status(201).json()
-// })
+app.post('/kanban', async (req: Request, res: Response, next: NextFunction) => {
+  const { name, userId } = req.body
+  if (!name || !userId) {
+    // error
+    throw new Error('request body is wrong')
+  }
+
+  const [insertId, errorFromPostKanban] = await promiseHandler(
+    kanban.create(name, userId)
+  )
+  if (errorFromPostKanban || !insertId) {
+    throw errorFromPostKanban
+  }
+
+  res.status(201).json({ insertId })
+})
 
 export default app
+
+app.post(
+  '/kanban',
+  async (req: Request, res: Response, next: NextFunction) => {}
+)
