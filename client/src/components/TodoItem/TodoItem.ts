@@ -15,7 +15,10 @@ class TodoItem extends Component<IProps, IState> {
     this.init()
   }
 
-  onMouseDown(e: Event) {}
+  onMouseDown(e: Event) {
+    const element = e.target as HTMLElement
+    // element.closest('')
+  }
 
   render() {
     const { author, content, id } = this.props
