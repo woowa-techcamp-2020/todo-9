@@ -22,12 +22,12 @@ export const selectQueryExecuter = async <T>(
   return [result as T[], error]
 }
 
-export const inserQueryExecuter = async (
+export const insertQueryExecuter = async (
   query: string
 ): Promise<[number, any]> => {
   const conn = getConnection()
 
-  const [{ insertId }, error] = await promiseHandler(conn.execute(query))
+  const [[{ insertId }, _], error] = await promiseHandler(conn.execute(query))
   return [insertId, error]
 }
 
@@ -36,6 +36,8 @@ export const updateQueryExecuter = async (
 ): Promise<[number, any]> => {
   const conn = getConnection()
 
-  const [{ affectedRows }, error] = await promiseHandler(conn.execute(query))
+  const [[{ affectedRows }, _], error] = await promiseHandler(
+    conn.execute(query)
+  )
   return [affectedRows, error]
 }

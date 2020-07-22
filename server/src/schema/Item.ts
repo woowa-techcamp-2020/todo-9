@@ -1,5 +1,4 @@
 import { Database } from './Database'
-import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
 // Name	Type
 // id	int
@@ -21,16 +20,13 @@ class Item {
   async create(content: string, user_id: string, kanban_id: string) {
     try {
       const newItem = await this.conn.execute(
-        `INSERT INTO item(id, content, user_id, kanban_id) VALUES(${uuid()}, ${content}, ${user_id}, ${kanban_id});`,
-        [uuid(), content, user_id, kanban_id]
+        `INSERT INTO item(content, user_id, kanban_id) VALUES('${content}', '${user_id}', '${kanban_id}');`,
+        [content, user_id, kanban_id]
       )
       return newItem
     } catch (e) {
       console.error(e)
     }
-    // return await this.conn.query(
-    //   `INSERT INTO user(id, content, user_id, kanban_id) VALUES(${uuid()}, ${content}, ${user_id}, ${kanban_id})`
-    // )
   }
 
   async update(id: string, content: string) {

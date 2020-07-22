@@ -6,7 +6,7 @@ const app = Router()
 app.get('/kanban/:userId', async (req: Request, res: Response) => {
   const { userId } = req.params
   if (!userId) {
-    // error
+    throw new Error('request body is wrong')
   }
   const [kanbans, errorFromGetKanban] = await promiseHandler(
     kanban.read(userId)
@@ -21,7 +21,6 @@ app.get('/kanban/:userId', async (req: Request, res: Response) => {
 app.post('/kanban', async (req: Request, res: Response, next: NextFunction) => {
   const { name, userId } = req.body
   if (!name || !userId) {
-    // error
     throw new Error('request body is wrong')
   }
 
@@ -37,7 +36,24 @@ app.post('/kanban', async (req: Request, res: Response, next: NextFunction) => {
 
 export default app
 
-app.post(
-  '/kanban',
-  async (req: Request, res: Response, next: NextFunction) => {}
+app.put(
+  '/kanban/:kanbanId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      params: { kanbanId },
+      body: { userId, name: newName },
+    } = req
+    if (!kanbanId || !userId || !newName) {
+      throw new Error('request body is wrong')
+    }
+    const [affectedRows, errorFromUpdateKanbanName] = await promiseHandler(
+      kanban.updateName({ newName, kanbanId, userId })
+    )
+
+    if (errorFromUpdateKanbanName) {
+      throw errorFromUpdateKanbanName
+    }
+
+    res.status(200).json({ affectedRows })
+  }
 )

@@ -1,8 +1,11 @@
-import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
-import { promiseHandler } from '../utils/promiseHandler'
-import { selectQueryExecuter } from '../utils/queryExecuter'
+import {
+  selectQueryExecuter,
+  insertQueryExecuter,
+  updateQueryExecuter,
+} from '../utils/queryExecuter'
 import { IKanban, IItem } from './types'
+import { kanban } from '.'
 
 class Kanban {
   private conn
@@ -51,15 +54,28 @@ class Kanban {
   }
 
   async create(name: string, userId: number) {
-    const [result, error] = await promiseHandler(
-      this.conn.execute(
-        `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
-      )
+    const [insertId, errorFromCreateKanban] = await insertQueryExecuter(
+      `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
     )
-    if (error) {
-      throw new Error(error)
+
+    if (errorFromCreateKanban) {
+      throw errorFromCreateKanban
     }
-    return result[0].insertId
+    return insertId
+  }
+
+  async updateName({ newName, userId, kanbanId }) {
+    const [affectedRows, errorFromUpdateKanbanName] = await updateQueryExecuter(
+      `UPDATE kanban SET name='${newName}' WHERE user_id='${userId}' and id='${kanbanId}'`
+    )
+
+    console.log('affectedRows', affectedRows)
+
+    if (errorFromUpdateKanbanName) {
+      throw errorFromUpdateKanbanName
+    }
+
+    return affectedRows
   }
 }
 
