@@ -1,6 +1,9 @@
 import { getConnection } from '../config/db'
 import { promiseHandler } from '../utils/promise-handler'
-import { selectQueryExecuter } from '../utils/query-executor'
+import {
+  selectQueryExecuter,
+  insertQueryExecuter,
+} from '../utils/query-executor'
 
 class User {
   private conn
@@ -10,24 +13,23 @@ class User {
   }
 
   async read() {
-    const getAllUserQuery = `SELECT * FROM user;`
-    const [users, getAllUserError] = await selectQueryExecuter(getAllUserQuery)
+    const [users, errorFromGetUsers] = await selectQueryExecuter(
+      `SELECT * FROM user;`
+    )
 
-    if (getAllUserError) {
-      throw getAllUserError
+    if (errorFromGetUsers) {
+      throw errorFromGetUsers
     }
 
     return users
   }
 
   async create(name: string) {
-    const createNewUserQuery = `INSERT INTO user(name) VALUES('${name}');`
-    const [{ insertId }, createNewUserError] = await promiseHandler(
-      this.conn.execute(createNewUserQuery)
+    const [insertId, errorFromCreateUser] = await insertQueryExecuter(
+      `INSERT into user(name) values('${name}')`
     )
-
-    if (createNewUserError) {
-      throw createNewUserError
+    if (errorFromCreateUser) {
+      throw errorFromCreateUser
     }
 
     return insertId
