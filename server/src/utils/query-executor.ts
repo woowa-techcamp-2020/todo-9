@@ -18,7 +18,6 @@ export const selectQueryExecuter = async <T>(
   const conn = getConnection()
 
   const [[result, _], error] = await promiseHandler(conn.execute(query))
-  // console.log(result)
   return [result as T[], error]
 }
 

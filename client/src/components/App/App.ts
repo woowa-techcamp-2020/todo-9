@@ -7,6 +7,7 @@ import { SideBar } from '../SideBar'
 import { Column } from '../Column'
 import { ColumnAddButton } from '../ColumnAddButton'
 import { getUsers } from '../../apis/user'
+import DashBoard from '../DashBoard/DashBoard'
 
 // 테스팅용
 // import Header from '../Header/Header'
@@ -16,6 +17,7 @@ import { getUsers } from '../../apis/user'
 interface IProps {}
 interface IState {
   menuVisible: boolean
+  // userId?: number;
 }
 
 class App extends Component<IProps, IState> {
@@ -27,9 +29,10 @@ class App extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    // fetch columns
+    // if (this.getState('userId')){
+    //   return ;
+    // }
     const users = await getUsers()
-    console.log(users)
   }
 
   onToggleSideMenu = () => {
@@ -42,17 +45,7 @@ class App extends Component<IProps, IState> {
     return div(
       { className: 'container' },
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
-      main(
-        // Column + Column Add Button
-        {},
-        ul(
-          { className: 'main-container' },
-          ...new Array(1)
-            .fill(0)
-            .map(() => new Column({}, { showInput: false, items: [] })),
-          new ColumnAddButton()
-        )
-      ),
+      new DashBoard({ userId: 1 }, { kanbans: [] }),
       new SideBar(
         {
           visible: this.getState('menuVisible'),
