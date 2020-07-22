@@ -17,7 +17,6 @@ export const selectQueryExecuter = async <T>(
 ): Promise<[T[], any]> => {
   const conn = await pool.getConnection()
   const [[result, _], error] = await promiseHandler(conn.query(query))
-  // const response = await promiseHandler(conn.query(query))
   conn.release()
   return [result as T[], error]
 }
@@ -50,7 +49,7 @@ export const transactionQueryExecuter = async (...queries: Promise<any>[]) => {
     conn.commit()
     return true
   } catch (e) {
-    conn.release()
+    conn.rollback()
     return false
   }
 }

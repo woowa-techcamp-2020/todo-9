@@ -1,4 +1,3 @@
-// import { getConnection } from '../config/db'
 import {
   selectQueryExecuter,
   insertQueryExecuter,
@@ -19,10 +18,22 @@ class User {
 
   async create(name: string) {
     const [insertId, errorFromCreateUser] = await insertQueryExecuter(
-      `INSERT into user(name) values('${name}')`
+      `INSERT INTO user(name) VALUES('${name}')`
     )
+
     if (errorFromCreateUser) {
       throw errorFromCreateUser
+    }
+
+    const [_, errorFromCreateDefaultKanban] = await insertQueryExecuter(
+      `INSERT INTO kanban(name, ids, user_id) VALUES
+     ('해야할 일', '[]', ${insertId}),
+     ('하는 중', '[]', ${insertId}),
+     ('다 했어', '[]', ${insertId})`
+    )
+
+    if (errorFromCreateDefaultKanban) {
+      throw errorFromCreateDefaultKanban
     }
 
     return insertId
