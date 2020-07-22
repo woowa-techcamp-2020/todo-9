@@ -6,7 +6,7 @@ import { Header } from '../Header'
 import { SideBar } from '../SideBar'
 import { Column } from '../Column'
 import { ColumnAddButton } from '../ColumnAddButton'
-import AddItemInput from '../AddItemInput/AddItemInput'
+import { getUsers } from '../../apis/user'
 
 // 테스팅용
 // import Header from '../Header/Header'
@@ -26,9 +26,11 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
-  // onToggleSideMenu = () => {
-  //   this.setState('menuVisible', !this.getState('menuVisible'))
-  // }
+  async componentDidMount() {
+    // fetch columns
+    const users = await getUsers()
+    console.log(users)
+  }
 
   onToggleSideMenu = () => {
     const sidebar = document.querySelector('.sidebar-container')

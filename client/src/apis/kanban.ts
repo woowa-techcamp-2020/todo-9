@@ -1,10 +1,11 @@
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
 import { IUser } from './user'
+
 export interface IKanban {
   id: string
   name: string
-  user: IUser
+  userName: string
   items: IItem[]
 }
 
@@ -25,7 +26,7 @@ export const getKanbans = async (userId: string): Promise<IKanban[]> => {
 
 export const deleteKanbans = async (kanbanId: string) => {
   try {
-    const res = await fetchWrapper<IKanban[], undefined>(
+    const res = await fetchWrapper<IKanban, undefined>(
       'DELETE',
       `/kanban/${kanbanId}`
     )
@@ -44,7 +45,7 @@ interface IKanbanBody {
 
 export const createKanban = async (body: IKanbanBody) => {
   try {
-    const res = await fetchWrapper<IKanban[], IKanbanBody>(
+    const res = await fetchWrapper<IKanban, IKanbanBody>(
       'POST',
       '/kanban',
       body
@@ -60,8 +61,8 @@ export const createKanban = async (body: IKanbanBody) => {
 
 export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
   try {
-    const res = await fetchWrapper<IKanban[], IKanbanBody>(
-      'PUT',
+    const res = await fetchWrapper<IKanban, IKanbanBody>(
+      'PATCH',
       `/kanban/${kanbanId}`,
       body
     )
@@ -82,7 +83,7 @@ interface IUpdateKanbanItemsBody {
 export const updateKanbanItems = async ({ userId, kanbanId, ids }) => {
   try {
     const res = await fetchWrapper<IKanban[], IUpdateKanbanItemsBody>(
-      'PUT',
+      'PATCH',
       `/kanban/${kanbanId}/items`,
       { userId, ids }
     )
