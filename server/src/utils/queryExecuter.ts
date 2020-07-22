@@ -1,5 +1,5 @@
 import { promiseHandler } from './promiseHandler'
-import { getConnection } from 'src/config/db'
+import { getConnection } from '../config/db'
 
 export type MysqlInsertOrUpdateResult = {
   fieldCount: number
@@ -15,26 +15,27 @@ export type MysqlInsertOrUpdateResult = {
 export const selectQueryExecuter = async <T>(
   query: string
 ): Promise<[T[], any]> => {
-  const { execute } = getConnection()
+  const conn = getConnection()
 
-  const [[result, _], error] = await promiseHandler(execute(query))
+  const [[result, _], error] = await promiseHandler(conn.execute(query))
+  // console.log(result)
   return [result as T[], error]
 }
 
 export const inserQueryExecuter = async (
   query: string
 ): Promise<[number, any]> => {
-  const { execute } = getConnection()
+  const conn = getConnection()
 
-  const [{ insertId }, error] = await promiseHandler(execute(query))
+  const [{ insertId }, error] = await promiseHandler(conn.execute(query))
   return [insertId, error]
 }
 
 export const updateQueryExecuter = async (
   query: string
 ): Promise<[number, any]> => {
-  const { execute } = getConnection()
+  const conn = getConnection()
 
-  const [{ affectedRows }, error] = await promiseHandler(execute(query))
+  const [{ affectedRows }, error] = await promiseHandler(conn.execute(query))
   return [affectedRows, error]
 }

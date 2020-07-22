@@ -6,7 +6,7 @@ export interface IUser {
 export interface IKanban {
   id: number
   name: string
-  itemIndexs: number[]
+  itemIndexes: number[]
   userName: string
 }
 

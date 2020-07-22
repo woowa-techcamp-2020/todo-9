@@ -1,7 +1,7 @@
 import { uuid } from 'uuidv4'
 import { getConnection } from '../config/db'
 import { promiseHandler } from '../utils/promiseHandler'
-import { selectQueryExecuter } from 'src/utils/queryExecuter'
+import { selectQueryExecuter } from '../utils/queryExecuter'
 import { IKanban, IItem } from './types'
 
 class Kanban {
@@ -12,10 +12,7 @@ class Kanban {
   }
 
   async read(userId: string) {
-    const getKanbanQuery = `SELECT k.id, k.name, k.ids as itemIndxes, u.name as userName FROM kanban k JOIN user u on u.id = k.user_id WHERE k.user_id = ${userId} and k.is_active = 1;`
-    // const [[kanbans, _], getKanbanError] = await promiseHandler(
-    //   this.conn.execute(getKanbanQuery)
-    // )
+    const getKanbanQuery = `SELECT k.id, k.name, k.ids as itemIndexes, u.name as userName FROM kanban k JOIN user u on u.id = k.user_id WHERE k.user_id = ${userId} and k.is_active = 1;`
     const [kanbans, getKanbanError] = await selectQueryExecuter<IKanban>(
       getKanbanQuery
     )
@@ -28,11 +25,11 @@ class Kanban {
 
     await Promise.all(
       kanbans.map(async (kanban, kanbanIdx) => {
-        const { id, name, userName, itemIndexs } = kanban
-        const items = new Array(itemIndexs.length).fill(null) as IItem[]
+        const { id, name, userName, itemIndexes } = kanban
+        const items = new Array(itemIndexes.length).fill(null) as IItem[]
 
         await Promise.all(
-          itemIndexs.map(async (itemIdx, indexOfId) => {
+          itemIndexes.map(async (itemIdx, indexOfId) => {
             const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx}`
             const [[item, _], getItemError] = await selectQueryExecuter<IItem>(
               getItemQuery
