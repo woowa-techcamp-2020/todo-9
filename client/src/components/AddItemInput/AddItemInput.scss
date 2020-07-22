@@ -1,0 +1,25 @@
+@use '../../styles/_definitions.scss';
+
+.add-input-container {
+  height: 200px;
+  width: 100%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  // transition: all 5s ease;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+  }
+}
+
+.add-input-container + .close {
+  // height: 0px;
+  display: none;
+}
+
+// .buttons-container {
+// }

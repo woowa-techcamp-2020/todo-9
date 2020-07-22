@@ -5,6 +5,7 @@ const path = require('path')
 const prodConfig = {
   ...commonConfig,
   mode: 'development',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, './public'),
     compress: false,

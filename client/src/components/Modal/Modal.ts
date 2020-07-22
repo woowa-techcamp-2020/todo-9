@@ -5,7 +5,6 @@ import { BoxButton } from '../BoxButton'
 
 interface IProps {
   title: string
-  toggleModal: () => void
   boxInput?: BoxInput
   boxButtons?: BoxButton[]
 }
@@ -52,6 +51,10 @@ class Modal extends Component<IProps, IState> {
     )
   }
 
+  closeModal() {
+    this.getElement().remove()
+  }
+
   render() {
     const {
       props: { title, boxInput },
@@ -71,7 +74,7 @@ class Modal extends Component<IProps, IState> {
           button(
             {
               className: 'right-aligned-icon',
-              click: () => console.log('close modal'),
+              click: () => this.closeModal(),
             },
             i({ className: 'f7-icons', textContent: 'X' })
           )

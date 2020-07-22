@@ -1,0 +1,30 @@
+@use '../../styles/_definitions.scss';
+
+.add-button-wrapper {
+  background-color: rgba(100, 100, 100, 0.2);
+  border-radius: 7px;
+  border: 1px solid rgba(100, 100, 100, 0.3);
+  margin-left: 15px;
+  min-width: 550px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(100, 100, 100, 0.3);
+  }
+
+  i {
+    font-size: 40px;
+    border-radius: 50%;
+    background-color: rgba(100, 100, 100, 0.1);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(100, 100, 100, 0.2);
+      border: 1px solid rgba(100, 100, 100, 0.3);
+    }
+  }
+}
