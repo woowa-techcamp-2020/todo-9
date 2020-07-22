@@ -12,9 +12,6 @@ class User {
 
   async read() {
     const getAllUserQuery = `SELECT * FROM user;`
-    // const [[rows, _], getAllUserError] = await promiseHandler(
-    //   this.conn.execute(getAllUserQuery)
-    // )
     const [users, getAllUserError] = await queryExecuter(
       this.conn,
       getAllUserQuery

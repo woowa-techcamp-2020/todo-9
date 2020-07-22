@@ -16,11 +16,13 @@ app.use('/api', apis)
 
 app.use(express.static(appRoot.resolve('/src/public')))
 
-app.get('/*', (req, res) => {
-  // res.sendFile(__dirname + '/public/index.html')
-  res.sendFile(appRoot.resolve('/src/public/index.html'))
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send()
+})
 
-  //   res.sendFile(path.join(__dirname, '/public/index.html'))
+app.get('/*', (req, res) => {
+  res.sendFile(appRoot.resolve('/src/public/index.html'))
 })
 
 export { app }

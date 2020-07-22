@@ -1,4 +1,4 @@
-export type MethodType = 'GET' | 'POST' | 'DELETE' | 'PUT'
+export type MethodType = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT'
 
 export const fetchWrapper = async <T, B>(
   method: MethodType,
