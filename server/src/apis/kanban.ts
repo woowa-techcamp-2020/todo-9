@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { kanban } from '../schema'
-import { Console } from 'console'
 import { promiseHandler } from '../utils/promiseHandler'
 const app = Router()
 
