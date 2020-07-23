@@ -33,7 +33,7 @@ app.post('/kanban', async (req: Request, res: Response) => {
 
   // kanban 생성을 로그에 넣어줘야함
 
-  res.status(201).json()
+  res.status(201).json('')
 })
 
 app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
@@ -89,7 +89,7 @@ app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
     throw errorFromDeleteKanban
   }
 
-  res.status(200).json()
+  res.status(200).json('')
 })
 
 export default app

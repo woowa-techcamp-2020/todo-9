@@ -22,7 +22,7 @@ app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
   if (error) {
     next(error)
   }
-  res.status(201).json()
+  res.status(201).json('')
 })
 
 export default app
