@@ -2,7 +2,7 @@ import { Component } from '../../utils/wooact'
 import { input, textarea, p } from '../../utils/wooact/defaultElements'
 
 interface IProps {
-  value: string
+  initialValue: string
   placeholder: string
   // onChangeHandler: (e: InputEvent) => void
 }
@@ -18,17 +18,17 @@ class BoxInput extends Component<IProps, IState> {
 
   render() {
     const {
-      // props: { value, placeholder, onChangeHandler },
-      props: { value, placeholder },
+      props: { initialValue, placeholder },
     } = this
-
+    const rows = initialValue
+      ? (initialValue.split('\n').length + 1).toString()
+      : '3'
     return textarea({
       className: 'box-input',
       type: 'textaea',
-      rows: '3',
+      rows,
       placeholder,
-      // oninput: onChangeHandler,
-      textContent: value,
+      textContent: initialValue,
       autofocus: true,
     })
   }

@@ -38,11 +38,17 @@ class Kanban {
           })
         )
 
-        getKanbanResponse[kanbanIdx] = { kanbanId: id, items, name, userName }
+        const filteredItem = items.filter((item) => item)
+        getKanbanResponse[kanbanIdx] = {
+          kanbanId: id,
+          items: filteredItem,
+          name,
+          userName,
+        }
       })
     )
 
-    return getKanbanResponse
+    return getKanbanResponse.filter((kanban) => kanban)
   }
 
   async getOne(kanbanId: number) {

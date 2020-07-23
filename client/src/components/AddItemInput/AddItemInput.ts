@@ -1,12 +1,15 @@
 import { Component } from '../../utils/wooact'
-import { div, input } from '../../utils/wooact/defaultElements'
+import { div } from '../../utils/wooact/defaultElements'
 import { BoxButton } from '../BoxButton'
 import { BoxInput } from '../BoxInput'
-import { Modal } from '../Modal'
-import { openModal } from '../../utils/eventsHandler/openModal'
-import { createUser } from '../../apis/user'
+import { updateItem, createItem } from '../../apis/item'
+
 interface IProps {
   toggleAddItemInput: () => void
+  userId?: number
+  kanbanId?: number
+  itemId?: number
+  initialValue?: string
 }
 interface IState {
   // inputText: string
@@ -15,51 +18,35 @@ interface IState {
 class AddItemInput extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
-    // constructor(props: IProps, state: IState) {
-    // super(props, state)
-    // constructor() {
-    //   super()
 
     Object.setPrototypeOf(this, AddItemInput.prototype)
     this.init()
   }
 
-  onChangeHandler(event: InputEvent) {
-    const target = event.target as HTMLInputElement
+  async onSubmit(e: Event) {
+    const { itemId, kanbanId } = this.props
+    const inputElement = this.element.querySelector(
+      '.box-input'
+    ) as HTMLTextAreaElement
+    const content = inputElement.value
+    if (itemId) {
+      await updateItem({ id: itemId, content })
+    } else {
+      await createItem({ kanbanId: kanbanId, content })
+    }
+    await window.dispatchEvent(new Event('item_changed'))
   }
-
-  async onUserAdd(e: Event) {
-    // console.log(e.target)
-    // const inputElement = (e.target as HTMLElement).closest(
-    //   'textarea'
-    // ) as HTMLTextAreaElement
-    const inputElement = this.element.querySelector('textarea')
-    console.log(inputElement)
-    const name = inputElement.value
-    console.log(name)
-    const newUser = await createUser({ name })
-    console.log(newUser)
-  }
-  // onClickCancel() {
-  //   if (this.element.classList.contains('close')) {
-  //     this.element.classList.add('close')
-  //     return
-  //   }
-  //   this.element.classList.remove('close')
-  // }
 
   render() {
-    console.log('reendered')
     const inputBox = new BoxInput({
-      // value: this.getState('inputText'),
-      value: '',
+      initialValue: this.props.initialValue || '',
       placeholder: 'Enter a note',
     })
 
     const addButton = new BoxButton({
       type: 'positive',
-      buttonText: 'Add',
-      onClickHandler: (e: Event) => this.onUserAdd(e),
+      buttonText: this.props.itemId ? 'Update' : 'Add',
+      onClickHandler: (e: Event) => this.onSubmit(e),
       // disabed: this.getState('inputText').length === 0 || false,
     })
     const cancelButton = new BoxButton({
@@ -69,7 +56,7 @@ class AddItemInput extends Component<IProps, IState> {
 
     return div(
       { className: 'add-input-container' },
-      inputBox,
+      div({ className: 'input-container' }, inputBox),
       div(
         {
           className: 'buttons-container',
