@@ -18,7 +18,6 @@ class BoxInput extends Component<IProps, IState> {
 
   render() {
     const {
-      // props: { value, placeholder, onChangeHandler },
       props: { value, placeholder },
     } = this
 
@@ -27,7 +26,6 @@ class BoxInput extends Component<IProps, IState> {
       type: 'textaea',
       rows: '3',
       placeholder,
-      // oninput: onChangeHandler,
       textContent: value,
       autofocus: true,
     })

@@ -38,7 +38,10 @@ class Column extends Component<IProps, IState> {
 
     console.log(this.props.name, `has`, items)
 
-    return items.map((item) => new TodoItem({ ...item, author: userName }))
+    return items.map(
+      (item) =>
+        new TodoItem({ ...item, author: userName }, { isEditMode: false })
+    )
   }
 
   render() {
