@@ -5,7 +5,9 @@ let clicked: boolean = false
 let target: HTMLElement = null
 let cloned = null
 let overlappedElement = { item: null, column: null }
-let isOnTop: boolean = false
+let timeForPushed = 200
+let debounceTimeout = 0
+let moved = null
 
 const setFloatingItem = (e: MouseEvent, init: boolean = false) => {
   const { pageX, pageY } = e
@@ -22,28 +24,37 @@ const setFloatingItem = (e: MouseEvent, init: boolean = false) => {
 }
 
 const onMouseDown = (e: MouseEvent) => {
-  target = (e.target as HTMLElement).closest('.item-wrapper')
-  if (!target) {
-    return
+  if (debounceTimeout) {
+    window.clearTimeout(debounceTimeout)
   }
 
-  clicked = true
+  debounceTimeout = window.setTimeout(async () => {
+    target = (e.target as HTMLElement).closest('.item-wrapper')
+    if (!target) {
+      return
+    }
 
-  cloned = target.cloneNode(true)
-  target.classList.add('temp')
-  const { pageX, pageY } = e
+    clicked = true
 
-  position.x = target.offsetLeft - pageX
-  position.y = target.offsetTop - pageY
+    cloned = target.cloneNode(true)
+    target.classList.add('temp')
+    const { pageX, pageY } = e
 
-  setFloatingItem(e, true)
+    position.x = target.offsetLeft - pageX
+    position.y = target.offsetTop - pageY
+
+    setFloatingItem(e, true)
+  }, timeForPushed)
 }
 
 const onMouseUp = (e: MouseEvent) => {
-  if (!clicked) {
+  if (debounceTimeout) {
+    window.clearTimeout(debounceTimeout)
+  }
+
+  if (!clicked || !isMovedEnough(e)) {
     return
   }
-  const { pageX, pageY } = e
 
   // if has something overlapped
   const isItemSwapped = swapIfOverlappedWithItem()
@@ -57,6 +68,9 @@ const onMouseUp = (e: MouseEvent) => {
 }
 
 const onMouseMove = (e: MouseEvent) => {
+  if (debounceTimeout) {
+    window.clearTimeout(debounceTimeout)
+  }
   if (!clicked) {
     return
   }
@@ -94,18 +108,33 @@ const swapIfOverlappedWithItem = () => {
 }
 
 const moveToOtherColumn = () => {
+  // 자기 자신의 칼럼에서 가장 밑으로 땡기는 거
+  // if (
+  //   !overlappedElement.column
+  //   //  ||
+  //   // overlappedElement.column === target.parentElement
+  // ) {
+  //   return false
+  // }
   if (overlappedElement.item || !overlappedElement.column) {
     return false
   }
-  console.log('added to column')
-  //   const container = document.querySelector('.column-items-container')
-  //   console.log(container)
+
   overlappedElement.column.appendChild(target)
   return true
 }
 
+const isMovedEnough = (e: MouseEvent) => {
+  console.log(position.x + e.pageX, position.y + e.pageY)
+  console.log(e.pageX, e.pageY)
+  const movedLength = Math.sqrt(
+    (e.pageX - position.x) ** 2 + (e.pageY - position.y) ** 2
+  )
+  console.log(movedLength)
+  return movedLength > 5
+}
+
 const findOverlappedItem = (e: MouseEvent) => {
-  const { pageX, pageY } = e
   const elements = document.elementsFromPoint(e.pageX, e.pageY) as HTMLElement[]
   const [overlappedItem, ..._] = elements.filter(
     (item) =>
@@ -159,7 +188,9 @@ const resetToDefault = () => {
 
   target = null
   cloned = null
-  isOnTop = null
+  moved = null
+  position.x = 0
+  position.y = 0
   resetOverlapped()
 }
 
