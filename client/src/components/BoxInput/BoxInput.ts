@@ -16,6 +16,20 @@ class BoxInput extends Component<IProps, IState> {
     this.init()
   }
 
+  onChange(e) {
+    const { value } = e.target as HTMLTextAreaElement
+
+    const submitBtn = document.querySelector(
+      '.btn.positive'
+    ) as HTMLTextAreaElement
+
+    if (!value || value.length === 0) {
+      submitBtn.classList.remove('submit-able')
+      return
+    }
+    submitBtn.classList.add('submit-able')
+  }
+
   render() {
     const {
       props: { initialValue, placeholder },
@@ -30,6 +44,7 @@ class BoxInput extends Component<IProps, IState> {
       placeholder,
       textContent: initialValue,
       autofocus: true,
+      oninput: (e) => this.onChange(e),
     })
   }
 }

@@ -3,7 +3,7 @@
 .btn {
   padding: 5px 16px;
   min-width: 100px;
-  margin: 1px 5px;
+  margin: 1px 5px 5px 5px;
 
   color: black;
   background-color: #fafbfc;
@@ -13,9 +13,22 @@
   box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1),
     inset 0 1px 0 hsla(0, 0%, 100%, 0.03);
 
+  pointer-events: none;
   &:hover {
     background-color: #f3f4f6;
   }
+}
+
+.btn.submit-able {
+  pointer-events: all;
+}
+
+.btn.positive {
+  opacity: 0.5;
+}
+
+.btn.positive.submit-able {
+  opacity: 1;
 }
 
 .negative {
