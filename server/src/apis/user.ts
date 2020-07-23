@@ -1,13 +1,12 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { user } from '../schema'
-import { promiseHandler } from '../utils/promiseHandler'
+import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
-app.get('/users', async (req: Request, res: Response) => {
-  const [users, getUsersError] = await promiseHandler(user.read())
-  if (getUsersError) {
-    console.error(getUsersError)
-    throw getUsersError
+app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
+  const [users, error] = await promiseHandler(user.read())
+  if (error) {
+    next(error)
   }
 
   res.status(200).json(users)
@@ -15,11 +14,13 @@ app.get('/users', async (req: Request, res: Response) => {
 
 app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.body
-  const insertId = await promiseHandler(user.create(name))
-  // need to fix
+  if (!name) {
+    throw new Error('request body is wrong')
+  }
+  const [_, error] = await promiseHandler(user.create(name))
 
-  if (!insertId) {
-    next(new Error("Can't create user"))
+  if (error) {
+    next(error)
   }
   res.status(201).json()
 })

@@ -1,22 +1,74 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { item } from '../schema'
-// import User from '../schema/User'
-// import init from '../schema'
+import { promiseHandler } from '../utils/promise-handler'
+import moment from 'moment'
+import { pool } from '../config/db'
+import { nextTick } from 'process'
 const app = Router()
 
-app.get('/items', async (req, res) => {
-  const items = await item.read()
-  console.log(items)
-  res.send(items)
+app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
+  const { userId, kanbanId, content } = req.body
+  const conn = await pool.getConnection()
+
+  try {
+    conn.beginTransaction()
+    const [{ insertId }] = await conn.query(
+      `INSERT INTO item(content, kanban_id) VALUES('${content}', ${kanbanId})`
+    )
+    if (insertId) {
+      const [result, _] = await conn.query(
+        `SELECT * FROM kanban WHERE is_active=1 and id=${kanbanId} limit 1`
+      )
+      await conn.query(
+        `UPDATE kanban SET ids=JSON_ARRAY_APPEND(ids, '$', '${insertId}') WHERE id=${kanbanId}`
+      )
+
+      await conn.query(
+        `INSERT INTO log(type, method_type, origin_name, user_id, item_name, created_at) VALUES('item', 'add', '${
+          result[0].name
+        }', ${userId}, '${content}','${moment().format(
+          'YYYY:MM:DD HH:mm:ss'
+        )}' )`
+      )
+      await conn.commit()
+      res.status(201).json()
+    }
+  } catch (e) {
+    conn.rollback()
+    next(e)
+  }
 })
 
-app.post('/item', async (req: Request, res: Response) => {
-  console.log('hello')
-  const { content, user_id, kanban_id } = req.body()
-  console.log(req.body)
-  const newItem = await item.create(content, user_id, kanban_id)
-  console.log(newItem)
-  res.status(201).json(newItem)
-})
+app.put(
+  '/item/:itemId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      params: { itemId },
+      body: { content: newContent },
+    } = req
+    const [_, error] = await promiseHandler(
+      item.update(Number(itemId), newContent)
+    )
+
+    if (error) {
+      next(error)
+    }
+
+    res.status(201).json()
+  }
+)
+
+app.delete(
+  '/item/:itemId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { itemId } = req.params
+    const [_, error] = await promiseHandler(item.delete(Number(itemId)))
+    if (error) {
+      next(error)
+    }
+
+    res.status(201).json()
+  }
+)
 
 export default app
