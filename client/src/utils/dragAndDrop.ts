@@ -1,4 +1,5 @@
-import { updateKanbanItems } from '../apis/kanban'
+import { deleteItem } from '../apis/item'
+import { updateKanbanItems, deleteKanban } from '../apis/kanban'
 
 const position = { x: 0, y: 0 }
 let clicked: boolean = false
@@ -12,6 +13,7 @@ let timeForPushed = 200
 let debounceTimeout = 0
 let moved = null
 let originColumn = null
+let trashCan
 
 const resetOverlapped = () => {
   for (const key in overlappedElement) {
@@ -30,6 +32,12 @@ const resetToDefault = () => {
   }
   if (cloned) {
     cloned.remove()
+  }
+
+  // const trashCan = document.querySelector('.trash-can')
+  if (trashCan) {
+    trashCan.classList.remove('activated')
+    trashCan.classList.remove('overlapped')
   }
 
   target = null
@@ -53,6 +61,20 @@ const setFloatingItem = (e: MouseEvent, init: boolean = false) => {
     floatingItem.appendChild(cloned)
   }
   return floatingItem
+}
+
+const findOverlappedOnTrashCan = (e: MouseEvent) => {
+  const elements = document.elementsFromPoint(e.pageX, e.pageY) as HTMLElement[]
+  const [overlappedTrashCan, ..._] = elements.filter((item) =>
+    item.classList.contains('trash-can')
+  )
+  if (!overlappedTrashCan) {
+    return
+  }
+  overlappedTrashCan.classList.add('overlapped')
+  // setTimeout(() => {
+  //   console.log('removed')
+  // }, 500)
 }
 
 const findOverlappedItem = (e: MouseEvent) => {
@@ -95,7 +117,7 @@ const updateIfMoved = async () => {
     await updateColumnIds(originColumn)
   }
   await updateColumnIds(currentColumn)
-  // await window.dispatchEvent(new Event('item_changed'))
+  await window.dispatchEvent(new Event('item_changed'))
 }
 
 const getId = (ele: HTMLElement | Element) => {
@@ -115,7 +137,7 @@ const updateColumnIds = async (column: HTMLElement) => {
   columnCounter.innerText = ids.length.toString()
 }
 
-const onMouseDown = (e: MouseEvent) => {
+const onMouseItemDown = (e: MouseEvent) => {
   if (debounceTimeout) {
     window.clearTimeout(debounceTimeout)
   }
@@ -137,10 +159,15 @@ const onMouseDown = (e: MouseEvent) => {
     position.y = target.offsetTop - pageY
 
     setFloatingItem(e, true)
+    trashCan = document.querySelector('.trash-can')
+    trashCan.classList.add('activated')
+
+    window.addEventListener('pointermove', onMouseItemMove)
+    window.addEventListener('pointerup', onMouseItemUp)
   }, timeForPushed)
 }
 
-const onMouseUp = async (e: MouseEvent) => {
+const onMouseItemUp = async (e: MouseEvent) => {
   if (debounceTimeout) {
     window.clearTimeout(debounceTimeout)
   }
@@ -149,12 +176,19 @@ const onMouseUp = async (e: MouseEvent) => {
     return
   }
 
-  await updateIfMoved()
+  if (trashCan && trashCan.classList.contains('overlapped')) {
+    await deleteItem(+getId(target))
+    target.remove()
+  } else {
+    await updateIfMoved()
+  }
 
   resetToDefault()
+  window.removeEventListener('pointerup', onMouseItemUp)
+  window.removeEventListener('pointermove', onMouseItemMove)
 }
 
-const onMouseMove = (e: MouseEvent) => {
+const onMouseItemMove = (e: MouseEvent) => {
   if (debounceTimeout) {
     window.clearTimeout(debounceTimeout)
   }
@@ -163,54 +197,11 @@ const onMouseMove = (e: MouseEvent) => {
   }
 
   setFloatingItem(e)
+  findOverlappedOnTrashCan(e)
 
   resetOverlapped()
   findOverlappedColumn(e)
   findOverlappedItem(e)
 }
 
-window.addEventListener('pointerdown', onMouseDown)
-window.addEventListener('pointermove', onMouseMove)
-window.addEventListener('pointerup', onMouseUp)
-
-// const isMovedEnough = (e: MouseEvent) => {
-//   const movedLength = Math.sqrt(
-//     (e.pageX - position.x) ** 2 + (e.pageY - position.y) ** 2
-//   )
-//   console.log(movedLength)
-//   return movedLength > 5
-// }
-
-// const swapIfOverlappedWithItem = () => {
-//   if (!overlappedElement.item) {
-//     return false
-//   }
-
-//   const parent = (overlappedElement.column ||
-//     target.parentElement) as HTMLElement
-//   parent.insertBefore(target, overlappedElement.item)
-//   //   if (overlappedPostion.top < targetPostion.top) {
-//   //     overlappedElement.item.insertAdjacentElement('beforebegin', target)
-//   //   } else {
-//   //     overlappedElement.item.insertAdjacentElement('afterend', target)
-//   //   }
-
-//   return true
-// }
-
-// const moveToOtherColumn = () => {
-//   // 자기 자신의 칼럼에서 가장 밑으로 땡기는 거
-//   // if (
-//   //   !overlappedElement.column
-//   //   //  ||
-//   //   // overlappedElement.column === target.parentElement
-//   // ) {
-//   //   return false
-//   // }
-//   if (overlappedElement.item || !overlappedElement.column) {
-//     return false
-//   }
-
-//   overlappedElement.column.appendChild(target)
-//   return true
-// }
+window.addEventListener('pointerdown', onMouseItemDown)
