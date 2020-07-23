@@ -41,32 +41,13 @@ class DashBoard extends Component<IProps, IState> {
     if (!kanbans || kanbans.length === 0) {
       return [null]
     }
-
-    // const kanbans: IKanban[] = [
-    //   {
-    //     id: 1,
-    //     name: '할 일',
-    //     userName: 'andy',
-    //     items: [
-    //       { id: 1, content: '이거는 해야징!!!!!!!!!!!!!!!!!!!!!!!!!' },
-    //       { id: 2, content: '뀨뀨뀨뀨뀨뀨뀨뀨뀨뀨ㅠㄲ뀨ㅠ꺼주러ㅜㄴ이룬ㅇㄹ' },
-    //     ],
-    //   },
-    //   {
-    //     id: 2,
-    //     name: '하고있는 일',
-    //     userName: 'andy',
-    //     items: [
-    //       { id: 3, content: '하고있는 중임니당' },
-    //       {
-    //         id: 4,
-    //         content: 'ㅓㅁㅈ두리ㅏㅜ미ㅏㄴ우리ㅏㅜ미아누리ㅏㅁㅇ누리ㅏㅜㅁㄴㅇ',
-    //       },
-    //     ],
-    //   },
-    // ]
+    console.log('userId', this.props.userId)
     return kanbans.map(
-      (kanban) => new Column({ ...kanban }, { showInput: false })
+      (kanban) =>
+        new Column(
+          { ...kanban, userId: this.props.userId },
+          { itemAddInput: false, changeNameInput: false }
+        )
     )
   }
 
@@ -76,7 +57,7 @@ class DashBoard extends Component<IProps, IState> {
       ul(
         { className: 'main-container' },
         ...this.renderKanbans(),
-        new ColumnAddButton()
+        new ColumnAddButton({ userId: this.props.userId })
       )
     )
   }
