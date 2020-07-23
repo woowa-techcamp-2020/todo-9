@@ -29,7 +29,7 @@ class User {
       `INSERT INTO kanban(name, ids, user_id) VALUES
      ('해야할 일', '[]', ${insertId}),
      ('하는 중', '[]', ${insertId}),
-     ('다 했어', '[]', ${insertId})`
+     ('다 했어용', '[]', ${insertId})`
     )
 
     if (errorFromCreateDefaultKanban) {
