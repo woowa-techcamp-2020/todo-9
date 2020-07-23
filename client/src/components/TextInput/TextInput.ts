@@ -1,5 +1,5 @@
 import { Component } from '../../utils/wooact'
-import { input } from '../../utils/wooact/defaultElements'
+import { input, div, i } from '../../utils/wooact/defaultElements'
 import { KEY_NAME } from '../../utils/constants'
 import { createKanban } from '../../apis/kanban'
 
@@ -20,18 +20,19 @@ class TextInput extends Component<IProps, IState> {
   }
 
   async onKeyDownHandler(e) {
+    const target = e.target as HTMLInputElement
     if (e.key === KEY_NAME.ESC) {
       this.getElement().style.display = 'none'
       return
     }
 
-    if (e.key !== KEY_NAME.ENTER || !e.target.value.trim().length) {
+    if (e.key !== KEY_NAME.ENTER || !target.value.trim().length) {
       return
     }
 
-    if (this.getElement().dataset.type === 'add') {
-      const { userId } = e.target.dataset
-      await createKanban({ userId, name: e.target.value })
+    if (target.dataset.type === 'add') {
+      const { userId } = target.dataset
+      await createKanban({ userId: Number(userId), name: e.target.value })
       window.dispatchEvent(new Event('item_changed'))
       return
     }
@@ -50,14 +51,18 @@ class TextInput extends Component<IProps, IState> {
   }
 
   render() {
-    return input({
-      className: 'input-wrapper',
-      autofocus: true,
-      value: this.props.value,
+    return div(
+      { className: 'input-container' },
+      input({
+        className: 'input-wrapper',
+        autofocus: true,
+        value: this.props.value,
 
-      onblur: () => this.props.onToggleChangeNameInput(),
-      onkeydown: (e) => this.onKeyDownHandler(e),
-    })
+        onblur: () => this.props.onToggleChangeNameInput(),
+        onkeydown: (e) => this.onKeyDownHandler(e),
+      })
+      // i()
+    )
   }
 }
 

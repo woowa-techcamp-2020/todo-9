@@ -23,7 +23,7 @@ export const getKanbans = async (userId: number): Promise<IKanban[]> => {
   }
 }
 
-export const deleteKanbans = async (kanbanId: string) => {
+export const deleteKanban = async (kanbanId: string) => {
   try {
     const res = await fetchWrapper<IKanban, undefined>(
       'DELETE',
@@ -44,6 +44,7 @@ interface ICreateKanbanBody {
 }
 
 export const createKanban = async (body: ICreateKanbanBody) => {
+  console.log('call!!!')
   try {
     const res = await fetchWrapper<IKanban, ICreateKanbanBody>(
       'POST',
