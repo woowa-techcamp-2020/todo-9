@@ -9,11 +9,12 @@ import {
 } from '../../utils/wooact/defaultElements'
 import { TodoItem } from '../TodoItem'
 import AddItemInput from '../AddItemInput/AddItemInput'
+import { IItem } from '../../apis/item'
+import { IKanban } from '../../apis/kanban'
 
-interface IProps {}
+interface IProps extends IKanban {}
 interface IState {
   showInput: boolean
-  items: string[]
 }
 
 class Column extends Component<IProps, IState> {
@@ -28,7 +29,21 @@ class Column extends Component<IProps, IState> {
     this.setState('showInput', !this.getState('showInput'))
   }
 
+  renderItems() {
+    const { items, userName } = this.props
+
+    if (!items.length) {
+      return [null]
+    }
+
+    console.log(this.props.name, `has`, items)
+
+    return items.map((item) => new TodoItem({ ...item, author: userName }))
+  }
+
   render() {
+    const { name, userName, items, id } = this.props
+
     return li(
       { className: 'column-container' },
       div(
@@ -37,8 +52,11 @@ class Column extends Component<IProps, IState> {
           { className: 'column-header' },
           div(
             { className: 'header-left' },
-            span({ className: 'todo-count', textContent: '5' }),
-            span({ className: 'todo-title', textContent: '해야할 일' })
+            span({
+              className: 'todo-count',
+              textContent: items.length.toString(),
+            }),
+            span({ className: 'todo-title', textContent: name })
           ),
           div(
             { className: 'header-right' },
@@ -59,7 +77,7 @@ class Column extends Component<IProps, IState> {
               toggleAddItemInput: () => this.onToggleInputBox(),
             })
           : null,
-        ul({}, ...new Array(10).fill(0).map(() => new TodoItem()))
+        ul({}, ...this.renderItems())
       )
     )
   }
