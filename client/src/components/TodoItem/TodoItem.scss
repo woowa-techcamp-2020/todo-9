@@ -18,25 +18,43 @@
     display: flex;
     justify-content: space-between;
 
-    .item-contents {
+    .content-container {
       width: 100%;
-      font-size: 14px;
-      margin-left: 15px;
+      margin-left: 10px;
     }
 
+    .item-title {
+      color: rgab(0, 0, 0, 0.8);
+      margin-bottom: 3px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .item-contents {
+      padding: 2px;
+      max-height: 29px;
+      max-width: 200px;
+      margin: 7px 0;
+      color: lightgray;
+      font-size: 13px;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
     .f7-icons {
       font-size: 14px;
       margin: 0 2px;
+      font-weight: 500;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     .todo-close {
       cursor: pointer;
-      color: rgba(226, 110, 110, 0.1);
+      color: rgba(226, 110, 110, 0.3);
       transition: color 300ms ease;
-
-      &:hover {
-        color: rgba(226, 110, 110, 1);
-      }
     }
   }
 
@@ -50,6 +68,21 @@
 
     .todo-author {
       color: black;
+    }
+  }
+
+  .todo-update {
+    color: rgba(100, 100, 100, 0.3);
+    transition: color 300ms ease;
+  }
+
+  &:hover {
+    .todo-close {
+      color: rgba(226, 110, 110, 1);
+    }
+
+    .todo-update {
+      color: rgba(100, 100, 100, 1);
     }
   }
 }
@@ -69,21 +102,4 @@
 
 .column-items-container.overlapped {
   box-shadow: 0px 0px 10px rgba(100, 100, 100, 0.3);
-}
-
-.item-top {
-  .todo-update {
-    color: rgba(100, 100, 100, 0.1);
-  }
-
-  &:hover {
-    .item-contents {
-      color: rgba(100, 100, 100, 0.5);
-      // padding: 2px;
-    }
-
-    .todo-update {
-      color: rgba(100, 100, 100, 1);
-    }
-  }
 }
