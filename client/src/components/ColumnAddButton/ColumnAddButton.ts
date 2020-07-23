@@ -1,14 +1,16 @@
 import { Component } from '../../utils/wooact'
 import { Column } from '../Column'
 import { button, i } from '../../utils/wooact/defaultElements'
-import { CLASS_NAME } from '../../utils/constants'
+import { CLASS_NAME, KEY_NAME } from '../../utils/constants'
 
-interface IProps {}
+interface IProps {
+  userId: number
+}
 interface IState {}
 
 class ColumnAddButton extends Component<IProps, IState> {
-  constructor() {
-    super()
+  constructor(props: IProps) {
+    super(props)
 
     Object.setPrototypeOf(this, ColumnAddButton.prototype)
     this.init()
@@ -16,14 +18,24 @@ class ColumnAddButton extends Component<IProps, IState> {
 
   onAddColumn = (e) => {
     const $newKanban = new Column(
-      { id: 0, name: '', userName: '', items: [] },
+      { kanbanId: 0, name: '', userName: '', items: [] },
       { itemAddInput: false, changeNameInput: true }
     )
     const $dashBoard = e.target.closest(`.${CLASS_NAME.DASH_BOARD}`)
     const $columnAddButton = e.target.closest(
       `.${CLASS_NAME.COLUMN_ADD_BUTTON}`
     )
+
     $dashBoard.insertBefore($newKanban.getElement(), $columnAddButton)
+    const $input = $newKanban
+      .getElement()
+      .querySelector('.input-wrapper') as HTMLInputElement
+    $input.focus()
+    $input.dataset.type = 'add'
+    $input.dataset.userId = String(this.props.userId)
+    $input.addEventListener('blur', () => {
+      $newKanban.getElement().style.display = 'none'
+    })
   }
 
   render() {

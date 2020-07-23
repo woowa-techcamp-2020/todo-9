@@ -74,9 +74,9 @@ class Kanban {
     return insertId
   }
 
-  async updateName({ newName, userId, kanbanId }) {
+  async updateName({ newName, kanbanId }) {
     const [affectedRows, errorFromUpdateKanbanName] = await updateQueryExecuter(
-      `UPDATE kanban SET name='${newName}' WHERE user_id=${userId} and id=${kanbanId}`
+      `UPDATE kanban SET name='${newName}' WHERE id=${kanbanId}`
     )
 
     if (errorFromUpdateKanbanName) {

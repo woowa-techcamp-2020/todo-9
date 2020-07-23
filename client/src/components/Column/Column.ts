@@ -4,9 +4,11 @@ import { TodoItem } from '../TodoItem'
 import { AddItemInput } from '../AddItemInput'
 import { TextInput } from '../TextInput'
 import { IKanban } from '../../apis/kanban'
-import { kanban } from '../../../../server/src/schema'
+import { updateKanbanName, createKanban } from '../../apis/kanban'
 
-interface IProps extends IKanban {}
+interface IProps extends IKanban {
+  userId?: number
+}
 interface IState {
   itemAddInput: boolean
   changeNameInput: boolean
@@ -26,6 +28,22 @@ class Column extends Component<IProps, IState> {
 
   onToggleAddInput() {
     this.setState('itemAddInput', !this.getState('itemAddInput'))
+  }
+
+  async onSubmitChangeName(name: string) {
+    try {
+      await updateKanbanName(String(this.props.kanbanId), { name })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  onSubmitAddKanban = async (name: string) => {
+    try {
+      await createKanban({ name, userId: this.props.userId })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   renderItems() {
@@ -62,7 +80,9 @@ class Column extends Component<IProps, IState> {
             this.getState('changeNameInput')
               ? new TextInput({
                   value: name,
-                  onVisible: () => this.onToggleChangeNameInput(),
+                  onToggleChangeNameInput: () => this.onToggleChangeNameInput(),
+                  onSubmitChangeName: (value) => this.onSubmitChangeName(value),
+                  onSubmitAddKanban: (value) => this.onSubmitAddKanban(value),
                 })
               : span({
                   className: 'todo-title',

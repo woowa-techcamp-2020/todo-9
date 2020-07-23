@@ -32,26 +32,26 @@ app.post('/kanban', async (req: Request, res: Response, next: NextFunction) => {
 
   // kanban 생성을 로그에 넣어줘야함
 
-  res.status(201)
+  res.status(201).json('')
 })
 
 app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
   const {
     params: { kanbanId },
-    body: { userId, name: newName },
+    body: { name: newName },
   } = req
-  if (!kanbanId || !userId || !newName) {
+  if (!kanbanId || !newName) {
     throw new Error('request is wrong')
   }
   const [affectedRows, errorFromUpdateKanbanName] = await promiseHandler(
-    kanban.updateName({ newName, kanbanId, userId })
+    kanban.updateName({ newName, kanbanId })
   )
 
   if (errorFromUpdateKanbanName) {
     throw errorFromUpdateKanbanName
   }
 
-  res.status(200)
+  res.status(200).json('')
 })
 
 app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
@@ -59,7 +59,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
     params: { kanbanId },
     body: { ids: newIds },
   } = req
-  if (!kanbanId || !newIds.length) {
+  if (!kanbanId) {
     throw new Error('request is wrong')
   }
 
@@ -71,7 +71,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
     throw errorFromUpdateKanbanName
   }
 
-  res.status(200)
+  res.status(200).json('')
 })
 
 app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
@@ -88,7 +88,7 @@ app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
     throw errorFromDeleteKanban
   }
 
-  res.status(200)
+  res.status(200).json('')
 })
 
 export default app

@@ -1,11 +1,13 @@
 import { Component } from '../../utils/wooact'
 import { input } from '../../utils/wooact/defaultElements'
 import { KEY_NAME } from '../../utils/constants'
-import { updateKanbanName } from '../../apis/kanban'
+import { createKanban } from '../../apis/kanban'
 
 interface IProps {
   value: string
-  onVisible: () => void
+  onToggleChangeNameInput?: () => void
+  onSubmitChangeName?: (value: string) => void
+  onSubmitAddKanban?: (value: string) => void
 }
 interface IState {}
 
@@ -17,24 +19,33 @@ class TextInput extends Component<IProps, IState> {
     this.init()
   }
 
-  onKeyUpHandler = async (e) => {
+  async onKeyDownHandler(e) {
     if (e.key === KEY_NAME.ESC) {
-      this.props.onVisible()
+      this.getElement().style.display = 'none'
       return
     }
-    if (e.key !== KEY_NAME.ENTER) {
+
+    if (e.key !== KEY_NAME.ENTER || !e.target.value.trim().length) {
       return
     }
-    if (e.target.value.trim().length > 0)
-      try {
-        // await updateKanbanName(1,{name: e.target.value.trim()})
-      } catch (e) {
-        console.error(e)
-      }
+
+    if (this.getElement().dataset.type === 'add') {
+      const { userId } = e.target.dataset
+      await createKanban({ userId, name: e.target.value })
+      window.dispatchEvent(new Event('item_changed'))
+      return
+    }
+
+    try {
+      await this.props.onSubmitChangeName(e.target.value.trim())
+      window.dispatchEvent(new Event('item_changed'))
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   componentDidMount() {
-    const $target = this.getElement() as HTMLElement
+    const $target = this.getElement() as HTMLInputElement
     $target.selectionStart = this.props.value.length // 글자 마지막에 커서
   }
 
@@ -44,8 +55,8 @@ class TextInput extends Component<IProps, IState> {
       autofocus: true,
       value: this.props.value,
 
-      onblur: () => this.props.onVisible(),
-      onkeydown: (e) => this.onKeyUpHandler(e),
+      onblur: () => this.props.onToggleChangeNameInput(),
+      onkeydown: (e) => this.onKeyDownHandler(e),
     })
   }
 }

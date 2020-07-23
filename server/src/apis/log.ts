@@ -19,7 +19,7 @@ app.post('/log', async (req: Request, res: Response) => {
     throw errorFromCreateLog
   }
 
-  res.status(201).json()
+  res.status(201).json('')
 })
 
 export default app
