@@ -17,12 +17,12 @@ app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
   if (!name) {
     throw new Error('request body is wrong')
   }
-  const [_, error] = await promiseHandler(user.create(name))
+  const [insertId, error] = await promiseHandler(user.create(name))
 
   if (error) {
     next(error)
   }
-  res.status(201).json('')
+  res.status(201).json({ insertId })
 })
 
 export default app

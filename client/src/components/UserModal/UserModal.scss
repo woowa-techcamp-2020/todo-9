@@ -31,7 +31,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 8px;
+        padding: 6px;
         margin-right: 15px;
         font-size: 22px;
         font-weight: 600;
@@ -55,21 +55,22 @@
       }
 
       .user-item {
-        background-color: rgba(100, 100, 100, 0.2);
+        background-color: rgba(100, 100, 100, 0.15);
         padding: 10px;
         border-radius: 7px;
         display: flex;
         align-items: center;
         width: 500px;
         cursor: pointer;
-
+        &:hover {
+          background-color: rgba(100, 100, 100, 0.2);
+        }
         .user-icon {
           display: inline-block;
           margin-right: 10px;
         }
 
         .name {
-          //   color: white;
           font-weight: 600;
           font-size: 20px;
         }

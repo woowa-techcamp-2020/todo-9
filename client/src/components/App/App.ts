@@ -18,6 +18,7 @@ interface IProps {}
 interface IState {
   menuVisible: boolean
   userModalVisible: boolean
+  selectedUserId: number
   users: IUser[]
 }
 
@@ -42,12 +43,22 @@ class App extends Component<IProps, IState> {
     sidebar.classList.add('visible')
   }
 
+  onSelectUser = (userId: number) => {
+    this.setState('selectedUserId', userId)
+    this.setState('userModalVisible', false)
+  }
+
   render() {
     const { onToggleSideMenu } = this
     return div(
       { className: 'container' },
       new Header({ title: 'TODO 서비스', onToggleSideMenu }),
-      new DashBoard({ userId: 1 }, { kanbans: [] }),
+      this.getState('selectedUserId')
+        ? new DashBoard(
+            { userId: this.getState('selectedUserId') },
+            { kanbans: [] }
+          )
+        : null,
       div({ className: 'float-item' }),
       new SideBar(
         {
@@ -56,9 +67,12 @@ class App extends Component<IProps, IState> {
         },
         {}
       ),
-      new UserModal({
-        users: this.getState('users'),
-      })
+      this.getState('userModalVisible')
+        ? new UserModal({
+            users: this.getState('users'),
+            onSelectUser: (userId) => this.onSelectUser(userId),
+          })
+        : null
     )
   }
 }

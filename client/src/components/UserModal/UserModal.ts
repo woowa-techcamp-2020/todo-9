@@ -9,10 +9,11 @@ import {
   i,
   button,
 } from '../../utils/wooact/defaultElements'
-import { IUser } from '../../apis/user'
+import { createUser, IUser } from '../../apis/user'
 
 interface IProps {
   users: IUser[]
+  onSelectUser: (userId: number) => void
 }
 interface IState {}
 
@@ -22,6 +23,19 @@ class UserModal extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, UserModal.prototype)
     this.init()
+  }
+
+  async onSubmit(e) {
+    const $target = e.target as HTMLElement
+    const $input = $target.previousElementSibling as HTMLInputElement
+
+    if (!$input.value.trim()) {
+      alert('이름을 입력해주세요.')
+      return
+    }
+
+    const { insertId } = await createUser({ name: $input.value.trim() })
+    this.props.onSelectUser(insertId)
   }
 
   renderUser() {
@@ -53,7 +67,12 @@ class UserModal extends Component<IProps, IState> {
           type: 'text',
           placeholder: '이름을 입력해주세요!',
         }),
-        button({ className: 'submit', type: 'button', textContent: '로그인' })
+        button({
+          className: 'submit',
+          type: 'button',
+          textContent: '로그인',
+          onclick: (e) => this.onSubmit(e),
+        })
       )
     )
   }
