@@ -1,16 +1,20 @@
 import { IUser } from './user'
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { promiseHandler } from '../utils/promiseHandler'
+
 export interface IItem {
   id: number
   content: string
 }
 
-export const createItem = async (content: string): Promise<void> => {
+export interface ICreateItemBody {
+  kanbanId: number
+  content: string
+}
+
+export const createItem = async (body: ICreateItemBody): Promise<void> => {
   const [_, error] = await promiseHandler(
-    fetchWrapper<IUser[], Partial<IItem>>('POST', `/item`, {
-      content,
-    })
+    fetchWrapper<IUser[], ICreateItemBody>('POST', `/item`, body)
   )
   if (error) {
     console.error(error)
@@ -23,6 +27,7 @@ export const updateItem = async (item: IItem): Promise<void> => {
       content: item.content,
     })
   )
+  console.log(error)
   if (error) {
     console.error(error)
   }

@@ -2,7 +2,7 @@ import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
 
 export interface IKanban {
-  id: number
+  kanbanId: number
   name: string
   userName: string
   items: IItem[]
