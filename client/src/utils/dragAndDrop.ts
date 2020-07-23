@@ -95,6 +95,7 @@ const updateIfMoved = async () => {
     await updateColumnIds(originColumn)
   }
   await updateColumnIds(currentColumn)
+  await window.dispatchEvent(new Event('item_changed'))
 }
 
 const getId = (ele: HTMLElement | Element) => {
