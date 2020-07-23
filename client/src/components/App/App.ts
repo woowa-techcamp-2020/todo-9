@@ -1,12 +1,12 @@
 import { Component } from '../../utils/wooact'
-import { div, main, ul } from '../../utils/wooact/defaultElements'
+import { div } from '../../utils/wooact/defaultElements'
 
 // 개발용
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
-import { Column } from '../Column'
-import { ColumnAddButton } from '../ColumnAddButton'
-import { getUsers } from '../../apis/user'
+import { getUsers, IUser } from '../../apis/user'
+import { Modal } from '../Modal'
+import { UserModal } from '../UserModal'
 import DashBoard from '../DashBoard/DashBoard'
 
 // 테스팅용
@@ -17,7 +17,8 @@ import DashBoard from '../DashBoard/DashBoard'
 interface IProps {}
 interface IState {
   menuVisible: boolean
-  // userId?: number;
+  userModalVisible: boolean
+  users: IUser[]
 }
 
 class App extends Component<IProps, IState> {
@@ -33,6 +34,7 @@ class App extends Component<IProps, IState> {
     //   return ;
     // }
     const users = await getUsers()
+    this.setState('users', users)
   }
 
   onToggleSideMenu = () => {
@@ -49,11 +51,14 @@ class App extends Component<IProps, IState> {
       div({ className: 'float-item' }),
       new SideBar(
         {
-          visible: this.getState('menuVisible'),
+          visible: this.getState('menuVisible'), // 왜 우는지 모르겠음 ㅜㅜ
           onToggleSideMenu: () => this.onToggleSideMenu(),
         },
         {}
-      )
+      ),
+      new UserModal({
+        users: this.getState('users'),
+      })
     )
   }
 }
