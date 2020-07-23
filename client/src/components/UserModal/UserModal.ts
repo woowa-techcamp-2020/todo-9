@@ -10,6 +10,7 @@ import {
   button,
 } from '../../utils/wooact/defaultElements'
 import { createUser, IUser } from '../../apis/user'
+import { KEY_NAME } from '../../utils/constants'
 
 interface IProps {
   users: IUser[]
@@ -25,7 +26,14 @@ class UserModal extends Component<IProps, IState> {
     this.init()
   }
 
-  async onSubmit(e) {
+  onKeyUpInput(e) {
+    if (e.key !== KEY_NAME.ENTER || !e.target.value.trim()) {
+      return
+    }
+    this.onSubmit(e.target.value.trim())
+  }
+
+  async onClickButton(e) {
     const $target = e.target as HTMLElement
     const $input = $target.previousElementSibling as HTMLInputElement
 
@@ -33,15 +41,22 @@ class UserModal extends Component<IProps, IState> {
       alert('이름을 입력해주세요.')
       return
     }
+    this.onSubmit($input.value.trim())
+  }
 
-    const { insertId } = await createUser({ name: $input.value.trim() })
+  async onSubmit(name: string) {
+    const { insertId } = await createUser({ name })
     this.props.onSelectUser(insertId)
   }
 
   renderUser() {
     return this.props.users.map(({ id, name }) => {
       return li(
-        { id, className: 'user-item' },
+        {
+          id,
+          className: 'user-item',
+          onclick: () => this.props.onSelectUser(Number(id)),
+        },
         i({ className: 'f7-icons user-icon', textContent: 'person' }),
         span({ className: 'name', textContent: name })
       )
@@ -66,12 +81,13 @@ class UserModal extends Component<IProps, IState> {
           className: 'user-input',
           type: 'text',
           placeholder: '이름을 입력해주세요!',
+          onkeyup: (e) => this.onKeyUpInput(e),
         }),
         button({
           className: 'submit',
           type: 'button',
           textContent: '로그인',
-          onclick: (e) => this.onSubmit(e),
+          onclick: (e) => this.onClickButton(e),
         })
       )
     )
