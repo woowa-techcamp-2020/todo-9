@@ -26,13 +26,15 @@ class BoxButton extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { type, onClickHandler, disabled },
+      props: { type, onClickHandler, buttonText },
     } = this
-    const buttonClass = `btn ${type || ''}`
+    const buttonClass = `btn ${type || ''} ${
+      buttonText.includes('Update') ? 'submit-able' : ''
+    }`
 
     return button({
       className: buttonClass,
-      textContent: this.props.buttonText,
+      textContent: buttonText,
       click: onClickHandler,
       // disabled: disabled || false,
     })

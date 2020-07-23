@@ -20,7 +20,7 @@ app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
         `SELECT * FROM kanban WHERE is_active=1 and id=${kanbanId} limit 1`
       )
       await conn.query(
-        `UPDATE kanban SET ids=JSON_ARRAY_APPEND(ids, '$', '${insertId}') WHERE id=${kanbanId}`
+        `UPDATE kanban SET ids=JSON_ARRAY_INSERT(ids, '$[0]', '${insertId}') WHERE id=${kanbanId}`
       )
 
       await conn.query(
