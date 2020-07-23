@@ -4,7 +4,7 @@ import { TodoItem } from '../TodoItem'
 import { AddItemInput } from '../AddItemInput'
 import { TextInput } from '../TextInput'
 import { IKanban } from '../../apis/kanban'
-import { updateKanbanName, createKanban } from '../../apis/kanban'
+import { updateKanbanName, deleteKanban } from '../../apis/kanban'
 
 interface IProps extends IKanban {
   userId?: number
@@ -38,9 +38,14 @@ class Column extends Component<IProps, IState> {
     }
   }
 
-  onSubmitAddKanban = async (name: string) => {
+  async deleteKanbanHandler() {
+    const result = confirm('삭제하시겠습니까?')
+    if (!result) {
+      return result
+    }
     try {
-      await createKanban({ name, userId: this.props.userId })
+      await deleteKanban(String(this.props.kanbanId))
+      window.dispatchEvent(new Event('item_changed'))
     } catch (e) {
       console.error(e)
     }
@@ -82,7 +87,6 @@ class Column extends Component<IProps, IState> {
                   value: name,
                   onToggleChangeNameInput: () => this.onToggleChangeNameInput(),
                   onSubmitChangeName: (value) => this.onSubmitChangeName(value),
-                  onSubmitAddKanban: (value) => this.onSubmitAddKanban(value),
                 })
               : span({
                   className: 'todo-title',
@@ -99,8 +103,8 @@ class Column extends Component<IProps, IState> {
             }),
             i({
               className: 'f7-icons todo-more-button',
-              textContent: 'ellipsis',
-              click: () => alert('개발 예정'),
+              textContent: 'trash',
+              click: () => this.deleteKanbanHandler(),
             })
           )
         ),

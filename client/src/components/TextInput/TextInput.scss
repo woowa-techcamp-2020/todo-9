@@ -1,6 +1,10 @@
 @use '../../styles/_definitions.scss';
 
-.input-wrapper {
+.input-container {
   width: 100%;
   margin-right: 10px;
+
+  .input-wrapper {
+    width: 100%;
+  }
 }

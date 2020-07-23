@@ -1,5 +1,5 @@
 import { Component } from '../../utils/wooact'
-import { input } from '../../utils/wooact/defaultElements'
+import { input, div, i } from '../../utils/wooact/defaultElements'
 import { KEY_NAME } from '../../utils/constants'
 import { createKanban } from '../../apis/kanban'
 
@@ -50,14 +50,18 @@ class TextInput extends Component<IProps, IState> {
   }
 
   render() {
-    return input({
-      className: 'input-wrapper',
-      autofocus: true,
-      value: this.props.value,
+    return div(
+      { className: 'input-container' },
+      input({
+        className: 'input-wrapper',
+        autofocus: true,
+        value: this.props.value,
 
-      onblur: () => this.props.onToggleChangeNameInput(),
-      onkeydown: (e) => this.onKeyDownHandler(e),
-    })
+        onblur: () => this.props.onToggleChangeNameInput(),
+        onkeydown: (e) => this.onKeyDownHandler(e),
+      })
+      // i()
+    )
   }
 }
 
