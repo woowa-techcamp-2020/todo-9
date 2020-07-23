@@ -23,28 +23,37 @@ class SideBar extends Component<IProps, IState> {
   render() {
     return aside(
       {
-        className: `sidebar-container`,
-        // className: `sidebar-container visible`,
+        // className: `sidebar-container`,
+        className: `sidebar-container visible`,
       },
 
       div(
-        { className: 'icon-container' },
+        {
+          className: 'sidebar-header',
+        },
         div(
-          { className: 'left-icon' },
-          i({
-            className: 'f7-icons f7-icon',
-            textContent: 'bell_fill',
-          }),
-          span({ className: 'icon-title', textContent: 'Activity' }),
-
+          { className: 'icon-container' },
+          div(
+            { className: 'left-icon' },
+            i({
+              className: 'f7-icons f7-icon',
+              textContent: 'bell_fill',
+            })
+          ),
           i({
             className: 'f7-icons f7-icon side-close',
             textContent: 'multiply',
-            click: this.props.onToggleSideMenu,
+            click: () => this.props.onToggleSideMenu(),
           })
         )
       ),
-      ...new Array(10).fill(0).map(() => new SideBarItem())
+      div(
+        {
+          className: 'logs-container',
+        },
+        ...new Array(10).fill(0).map(() => new SideBarItem())
+      )
+
       // item 없는 경우 white-bg 설정 해야함
     )
   }

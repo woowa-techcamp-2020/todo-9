@@ -4,6 +4,17 @@
   padding: 20px;
   display: flex;
   border-bottom: 1px solid rgba(100, 100, 100, 0.4);
+  position: relative;
+
+  .vertical-bar {
+    position: absolute;
+    left: 20px;
+    top: 30px;
+    border-left: 4px solid #2ac1bc;
+    height: 30px;
+    width: 0;
+  }
+
   .bg-image {
     background-color: #46d6c9;
     min-width: 25px;

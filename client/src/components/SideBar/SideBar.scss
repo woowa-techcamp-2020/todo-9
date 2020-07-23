@@ -1,19 +1,18 @@
 @use '../../styles/_definitions.scss';
 
 .sidebar-container {
-  position: absolute;
+  position: fixed;
   top: 0;
-  width: 30vw;
-  right: -30vw;
+  width: 0;
+  // width: 350px;
+  right: 0;
   display: none;
   height:100%;
   z-index: 5;
-  // background-color: white;
-  overflow-y: scroll;
 
   backdrop-filter: blur(2px);
 
-  transition: all 500ms ease;
+  transition: width 500ms ease;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -o-transition: all 500ms ease;
@@ -22,10 +21,15 @@
     left: 1px solid rgba(100, 100, 100, 0.4);
   }
 
+  .sidebar-header {
+    position: sticky;
+  }
+
   .icon-container {
+    // position: sticky;
     background-color: rgba(100, 100, 100, 0.03);
-    display: flex;
-    justify-content: stretch;
+    // display: flex;
+    // justify-content: ;
     align-items: center;
     padding: {
       left: 20px;
@@ -35,34 +39,36 @@
     border-bottom: 1px solid rgba(100, 100, 100, 0.4);
 
     .left-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
 
+      top: 30px;
+      position: absolute;
       .f7-icon {
         font-size: 25px;
       }
 
-      .icon-title {
-        font: {
-          size: 17px;
-          weight: 600;
-        }
-        padding: {
-          top: 6px;
-          left: 3px;
-        }
-      }
     }
 
     .side-close {
       cursor: pointer;
+      position: absolute;
+      right: 45px;;
+      top: 30px;
     }
   }
 }
 
-.visible {
+.sidebar-container.visible {
   display: block;
-  // right: 0;
-  transform: translateX(-30vw);
+  width: 350px;
+  // transform: translateX(-30vw);
+}
+
+.logs-container {
+  overflow-y: scroll;
+  // overflow-y: scroll;
+
+  // margin-top:80px;
 }
