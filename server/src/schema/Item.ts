@@ -17,7 +17,7 @@ class Item {
 
   async update(itemId: number, newContent: string) {
     const [affectedRows, error] = await updateQueryExecuter(
-      `UPDATE item SET content=${newContent} WHERE id=${itemId}`
+      `UPDATE item SET content="${newContent}" WHERE id=${itemId}`
     )
     if (error) {
       throw error
