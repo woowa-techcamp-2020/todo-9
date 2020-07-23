@@ -1,20 +1,17 @@
 import { Component } from '../../utils/wooact'
-import {
-  div,
-  span,
-  i,
-  li,
-  section,
-  ul,
-} from '../../utils/wooact/defaultElements'
+import { div, span, i, ul } from '../../utils/wooact/defaultElements'
 import { TodoItem } from '../TodoItem'
-import AddItemInput from '../AddItemInput/AddItemInput'
-import { IItem } from '../../apis/item'
+import { AddItemInput } from '../AddItemInput'
+import { TextInput } from '../TextInput'
 import { IKanban } from '../../apis/kanban'
+import { updateKanbanName, createKanban } from '../../apis/kanban'
 
-interface IProps extends IKanban {}
+interface IProps extends IKanban {
+  userId?: number
+}
 interface IState {
-  showInput: boolean
+  itemAddInput: boolean
+  changeNameInput: boolean
 }
 
 class Column extends Component<IProps, IState> {
@@ -25,8 +22,28 @@ class Column extends Component<IProps, IState> {
     this.init()
   }
 
-  onToggleInputBox() {
-    this.setState('showInput', !this.getState('showInput'))
+  onToggleChangeNameInput() {
+    this.setState('changeNameInput', !this.getState('changeNameInput'))
+  }
+
+  onToggleAddInput() {
+    this.setState('itemAddInput', !this.getState('itemAddInput'))
+  }
+
+  async onSubmitChangeName(name: string) {
+    try {
+      await updateKanbanName(String(this.props.kanbanId), { name })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  onSubmitAddKanban = async (name: string) => {
+    try {
+      await createKanban({ name, userId: this.props.userId })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   renderItems() {
@@ -48,6 +65,7 @@ class Column extends Component<IProps, IState> {
     return div(
       {
         className: 'column-container',
+        id: String(kanbanId),
       },
       div(
         { className: 'column-wrapper' },
@@ -59,14 +77,25 @@ class Column extends Component<IProps, IState> {
               className: 'todo-count',
               textContent: items.length.toString(),
             }),
-            span({ className: 'todo-title', textContent: name })
+            this.getState('changeNameInput')
+              ? new TextInput({
+                  value: name,
+                  onToggleChangeNameInput: () => this.onToggleChangeNameInput(),
+                  onSubmitChangeName: (value) => this.onSubmitChangeName(value),
+                  onSubmitAddKanban: (value) => this.onSubmitAddKanban(value),
+                })
+              : span({
+                  className: 'todo-title',
+                  textContent: name,
+                  ondblclick: () => this.onToggleChangeNameInput(),
+                })
           ),
           div(
             { className: 'header-right' },
             i({
               className: 'f7-icons todo-add-button',
               textContent: 'plus',
-              click: () => this.onToggleInputBox(),
+              click: () => this.onToggleAddInput(),
             }),
             i({
               className: 'f7-icons todo-more-button',
@@ -75,9 +104,9 @@ class Column extends Component<IProps, IState> {
             })
           )
         ),
-        this.getState('showInput')
+        this.getState('itemAddInput')
           ? new AddItemInput({
-              toggleAddItemInput: () => this.onToggleInputBox(),
+              toggleAddItemInput: () => this.onToggleAddInput(),
               kanbanId,
             })
           : null,

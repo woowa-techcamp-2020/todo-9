@@ -38,13 +38,14 @@ export const deleteKanbans = async (kanbanId: string) => {
   }
 }
 
-interface IKanbanBody {
+interface ICreateKanbanBody {
   name: string
+  userId: number
 }
 
-export const createKanban = async (body: IKanbanBody) => {
+export const createKanban = async (body: ICreateKanbanBody) => {
   try {
-    const res = await fetchWrapper<IKanban, IKanbanBody>(
+    const res = await fetchWrapper<IKanban, ICreateKanbanBody>(
       'POST',
       '/kanban',
       body
@@ -58,10 +59,14 @@ export const createKanban = async (body: IKanbanBody) => {
   }
 }
 
+interface IKanbanBody {
+  name: string
+}
+
 export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
   try {
     const res = await fetchWrapper<IKanban, IKanbanBody>(
-      'PATCH',
+      'PUT',
       `/kanban/${kanbanId}`,
       body
     )

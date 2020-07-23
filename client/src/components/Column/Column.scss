@@ -19,6 +19,9 @@
       height: 40px;
 
       .header-left {
+        display: flex;
+        width: 100%;
+
         .todo-count {
           background-color: rgba(100, 100, 100, 0.3);
           border-radius: 50%;
@@ -26,21 +29,27 @@
             size: 13px;
             weight: 600;
           }
-          padding: {
-            left: 5px;
-            right: 5px;
-            bottom: 1px;
-          }
-
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-width: 25px;
           margin-right: 10px;
         }
         .todo-title {
+          display: flex;
+          align-items: center;
           font-weight: 600;
-          font-size: 13px;
+          font-size: 15px;
+          width: 100%;
+          cursor: pointer;
         }
       }
 
       .header-right {
+        min-width: 25px;
+        display: flex;
+        align-items: center;
+
         .todo-add-button,
         .todo-more-button {
           font-size: 15px;
