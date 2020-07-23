@@ -23,6 +23,7 @@ class Column extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, Column.prototype)
     this.init()
+    console.log(this.props)
   }
 
   onToggleInputBox() {
@@ -36,8 +37,6 @@ class Column extends Component<IProps, IState> {
       return [null]
     }
 
-    console.log(this.props.name, `has`, items)
-
     return items.map(
       (item) =>
         new TodoItem({ ...item, author: userName }, { isEditMode: false })
@@ -45,7 +44,7 @@ class Column extends Component<IProps, IState> {
   }
 
   render() {
-    const { name, userName, items, id } = this.props
+    const { name, userName, items, kanbanId } = this.props
 
     return div(
       {
@@ -80,10 +79,11 @@ class Column extends Component<IProps, IState> {
         this.getState('showInput')
           ? new AddItemInput({
               toggleAddItemInput: () => this.onToggleInputBox(),
+              kanbanId,
             })
           : null,
         ul(
-          { className: 'column-items-container', id: `column-${id}` },
+          { className: 'column-items-container', id: `column-${kanbanId}` },
           ...this.renderItems()
         )
       )
