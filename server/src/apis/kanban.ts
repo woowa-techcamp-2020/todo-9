@@ -1,39 +1,38 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { kanban } from '../schema'
 import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
-app.get('/kanban/:userId', async (req: Request, res: Response) => {
-  const { userId } = req.params
-  if (!userId) {
-    throw new Error('request is wrong')
-  }
-  const [kanbans, errorFromGetKanban] = await promiseHandler(
-    kanban.getAll(userId)
-  )
-  if (errorFromGetKanban) {
-    throw errorFromGetKanban
-  }
+app.get(
+  '/kanban/:userId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params
+    if (!userId) {
+      throw new Error('request is wrong')
+    }
+    const [kanbans, error] = await promiseHandler(kanban.getAll(userId))
+    if (error) {
+      next(error)
+    }
 
-  res.status(200).json(kanbans)
-})
+    res.status(200).json(kanbans)
+  }
+)
 
-app.post('/kanban', async (req: Request, res: Response) => {
+app.post('/kanban', async (req: Request, res: Response, next: NextFunction) => {
   const { name, userId } = req.body
   if (!name || !userId) {
     throw new Error('request is wrong')
   }
 
-  const [insertId, errorFromPostKanban] = await promiseHandler(
-    kanban.create(name, userId)
-  )
-  if (errorFromPostKanban) {
-    throw errorFromPostKanban
+  const [_, error] = await promiseHandler(kanban.create(name, userId))
+  if (error) {
+    next(error)
   }
 
   // kanban 생성을 로그에 넣어줘야함
 
-  res.status(201).json()
+  res.status(201)
 })
 
 app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
@@ -52,7 +51,7 @@ app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
     throw errorFromUpdateKanbanName
   }
 
-  res.status(200).json({ affectedRows })
+  res.status(200)
 })
 
 app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
@@ -72,7 +71,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
     throw errorFromUpdateKanbanName
   }
 
-  res.status(200).json({ affectedRows })
+  res.status(200)
 })
 
 app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
@@ -89,7 +88,7 @@ app.delete('/kanban/:kanbanId', async (req: Request, res: Response) => {
     throw errorFromDeleteKanban
   }
 
-  res.status(200).json()
+  res.status(200)
 })
 
 export default app

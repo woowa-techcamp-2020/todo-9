@@ -66,7 +66,11 @@ class DashBoard extends Component<IProps, IState> {
     //   },
     // ]
     return kanbans.map(
-      (kanban) => new Column({ ...kanban }, { showInput: false })
+      (kanban) =>
+        new Column(
+          { ...kanban },
+          { itemAddInput: false, changeNameInput: false }
+        )
     )
   }
 

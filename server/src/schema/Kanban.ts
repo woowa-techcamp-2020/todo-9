@@ -25,7 +25,7 @@ class Kanban {
 
         await Promise.all(
           itemIndexes.map(async (itemIdx, indexOfId) => {
-            const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx} and is_active=1`
+            const getItemQuery = `SELECT id, content FROM item WHERE id=${itemIdx} and is_active=true`
             const [[item, _], getItemError] = await selectQueryExecuter<IItem>(
               getItemQuery
             )
