@@ -58,14 +58,14 @@ app.put('/kanban/:kanbanId', async (req: Request, res: Response) => {
 app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
   const {
     params: { kanbanId },
-    body: { userId, ids: newIds },
+    body: { ids: newIds },
   } = req
-  if (!kanbanId || !userId || !newIds.length) {
+  if (!kanbanId || !newIds.length) {
     throw new Error('request is wrong')
   }
 
   const [affectedRows, errorFromUpdateKanbanName] = await promiseHandler(
-    kanban.updateItems({ newIds, kanbanId, userId })
+    kanban.updateItems({ newIds, kanbanId })
   )
 
   if (errorFromUpdateKanbanName) {

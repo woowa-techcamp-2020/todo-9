@@ -86,12 +86,12 @@ class Kanban {
     return affectedRows
   }
 
-  async updateItems({ userId, kanbanId, newIds }) {
+  async updateItems({ kanbanId, newIds }) {
     const [
       affectedRows,
       errorFromUpdateKanbanItems,
     ] = await updateQueryExecuter(
-      `UPDATE kanban SET ids='[${newIds}]' WHERE user_id='${userId}' and id='${kanbanId}'`
+      `UPDATE kanban SET ids='[${newIds}]' WHERE id='${kanbanId}'`
     )
 
     if (errorFromUpdateKanbanItems) {
