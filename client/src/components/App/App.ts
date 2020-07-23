@@ -1,5 +1,5 @@
 import { Component } from '../../utils/wooact'
-import { div, main, ul } from '../../utils/wooact/defaultElements'
+import { div, main, ul, i } from '../../utils/wooact/defaultElements'
 
 // 개발용
 import { Header } from '../Header'
@@ -37,6 +37,10 @@ class App extends Component<IProps, IState> {
 
   onToggleSideMenu = () => {
     const sidebar = document.querySelector('.sidebar-container')
+    if (sidebar.classList.contains('visible')) {
+      sidebar.classList.remove('visible')
+      return
+    }
     sidebar.classList.add('visible')
   }
 
@@ -44,15 +48,24 @@ class App extends Component<IProps, IState> {
     const { onToggleSideMenu } = this
     return div(
       { className: 'container' },
-      new Header({ title: 'TODO 서비스', onToggleSideMenu }),
+      new Header({ title: '우와한 투두', onToggleSideMenu }),
       new DashBoard({ userId: 1 }, { kanbans: [] }),
       div({ className: 'float-item' }),
+      div({ className: 'float-column' }),
       new SideBar(
         {
-          visible: this.getState('menuVisible'),
           onToggleSideMenu: () => this.onToggleSideMenu(),
         },
         {}
+      ),
+      div(
+        {
+          className: 'trash-can',
+        },
+        i({
+          className: 'f7-icons todo-close',
+          textContent: 'trash',
+        })
       )
     )
   }

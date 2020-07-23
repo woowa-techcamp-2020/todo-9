@@ -1,5 +1,8 @@
 @use '../../styles/_definitions.scss';
 
+.container {
+  position: relative;
+}
 .main-container {
   width: 100%;
   height: calc(100vh - 80px);
@@ -7,15 +10,40 @@
   align-items: start;
   overflow-y: hidden;
   overflow-x: auto;
-  padding: 15px;
+  padding: 20px;
 }
 
-.float-item {
-  position: fixed;
-  padding: 0;
-  margin: 0;
-  transition: transform 200ms ease, box-shadow 200ms ease;
-  transform: scale(1.03);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-  z-index: 999;
+.trash-can {
+  position: absolute;
+  right: 40px;
+  bottom:40px;
+  color: rgba(226, 110, 110, 0.8);
+  opacity: 0;
+  border-radius: 50%;
+
+  .todo-close {
+    font-size: 50px;
+    transition: all 300ms ease;
+    border: 1px solid  rgba(226, 110, 110, 0.0);
+
+
+  }
+}
+
+.trash-can.activated {
+  // &:hover{
+    transform: scale(1.4);
+    border: 1px solid  rgba(226, 110, 110, 0.8);
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    // }
+  }
+
+  .trash-can.activated.overlapped {
+    background-color: rgba(226, 110, 110, 0.2);;
+
 }
