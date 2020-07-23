@@ -49,7 +49,7 @@ export const transactionQueryExecuter = async (...queries: Promise<any>[]) => {
     conn.commit()
     return true
   } catch (e) {
-    conn.release()
+    conn.rollback()
     return false
   }
 }

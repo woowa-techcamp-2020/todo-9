@@ -3,10 +3,10 @@ import { user } from '../schema'
 import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
-app.get('/users', async (req: Request, res: Response) => {
-  const [users, errorFromGetUsers] = await promiseHandler(user.read())
-  if (errorFromGetUsers) {
-    throw errorFromGetUsers
+app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
+  const [users, error] = await promiseHandler(user.read())
+  if (error) {
+    next(error)
   }
 
   res.status(200).json(users)
@@ -17,12 +17,10 @@ app.post('/user', async (req: Request, res: Response, next: NextFunction) => {
   if (!name) {
     throw new Error('request body is wrong')
   }
-  const [insertId, errorFromCreateUser] = await promiseHandler(
-    user.create(name)
-  )
+  const [_, error] = await promiseHandler(user.create(name))
 
-  if (!insertId || errorFromCreateUser) {
-    throw new Error("Can't create user")
+  if (error) {
+    next(error)
   }
   res.status(201).json()
 })
