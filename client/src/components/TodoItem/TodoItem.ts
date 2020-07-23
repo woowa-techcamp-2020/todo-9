@@ -1,50 +1,63 @@
 import { Component } from '../../utils/wooact'
-import { li, div, cite, i } from '../../utils/wooact/defaultElements'
+import { li, div, cite, i, input } from '../../utils/wooact/defaultElements'
 import { IItem } from '../../apis/item'
+import { AddItemInput } from '../AddItemInput'
 
 interface IProps extends IItem {
   author: string
 }
-interface IState {}
+interface IState {
+  isEditMode: boolean
+}
 
 class TodoItem extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props)
+  constructor(props: IProps, state: IState) {
+    super(props, state)
 
     Object.setPrototypeOf(this, TodoItem.prototype)
     this.init()
   }
 
-  onMouseDown(e: Event) {
-    const element = e.target as HTMLElement
-    // element.closest('')
+  changeMode() {
+    this.setState('isEditMode', !this.getState('isEditMode'))
   }
 
   render() {
     const { author, content, id } = this.props
 
-    return li(
-      {
-        className: 'item-wrapper',
-        onmousedown: (e) => this.onMouseDown(e),
-        id: `item-${id}`,
-      },
-      div(
-        { className: 'item-top' },
-        i({ className: 'f7-icons', textContent: 'calendar' }),
-        div({
-          className: 'item-contents',
-          textContent: content,
-        }),
-        i({ className: 'f7-icons todo-close', textContent: 'multiply' })
-      ),
-      div(
-        { className: 'item-bottom', textContent: 'Added By ' },
-        cite({
-          className: 'todo-author',
-          textContent: author,
-        })
-      )
+    return div(
+      { className: 'item-wrapper', id: `item-${id}` },
+      this.getState('isEditMode')
+        ? new AddItemInput({
+            initialValue: content,
+            itemId: id,
+            toggleAddItemInput: () => this.changeMode(),
+          })
+        : div(
+            {},
+            div(
+              { className: 'item-top' },
+              i({ className: 'f7-icons', textContent: 'calendar' }),
+              div({
+                className: 'item-contents',
+                textContent: content,
+                ondblclick: () => this.changeMode(),
+              }),
+              i({
+                className: 'f7-icons todo-update',
+                textContent: 'pencil',
+                onclick: () => this.changeMode(),
+              }),
+              i({ className: 'f7-icons todo-close', textContent: 'trash' })
+            ),
+            div(
+              { className: 'item-bottom', textContent: 'Added By ' },
+              cite({
+                className: 'todo-author',
+                textContent: author,
+              })
+            )
+          )
     )
   }
 }

@@ -5,7 +5,7 @@
   width: 300px;
   text-overflow: ellipsis;
   overflow: hidden;
-  height: 70px;
+  min-height: 70px;
   padding: 15px;
   background-color: white;
   border-radius: 7px;
@@ -26,10 +26,17 @@
 
     .f7-icons {
       font-size: 14px;
+      margin: 0 2px;
     }
 
     .todo-close {
       cursor: pointer;
+      color: rgba(226, 110, 110, 0.1);
+      transition: color 300ms ease;
+
+      &:hover {
+        color: rgba(226, 110, 110, 1);
+      }
     }
   }
 
@@ -62,4 +69,21 @@
 
 .column-items-container.overlapped {
   box-shadow: 0px 0px 10px rgba(100, 100, 100, 0.3);
+}
+
+.item-top {
+  .todo-update {
+    color: rgba(100, 100, 100, 0.1);
+  }
+
+  &:hover {
+    .item-contents {
+      color: rgba(100, 100, 100, 0.5);
+      // padding: 2px;
+    }
+
+    .todo-update {
+      color: rgba(100, 100, 100, 1);
+    }
+  }
 }
