@@ -24,7 +24,6 @@ class AddItemInput extends Component<IProps, IState> {
   }
 
   async onSubmit(e: Event) {
-    // 흐어어엉왜 안대지
     const { itemId, kanbanId } = this.props
     const inputElement = this.element.querySelector(
       '.box-input'
