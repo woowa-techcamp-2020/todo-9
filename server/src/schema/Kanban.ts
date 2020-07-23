@@ -1,4 +1,3 @@
-import { getConnection } from '../config/db'
 import {
   selectQueryExecuter,
   insertQueryExecuter,
@@ -7,13 +6,7 @@ import {
 import { IKanban, IItem } from './types'
 
 class Kanban {
-  private conn
-
-  constructor() {
-    this.conn = getConnection()
-  }
-
-  async read(userId: string) {
+  async getAll(userId: string) {
     const getKanbanQuery = `SELECT k.id, k.name, k.ids as itemIndexes, u.name as userName FROM kanban k JOIN user u on u.id = k.user_id WHERE k.user_id = ${userId} and k.is_active = 1;`
     const [kanbans, getKanbanError] = await selectQueryExecuter<IKanban>(
       getKanbanQuery
@@ -52,9 +45,21 @@ class Kanban {
     return getKanbanResponse
   }
 
+  async getOne(kanbanId: number) {
+    const [kanbans, errorFromGetKanban] = await selectQueryExecuter<IKanban>(
+      `SELECT * FROM kanban WHERE is_active=1 and id=${kanbanId} limit 1`
+    )
+
+    if (errorFromGetKanban) {
+      throw errorFromGetKanban
+    }
+
+    return kanbans[0]
+  }
+
   async create(name: string, userId: string) {
     const [insertId, errorFromCreateKanban] = await insertQueryExecuter(
-      `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', '${userId}')`
+      `INSERT INTO kanban(name, ids, user_id) VALUES('${name}', '[]', ${userId})`
     )
 
     if (errorFromCreateKanban) {
@@ -65,7 +70,7 @@ class Kanban {
 
   async updateName({ newName, userId, kanbanId }) {
     const [affectedRows, errorFromUpdateKanbanName] = await updateQueryExecuter(
-      `UPDATE kanban SET name='${newName}' WHERE user_id='${userId}' and id='${kanbanId}'`
+      `UPDATE kanban SET name='${newName}' WHERE user_id=${userId} and id=${kanbanId}`
     )
 
     if (errorFromUpdateKanbanName) {
@@ -88,7 +93,19 @@ class Kanban {
     }
 
     return affectedRows
-  }
+  } // d a d
+
+  async updateItemOne(kanbanId: number, newItemId: number) {
+    const [affectedRows, errorFromUpdateKanbanItem] = await updateQueryExecuter(
+      `UPDATE kanban SET ids=JSON_ARRAY_APPEND(ids, '$', ${newItemId}) WHERE id=${kanbanId}`
+    )
+
+    if (errorFromUpdateKanbanItem) {
+      throw errorFromUpdateKanbanItem
+    }
+
+    return affectedRows
+  } // item 생성
 
   async deleteKanban(kanbanId: string) {
     // is_active -> false

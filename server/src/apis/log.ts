@@ -1,17 +1,24 @@
 import { Router, Request, Response } from 'express'
-import { user } from '../schema'
-// import User from '../schema/User'
-// import init from '../schema'
+import { log } from '../schema'
+import { promiseHandler } from '../utils/promise-handler'
 const app = Router()
 
-app.get('/users', (req: Request, res: Response) => {
-  user.create('hello')
-  res.status(200).json()
+app.get('/logs/:userId', async (req: Request, res: Response) => {
+  const { userId } = req.params
+  const [logs, errorFromGetLogs] = await promiseHandler(log.getAll(userId))
+  if (errorFromGetLogs) {
+    throw errorFromGetLogs
+  }
+
+  res.status(200).json(logs)
 })
 
-app.post('/user', async (req: Request, res: Response) => {
-  user.create('hello')
-  // const newUser = await ~~
+app.post('/log', async (req: Request, res: Response) => {
+  const [_, errorFromCreateLog] = await promiseHandler(log.create(req.body))
+  if (errorFromCreateLog) {
+    throw errorFromCreateLog
+  }
+
   res.status(201).json()
 })
 

@@ -1,21 +1,60 @@
-import { Database } from './Database'
+import {
+  selectQueryExecuter,
+  insertQueryExecuter,
+} from '../utils/query-executor'
+import { ILog } from './types'
+import moment from 'moment'
 
-export type TpyeOfItemLog = 'add' | 'delete' | 'update' | 'move'
-// id	VARCHAR(10)
-// type	enum('add', 'delete', 'update', 'move')
-// author	VARCHAR(10)
-// content	VARCHAR(255)
+// id	int
+// type enum('item', 'kanban')
+// method-type	enum('add', 'delete', 'update', 'move')
+// user_id	VARCHAR(10)
 // origin_name	VARCHAR(20)
 // target_name	VARCHAR(20)
-// createdAt	datetime
-class Log {
-  private conn
+// created_at	datetime
 
-  constructor() {
-    this.conn = Database.connectedDB
+// 아이템 생성, 삭제, 이동, 수정
+// 칸반 이동, 생성, 삭제
+
+export type MethodTypeOfLog = 'add' | 'delete' | 'update' | 'move'
+export type TypeOfLog = 'item' | 'kanban'
+
+interface ICreateLog {
+  type: TypeOfLog
+  methodType: MethodTypeOfLog
+  userId: number
+  itemName: string
+  originName?: string
+  targetName?: string
+}
+
+class Log {
+  async create(args: ICreateLog) {
+    const { type, methodType, userId, originName, targetName, itemName } = args
+    const [insertId, errorFromCreateLog] = await insertQueryExecuter(
+      `INSERT INTO log(type, method_type, origin_name, target_name, user_id, item_name, created_at) VALUES('${type}', '${methodType}', '${originName}', '${targetName}', '${userId}', '${itemName}','${moment().format(
+        'YYYY:MM:DD HH:mm:ss'
+      )}' )`
+    )
+
+    if (errorFromCreateLog) {
+      throw errorFromCreateLog
+    }
+
+    return insertId
   }
 
-  create(type: TpyeOfItemLog, userId: string) {}
+  async getAll(userId) {
+    const [logs, errorFromGetLog] = await selectQueryExecuter<ILog>(
+      `SELECT * FROM log WHERE user_id=${userId}`
+    )
+
+    if (errorFromGetLog) {
+      throw errorFromGetLog
+    }
+
+    return logs
+  }
 }
 
 export default new Log()

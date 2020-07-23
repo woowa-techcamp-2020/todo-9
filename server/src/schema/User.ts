@@ -1,17 +1,10 @@
-import { getConnection } from '../config/db'
-import { promiseHandler } from '../utils/promise-handler'
+// import { getConnection } from '../config/db'
 import {
   selectQueryExecuter,
   insertQueryExecuter,
 } from '../utils/query-executor'
 
 class User {
-  private conn
-
-  constructor() {
-    this.conn = getConnection()
-  }
-
   async read() {
     const [users, errorFromGetUsers] = await selectQueryExecuter(
       `SELECT * FROM user;`
