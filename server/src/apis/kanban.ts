@@ -60,7 +60,7 @@ app.put('/kanban/:kanbanId/items', async (req: Request, res: Response) => {
     params: { kanbanId },
     body: { ids: newIds },
   } = req
-  if (!kanbanId || !newIds.length) {
+  if (!kanbanId) {
     throw new Error('request is wrong')
   }
 
