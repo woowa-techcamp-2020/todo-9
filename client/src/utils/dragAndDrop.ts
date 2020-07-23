@@ -107,10 +107,12 @@ const updateColumnIds = async (column: HTMLElement) => {
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
   await updateKanbanItems({ kanbanId, ids })
-  const columnCounter = column.closest('.todo-count') as HTMLElement
-  console.log(columnCounter)
-  // columnCounter.innerText = ids.length.toString()
-  // columnCounter.value = ids.length.toString()
+
+  // update column counter
+  const columnCounter = (column.closest(
+    '.column-wrapper'
+  ) as HTMLElement).querySelector('.todo-count') as HTMLDivElement
+  columnCounter.innerText = ids.length.toString()
 }
 
 const onMouseDown = (e: MouseEvent) => {
