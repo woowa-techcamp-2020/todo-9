@@ -23,9 +23,15 @@ export interface ICreateUserBody {
   name: string
 }
 
-export const createUser = async (body: ICreateUserBody): Promise<IUser> => {
+export interface IResponseCreateUser {
+  insertId: number
+}
+
+export const createUser = async (
+  body: ICreateUserBody
+): Promise<IResponseCreateUser> => {
   try {
-    const res = await fetchWrapper<IUser, ICreateUserBody>(
+    const res = await fetchWrapper<IResponseCreateUser, ICreateUserBody>(
       'POST',
       '/user',
       body
