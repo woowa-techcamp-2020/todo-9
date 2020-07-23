@@ -47,7 +47,6 @@ class AddItemInput extends Component<IProps, IState> {
       type: 'positive',
       buttonText: this.props.itemId ? 'Update' : 'Add',
       onClickHandler: (e: Event) => this.onSubmit(e),
-      // disabed: this.getState('inputText').length === 0 || false,
     })
     const cancelButton = new BoxButton({
       buttonText: 'Cancel',

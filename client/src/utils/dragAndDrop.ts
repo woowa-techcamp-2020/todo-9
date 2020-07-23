@@ -95,7 +95,7 @@ const updateIfMoved = async () => {
     await updateColumnIds(originColumn)
   }
   await updateColumnIds(currentColumn)
-  await window.dispatchEvent(new Event('item_changed'))
+  // await window.dispatchEvent(new Event('item_changed'))
 }
 
 const getId = (ele: HTMLElement | Element) => {
@@ -107,6 +107,10 @@ const updateColumnIds = async (column: HTMLElement) => {
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
   await updateKanbanItems({ kanbanId, ids })
+  const columnCounter = column.closest('.todo-count') as HTMLElement
+  console.log(columnCounter)
+  // columnCounter.innerText = ids.length.toString()
+  // columnCounter.value = ids.length.toString()
 }
 
 const onMouseDown = (e: MouseEvent) => {

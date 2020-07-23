@@ -29,7 +29,7 @@ class BoxButton extends Component<IProps, IState> {
       props: { type, onClickHandler, buttonText },
     } = this
     const buttonClass = `btn ${type || ''} ${
-      buttonText.includes('Update') ? 'submit-able' : ''
+      buttonText.includes('Add') ? '' : 'submit-able'
     }`
 
     return button({
