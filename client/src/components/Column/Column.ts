@@ -23,7 +23,6 @@ class Column extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, Column.prototype)
     this.init()
-    console.log(this.props)
   }
 
   onToggleInputBox() {

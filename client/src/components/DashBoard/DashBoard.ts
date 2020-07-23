@@ -21,9 +21,17 @@ class DashBoard extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, DashBoard.prototype)
     this.init()
+    window.addEventListener(
+      'item_changed',
+      async () => await this.fetchKanbans()
+    )
   }
 
   async componentDidMount() {
+    await this.fetchKanbans()
+  }
+
+  async fetchKanbans() {
     const kanbans = await getKanbans(this.props.userId)
     this.setState('kanbans', kanbans)
   }
