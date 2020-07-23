@@ -7,7 +7,7 @@ import { nextTick } from 'process'
 const app = Router()
 
 app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
-  const { userId, kanbanId, content } = req.body
+  const { kanbanId, content } = req.body
   const conn = await pool.getConnection()
 
   try {
@@ -26,12 +26,12 @@ app.post('/item', async (req: Request, res: Response, next: NextFunction) => {
       await conn.query(
         `INSERT INTO log(type, method_type, origin_name, user_id, item_name, created_at) VALUES('item', 'add', '${
           result[0].name
-        }', ${userId}, '${content}','${moment().format(
+        }', ${result[0].user_id}, '${content}','${moment().format(
           'YYYY:MM:DD HH:mm:ss'
         )}' )`
       )
       await conn.commit()
-      res.status(201).json()
+      res.status(201).json('')
     }
   } catch (e) {
     conn.rollback()
@@ -54,7 +54,7 @@ app.put(
       next(error)
     }
 
-    res.status(201).json()
+    res.status(201).json('')
   }
 )
 
@@ -67,7 +67,7 @@ app.delete(
       next(error)
     }
 
-    res.status(201).json()
+    res.status(201).json('')
   }
 )
 
