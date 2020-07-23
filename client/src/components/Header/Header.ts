@@ -5,6 +5,7 @@ import {
   span,
   button,
   input,
+  a,
 } from '../../utils/wooact/defaultElements'
 
 interface IProps {
@@ -30,11 +31,26 @@ class Header extends Component<IProps, IState> {
     return header(
       { className: 'header-container' },
       div(
-        { className: 'title-container', click: () => alert('개발예정') },
-        span({ className: 'title-content', textContent: title })
+        { className: 'title-container' },
+        //
+        a({
+          className: 'title-content',
+          textContent: title,
+          href: 'https://github.com/woowa-techcamp-2020/todo-9/',
+        }),
+        a({
+          className: 'title-author',
+          textContent: '홍동욱',
+          href: 'https://github.com/doonguk',
+        }),
+        a({
+          className: 'title-author',
+          textContent: '남현우',
+          href: 'https://github.com/naamoonoo',
+        })
       ),
       button({
-        className: 'menu-container',
+        className: 'f7-icons menu-container',
         textContent: 'menu',
         click: () => onToggleSideMenu(),
       })

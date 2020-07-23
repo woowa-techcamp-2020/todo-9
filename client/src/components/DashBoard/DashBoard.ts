@@ -41,7 +41,6 @@ class DashBoard extends Component<IProps, IState> {
     if (!kanbans || kanbans.length === 0) {
       return [null]
     }
-    console.log('userId', this.props.userId)
     return kanbans.map(
       (kanban) =>
         new Column(

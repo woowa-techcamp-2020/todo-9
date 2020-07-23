@@ -15,10 +15,6 @@ interface IState {}
 class BoxButton extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
-    // constructor(props: IProps, state: IState) {
-    //   super(props, state)
-    // constructor() {
-    //   super()
 
     Object.setPrototypeOf(this, BoxButton.prototype)
     this.init()
@@ -36,7 +32,6 @@ class BoxButton extends Component<IProps, IState> {
       className: buttonClass,
       textContent: buttonText,
       click: onClickHandler,
-      // disabled: disabled || false,
     })
   }
 }

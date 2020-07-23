@@ -1,20 +1,24 @@
 @use '../../styles/_definitions.scss';
 
 .column-container {
-  min-width: 340px;
+  min-width: 280px;
   display: inline-block;
   height: 100%;
+  // box-shadow: 2px 2px 4px 2px #2ac1bc;
+  box-shadow: 0px 0px 3px 1px   lightgray inset;
+  border-radius: 7px;
 
   .column-wrapper {
-    background-color: rgba(100, 100, 100, 0.2);
+    // background-color: rgba(100, 100, 100, 0.2);
     height: 100%;
     border-radius: 7px;
     padding: 15px;
-    border: 1px solid rgba(100, 100, 100, 0.3);
+    // border: 1px solid rgba(100, 100, 100, 0.3);
 
     .column-header {
       display: flex;
-      justify-content: space-between;
+      // justify-content: center;
+      align-items: center;
       padding-bottom: 15px;
       height: 40px;
 
@@ -23,11 +27,13 @@
         width: 100%;
 
         .todo-count {
-          background-color: rgba(100, 100, 100, 0.3);
-          border-radius: 50%;
+          color :#2ac1bc;
+          // background-color: rgba(100, 100, 100, 0.3);
+          // border-radius: 50%;
+          font-variant-numeric: tabular-nums;
           font: {
-            size: 13px;
-            weight: 600;
+            size: 14px;
+            weight: 800;
           }
           display: flex;
           justify-content: center;
@@ -35,11 +41,12 @@
           min-width: 25px;
           margin-right: 10px;
         }
+
         .todo-title {
           display: flex;
           align-items: center;
-          font-weight: 600;
-          font-size: 15px;
+          font-weight: 700;
+          font-size: 14px;
           width: 100%;
           cursor: pointer;
         }
@@ -47,13 +54,49 @@
 
       .header-right {
         min-width: 25px;
+        margin-right: 16px;
         display: flex;
         align-items: center;
 
-        .todo-add-button,
-        .todo-more-button {
-          font-size: 15px;
+        .f7-icons {
+          font-size: 18px;
           cursor: pointer;
+          transition: transform 300ms ease, color 300ms ease;
+
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        // .todo-add-button{
+
+        // }
+
+        // .todo-more-button{
+        //   color: rgba(226, 110, 110, 0.3);
+        // }
+
+        .todo-add-button{
+          color: rgba(100, 100, 100, 0.3);
+          font-weight: 800;
+
+          &:hover{
+            color: rgba(100, 100, 100, 1);
+            transform: rotate(45deg);
+          }
+        }
+
+        .todo-add-button.add-mode{
+          transform: rotate(45deg);
+        }
+
+        .todo-more-button{
+          color: rgba(226, 110, 110, 0.3);
+
+          &:hover{
+            color: rgba(226, 110, 110, 1);
+          }
         }
 
         .f7-icons + .f7-icons {
@@ -69,5 +112,17 @@
 }
 
 .column-container + .column-container {
-  margin-left: 15px;
+  margin-left: 20px;
+}
+
+.float-column {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  transform: scale(1.03);
+  border-radius: 5px;
+  box-shadow: 0 0 25px 0px #2ac1bc;
+  // box-shadow: 10px 20px rgba(0, 0, 0, 0.3);
+  z-index: 999;
 }

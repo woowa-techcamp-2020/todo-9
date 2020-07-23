@@ -1,5 +1,12 @@
 import { Component } from '../../utils/wooact'
-import { li, div, cite, i, input } from '../../utils/wooact/defaultElements'
+import {
+  li,
+  div,
+  cite,
+  i,
+  input,
+  span,
+} from '../../utils/wooact/defaultElements'
 import { IItem, deleteItem } from '../../apis/item'
 import { AddItemInput } from '../AddItemInput'
 
@@ -30,6 +37,7 @@ class TodoItem extends Component<IProps, IState> {
   render() {
     const { author, content, id } = this.props
     const [title, ...contents] = content.split('\n')
+
     return div(
       { className: 'item-wrapper', id: `item-${id}` },
       this.getState('isEditMode')
@@ -40,9 +48,10 @@ class TodoItem extends Component<IProps, IState> {
           })
         : div(
             {},
+            div({ className: 'vertical-bar', textContent: ' ' }),
             div(
               { className: 'item-top' },
-              i({ className: 'f7-icons', textContent: 'calendar' }),
+              // i({ className: 'f7-icons', textContent: 'calendar' }),
               div(
                 {
                   className: 'content-container',
@@ -54,7 +63,7 @@ class TodoItem extends Component<IProps, IState> {
                 }),
                 div({
                   className: 'item-contents',
-                  textContent: contents.join('\n'),
+                  textContent: contents.join(' '),
                 })
               ),
               i({
@@ -71,7 +80,7 @@ class TodoItem extends Component<IProps, IState> {
             div(
               {
                 className: 'item-bottom',
-                textContent: 'Added By ',
+                textContent: '작성자 ',
               },
               cite({
                 className: 'todo-author',
