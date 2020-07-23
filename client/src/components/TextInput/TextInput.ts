@@ -20,18 +20,19 @@ class TextInput extends Component<IProps, IState> {
   }
 
   async onKeyDownHandler(e) {
+    const target = e.target as HTMLInputElement
     if (e.key === KEY_NAME.ESC) {
       this.getElement().style.display = 'none'
       return
     }
 
-    if (e.key !== KEY_NAME.ENTER || !e.target.value.trim().length) {
+    if (e.key !== KEY_NAME.ENTER || !target.value.trim().length) {
       return
     }
 
-    if (this.getElement().dataset.type === 'add') {
-      const { userId } = e.target.dataset
-      await createKanban({ userId, name: e.target.value })
+    if (target.dataset.type === 'add') {
+      const { userId } = target.dataset
+      await createKanban({ userId: Number(userId), name: e.target.value })
       window.dispatchEvent(new Event('item_changed'))
       return
     }

@@ -44,6 +44,7 @@ interface ICreateKanbanBody {
 }
 
 export const createKanban = async (body: ICreateKanbanBody) => {
+  console.log('call!!!')
   try {
     const res = await fetchWrapper<IKanban, ICreateKanbanBody>(
       'POST',
