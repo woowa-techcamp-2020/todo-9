@@ -62,7 +62,7 @@ class App extends Component<IProps, IState> {
     return div(
       { className: 'container' },
       new Header({ title: '우와한 투두', onToggleSideMenu }),
-      this.getState('selectedUserId')
+      this.getState('selectedUserId') !== null
         ? new DashBoard(
             { userId: this.getState('selectedUserId') },
             { kanbans: [] }
@@ -70,12 +70,15 @@ class App extends Component<IProps, IState> {
         : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
-      new SideBar(
-        {
-          onToggleSideMenu: () => this.onToggleSideMenu(),
-        },
-        {}
-      ),
+      this.getState('selectedUserId') !== null
+        ? new SideBar(
+            {
+              userId: this.getState('selectedUserId') as number,
+              onToggleSideMenu: () => this.onToggleSideMenu(),
+            },
+            { logs: [] }
+          )
+        : null,
       div(
         {
           className: 'trash-can',

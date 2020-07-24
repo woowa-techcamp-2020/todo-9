@@ -116,7 +116,10 @@ class Column extends Component<IProps, IState> {
             })
           : null,
         ul(
-          { className: 'column-items-container', id: `column-${kanbanId}` },
+          {
+            className: 'column-items-container',
+            id: `column-${kanbanId}-${name}`,
+          },
           ...this.renderItems()
         )
       )

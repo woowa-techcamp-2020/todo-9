@@ -4,7 +4,9 @@ import { IKanban } from './kanban'
 import { fetchWrapper } from '../utils/fetchWrapper'
 
 export type MethodTpyeOfItemLog = 'add' | 'delete' | 'update' | 'move'
+
 export interface ICreateLogBody {
+  userId: number
   type: 'item' | 'kanban'
   methodType: MethodTpyeOfItemLog
   originName?: string
@@ -14,11 +16,12 @@ export interface ICreateLogBody {
 
 export interface ILog extends ICreateLogBody {
   id: number
+  created_at: string
 }
 
-export const getLogs = async (page: number): Promise<ILog[]> => {
+export const getLogs = async (userId: number): Promise<ILog[]> => {
   try {
-    const res = await fetchWrapper<ILog[], undefined>('GET', '/logs')
+    const res = await fetchWrapper<ILog[], undefined>('GET', `/logs/${userId}`)
     return res
   } catch (e) {
     console.error(e)

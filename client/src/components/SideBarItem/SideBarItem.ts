@@ -1,19 +1,63 @@
 import { Component } from '../../utils/wooact'
-import { ILog } from '../../apis/log'
+import { ILog, getLogs } from '../../apis/log'
 import { div, img, span, q } from '../../utils/wooact/defaultElements'
 
 interface IProps extends ILog {}
 interface IState {}
 
+//   type: 'item' | 'kanban'
+// methodType: MethodTpyeOfItemLog
+// originName?: string
+// targetName?: string
+// itemName?: string
 class SideBarItem extends Component<IProps, IState> {
-  constructor() {
-    super()
+  constructor(props: IProps) {
+    super(props)
 
     Object.setPrototypeOf(this, SideBarItem.prototype)
     this.init()
   }
 
+  getKanbanLog() {
+    const {
+      id,
+      type,
+      methodType,
+      originName,
+      targetName,
+      itemName,
+    } = this.props
+
+    return `[${type}] ${itemName}이 ${
+      methodType === 'add' ? '추가' : '삭제'
+    } 되었습니당`
+  }
+
+  getLog() {
+    const {
+      id,
+      type,
+      methodType,
+      originName,
+      targetName,
+      itemName,
+    } = this.props
+    if (type === 'kanban') {
+      return this.getKanbanLog()
+    }
+  }
+
   render() {
+    const {
+      id,
+      type,
+      methodType,
+      originName,
+      targetName,
+      itemName,
+    } = this.props
+
+    console.log(type, itemName)
     return div(
       { className: 'log-item' },
       div({ className: 'vertical-bar' }),

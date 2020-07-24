@@ -3,14 +3,18 @@ import { aside, div, i, span } from '../../utils/wooact/defaultElements'
 
 // 개발용
 import { SideBarItem } from '../SideBarItem'
+import { getLogs, ILog } from '../../apis/log'
 
 // 테스트용
 // import SideBarItem from '../SideBarItem/SideBarItem'
 
 interface IProps {
+  userId: number
   onToggleSideMenu: () => void
 }
-interface IState {}
+interface IState {
+  logs: ILog[]
+}
 
 class SideBar extends Component<IProps, IState> {
   constructor(props: IProps, state: IState) {
@@ -18,6 +22,20 @@ class SideBar extends Component<IProps, IState> {
 
     Object.setPrototypeOf(this, SideBar.prototype)
     this.init()
+  }
+
+  async componentDidMount() {
+    const logs = await getLogs(this.props.userId)
+    this.setState('logs', logs)
+  }
+
+  renderLogs() {
+    const logs = this.getState('logs')
+    if (!logs) {
+      return [null]
+    }
+
+    return this.getState('logs').map((log) => new SideBarItem({ ...log }))
   }
 
   render() {
@@ -51,7 +69,7 @@ class SideBar extends Component<IProps, IState> {
         {
           className: 'logs-container',
         },
-        ...new Array(10).fill(0).map(() => new SideBarItem())
+        ...this.renderLogs()
       )
 
       // item 없는 경우 white-bg 설정 해야함

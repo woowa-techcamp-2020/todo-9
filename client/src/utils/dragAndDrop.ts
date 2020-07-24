@@ -13,6 +13,7 @@ let timeForPushed = 300
 let debounceTimeout = 0
 let moved = null
 let originColumn = null
+let targetColumn = null
 let trashCan
 
 const resetOverlapped = () => {
@@ -112,12 +113,12 @@ const findOverlappedColumn = (e: MouseEvent) => {
 }
 
 const updateIfMoved = async () => {
-  const currentColumn = target.closest('.column-items-container') as HTMLElement
+  targetColumn = target.closest('.column-items-container') as HTMLElement
 
-  if (currentColumn !== originColumn) {
+  if (targetColumn !== originColumn) {
     await updateColumnIds(originColumn)
   }
-  await updateColumnIds(currentColumn)
+  await updateColumnIds(targetColumn)
   await window.dispatchEvent(new Event('item_changed'))
 }
 
@@ -126,14 +127,23 @@ const getId = (ele: HTMLElement | Element) => {
 }
 
 const getName = (ele: HTMLElement | Element) => {
-  return ele.id.split('-')[2]
+  return ele.id.split('-')[2].trim()
 }
 
 const updateColumnIds = async (column: HTMLElement) => {
   const kanbanId = getId(column)
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
-  await updateKanbanItems({ kanbanId, ids, targetName, originName, itemName })
+
+  if (targetColumn !== originColumn) {
+    await updateKanbanItems({
+      kanbanId,
+      ids,
+      targetName: getName(targetColumn),
+      originName: getName(originColumn),
+      itemName: getName(target),
+    })
+  }
 }
 
 let initX: number
