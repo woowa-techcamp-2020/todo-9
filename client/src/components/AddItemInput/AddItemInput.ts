@@ -47,10 +47,12 @@ class AddItemInput extends Component<IProps, IState> {
       type: 'positive',
       buttonText: this.props.itemId ? 'Update' : 'Add',
       onClickHandler: (e: Event) => this.onSubmit(e),
+      clickAble: this.props.itemId !== null,
     })
     const cancelButton = new BoxButton({
       buttonText: 'Cancel',
       onClickHandler: () => this.props.toggleAddItemInput(),
+      clickAble: true,
     })
 
     return div(

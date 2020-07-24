@@ -27,7 +27,7 @@
 
   .item-top {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .content-container {
       width: 100%;
@@ -67,7 +67,6 @@
     .todo-close {
       cursor: pointer;
       color: rgba(226, 110, 110, 0.3);
-      // transition: color 300ms ease;
     }
   }
 

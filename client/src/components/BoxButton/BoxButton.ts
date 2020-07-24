@@ -8,6 +8,7 @@ interface IProps {
   onClickHandler: (e?: Event) => void
   type?: TypeOfButton
   disabled?: boolean
+  clickAble?: boolean
 }
 
 interface IState {}
@@ -22,11 +23,9 @@ class BoxButton extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { type, onClickHandler, buttonText },
+      props: { type, onClickHandler, buttonText, clickAble },
     } = this
-    const buttonClass = `btn ${type || ''} ${
-      buttonText.includes('Add') ? '' : 'submit-able'
-    }`
+    const buttonClass = `btn ${type || ''} ${clickAble ? 'submit-able' : ''}`
 
     return button({
       className: buttonClass,

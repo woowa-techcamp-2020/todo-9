@@ -51,7 +51,6 @@ class TodoItem extends Component<IProps, IState> {
             div({ className: 'vertical-bar', textContent: ' ' }),
             div(
               { className: 'item-top' },
-              // i({ className: 'f7-icons', textContent: 'calendar' }),
               div(
                 {
                   className: 'content-container',

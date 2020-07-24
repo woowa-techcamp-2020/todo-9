@@ -11,6 +11,7 @@ import {
 } from '../../utils/wooact/defaultElements'
 import { createUser, IUser } from '../../apis/user'
 import { KEY_NAME } from '../../utils/constants'
+import { BoxButton } from '../BoxButton'
 
 interface IProps {
   users: IUser[]
@@ -49,6 +50,20 @@ class UserModal extends Component<IProps, IState> {
     this.props.onSelectUser(insertId)
   }
 
+  onChange(e) {
+    const { value } = e.target as HTMLTextAreaElement
+
+    const submitBtn = document.querySelector(
+      '.btn.positive'
+    ) as HTMLTextAreaElement
+
+    if (!value || value.length === 0) {
+      submitBtn.classList.remove('submit-able')
+      return
+    }
+    submitBtn.classList.add('submit-able')
+  }
+
   renderUser() {
     return this.props.users.map(({ id, name }) => {
       return li(
@@ -82,13 +97,19 @@ class UserModal extends Component<IProps, IState> {
           type: 'text',
           placeholder: '고갱님 성함을 입력해주세요 :) ',
           onkeyup: (e) => this.onKeyUpInput(e),
+          oninput: (e) => this.onChange(e),
         }),
-        button({
-          className: 'submit',
-          type: 'button',
-          textContent: '우와할 준비 되었습니당',
-          onclick: (e) => this.onClickButton(e),
-        })
+        div(
+          {
+            className: 'button-container',
+          },
+          new BoxButton({
+            type: 'positive',
+            buttonText: '우와할 준비 되었습니당',
+            onClickHandler: (e) => this.onClickButton(e),
+            clickAble: false,
+          })
+        )
       )
     )
   }

@@ -12,7 +12,7 @@ getUsers().then((users) =>
       {
         menuVisible: false,
         userModalVisible: true,
-        selectedUserId: 1,
+        selectedUserId: null,
       }
     ),
     document.querySelector('#App')
