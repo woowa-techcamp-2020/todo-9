@@ -129,7 +129,7 @@ const updateColumnIds = async (column: HTMLElement) => {
   const kanbanId = getId(column)
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
-  await updateKanbanItems({ kanbanId, ids })
+  await updateKanbanItems({ kanbanId, ids, targetName, originName, itemName })
 }
 
 let initX: number
