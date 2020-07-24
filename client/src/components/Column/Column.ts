@@ -43,15 +43,11 @@ class Column extends Component<IProps, IState> {
     if (!result) {
       return result
     }
-    try {
-      const $target = e.target as HTMLLIElement
-      const $kanban = $target.closest('.column-container') as HTMLLIElement
-      const kanbanName = $kanban.dataset.name
-      await deleteKanban(String(this.props.kanbanId), kanbanName)
-      window.dispatchEvent(new Event('item_changed'))
-    } catch (e) {
-      console.error(e)
-    }
+    const $target = e.target as HTMLLIElement
+    const $kanban = $target.closest('.column-container') as HTMLLIElement
+    const kanbanName = $kanban.dataset.name
+    await deleteKanban(String(this.props.kanbanId), kanbanName)
+    await window.dispatchEvent(new Event('item_changed'))
   }
 
   renderItems() {
@@ -108,7 +104,7 @@ class Column extends Component<IProps, IState> {
             i({
               className: 'f7-icons todo-more-button',
               textContent: 'trash',
-              click: (e) => this.deleteKanbanHandler(e),
+              onclick: (e) => this.deleteKanbanHandler(e),
             })
           )
         ),
