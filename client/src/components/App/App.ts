@@ -62,10 +62,10 @@ class App extends Component<IProps, IState> {
         : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
-      this.getState('selectedUserId') !== null
+      this.getState('menuVisible')
         ? new SideBar(
             {
-              userId: this.getState('selectedUserId') as number,
+              userId: this.getState('menuVisible') as number,
               onToggleSideMenu: () => this.onToggleSideMenu(),
             },
             { logs: [] }
