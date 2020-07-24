@@ -6,10 +6,6 @@ interface IProps extends ILog {}
 interface IState {}
 
 class SideBarItem extends Component<IProps, IState> {
-  // constructor(props: IProps) {
-  // super(props)
-  // constructor(props: IProps, state: IState) {
-  //   super(props, state)
   constructor() {
     super()
 
