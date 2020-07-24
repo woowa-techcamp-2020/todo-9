@@ -1,7 +1,8 @@
 import { Component } from '../../utils/wooact'
+import { ILog } from '../../apis/log'
 import { div, img, span, q } from '../../utils/wooact/defaultElements'
 
-interface IProps {}
+interface IProps extends ILog {}
 interface IState {}
 
 class SideBarItem extends Component<IProps, IState> {
@@ -19,11 +20,7 @@ class SideBarItem extends Component<IProps, IState> {
   render() {
     return div(
       { className: 'log-item' },
-      img({
-        className: 'bg-image',
-        // src: '../../../public/images/woowabros.png',
-        // alt: 'woowa-bros',
-      }),
+      div({ className: 'vertical-bar' }),
       div(
         { className: 'log-contents-container' },
         div(

@@ -5,7 +5,7 @@ import { ColumnAddButton } from '../ColumnAddButton'
 import { getKanbans, IKanban } from '../../apis/kanban'
 
 interface IProps {
-  userId: number
+  userId: any
 }
 interface IState {
   kanbans: IKanban[]
@@ -41,7 +41,6 @@ class DashBoard extends Component<IProps, IState> {
     if (!kanbans || kanbans.length === 0) {
       return [null]
     }
-    console.log('userId', this.props.userId)
     return kanbans.map(
       (kanban) =>
         new Column(

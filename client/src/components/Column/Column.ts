@@ -69,7 +69,6 @@ class Column extends Component<IProps, IState> {
 
   render() {
     const { name, userName, items, kanbanId } = this.props
-
     return div(
       {
         className: 'column-container',
@@ -101,7 +100,9 @@ class Column extends Component<IProps, IState> {
           div(
             { className: 'header-right' },
             i({
-              className: 'f7-icons todo-add-button',
+              className: `f7-icons todo-add-button ${
+                this.getState('itemAddInput') ? 'add-mode' : ''
+              }`,
               textContent: 'plus',
               click: () => this.onToggleAddInput(),
             }),

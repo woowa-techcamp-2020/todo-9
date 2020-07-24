@@ -2,33 +2,78 @@
 
 .header-container {
   height: 80px;
-  background-color: black;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 3rem;
-  color: white;
+  margin: 0px 1rem;
+  padding: 0px 20px;
+
+  // border-left: 2px solid #2ac1bc;
+  box-shadow: 0 4px 3px -2px #2ac1bc;
+  // border-bottom: 1px solid rgab(0,0,0,0);
+  transition: box-shadow 300ms ease, transform 300ms ease;
+
+  &:hover {
+    transform: scale(1.001);
+    box-shadow: 0 4px 7px -2px #2ac1bc;
+  }
+  .title-author {
+    color: lightgray;
+    opacity: 1;
+  }
 
   .title-container {
-    font: {
-      size: 30px;
-      weight: 600;
+    color: #2ac1bc;
+
+    &:hover {
+      .title-author {
+        color: lightgray;
+        opacity: 1;
+
+        &:hover {
+          color: darkgray;
+
+        }
+      }
     }
 
     .title-content {
+      font: {
+        size: 30px;
+        weight: 600;
+      }
+
       cursor: pointer;
+      margin-right: 20px;
     }
+
+    .title-author{
+      opacity: 0;
+      transition: opacity 300ms ease;
+      margin-right: 10px;
+
+    }
+
+
   }
 
   .menu-container {
-    background-color: black;
+    background-color: white;
     border: none;
     outline: none;
-    color: white;
+    color: lightgray;
     cursor: pointer;
+    transition: transform 200ms ease,      color 300ms ease;
+
     font: {
       size: 30px;
       weight: 600;
+    }
+
+    &:hover {
+      color: #2ac1bc;
+      transform: scale(1.05);
     }
   }
 }

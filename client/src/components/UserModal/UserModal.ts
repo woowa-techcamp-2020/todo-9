@@ -11,6 +11,7 @@ import {
 } from '../../utils/wooact/defaultElements'
 import { createUser, IUser } from '../../apis/user'
 import { KEY_NAME } from '../../utils/constants'
+import { BoxButton } from '../BoxButton'
 
 interface IProps {
   users: IUser[]
@@ -38,7 +39,7 @@ class UserModal extends Component<IProps, IState> {
     const $input = $target.previousElementSibling as HTMLInputElement
 
     if (!$input.value.trim()) {
-      alert('이름을 입력해주세요.')
+      alert('고갱님 이름을 입력해주세요.')
       return
     }
     this.onSubmit($input.value.trim())
@@ -47,6 +48,20 @@ class UserModal extends Component<IProps, IState> {
   async onSubmit(name: string) {
     const { insertId } = await createUser({ name })
     this.props.onSelectUser(insertId)
+  }
+
+  onChange(e) {
+    const { value } = e.target as HTMLTextAreaElement
+
+    const submitBtn = document.querySelector(
+      '.btn.positive'
+    ) as HTMLTextAreaElement
+
+    if (!value || value.length === 0) {
+      submitBtn.classList.remove('submit-able')
+      return
+    }
+    submitBtn.classList.add('submit-able')
   }
 
   renderUser() {
@@ -74,21 +89,27 @@ class UserModal extends Component<IProps, IState> {
             className: 'total-count',
             textContent: String(this.props.users.length),
           }),
-          h2({ className: 'title', textContent: '사용자 목록' })
+          h2({ className: 'title', textContent: '우와한 사람들' })
         ),
         ul({ className: 'user-list' }, ...this.renderUser()),
         input({
           className: 'user-input',
           type: 'text',
-          placeholder: '이름을 입력해주세요!',
+          placeholder: '고갱님 성함을 입력해주세요 :) ',
           onkeyup: (e) => this.onKeyUpInput(e),
+          oninput: (e) => this.onChange(e),
         }),
-        button({
-          className: 'submit',
-          type: 'button',
-          textContent: '로그인',
-          onclick: (e) => this.onClickButton(e),
-        })
+        div(
+          {
+            className: 'button-container',
+          },
+          new BoxButton({
+            type: 'positive',
+            buttonText: '우와할 준비 되었습니당',
+            onClickHandler: (e) => this.onClickButton(e),
+            clickAble: false,
+          })
+        )
       )
     )
   }

@@ -8,6 +8,7 @@ interface IProps {
   onClickHandler: (e?: Event) => void
   type?: TypeOfButton
   disabled?: boolean
+  clickAble?: boolean
 }
 
 interface IState {}
@@ -15,10 +16,6 @@ interface IState {}
 class BoxButton extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
-    // constructor(props: IProps, state: IState) {
-    //   super(props, state)
-    // constructor() {
-    //   super()
 
     Object.setPrototypeOf(this, BoxButton.prototype)
     this.init()
@@ -26,17 +23,14 @@ class BoxButton extends Component<IProps, IState> {
 
   render() {
     const {
-      props: { type, onClickHandler, buttonText },
+      props: { type, onClickHandler, buttonText, clickAble },
     } = this
-    const buttonClass = `btn ${type || ''} ${
-      buttonText.includes('Update') ? 'submit-able' : ''
-    }`
+    const buttonClass = `btn ${type || ''} ${clickAble ? 'submit-able' : ''}`
 
     return button({
       className: buttonClass,
       textContent: buttonText,
       click: onClickHandler,
-      // disabled: disabled || false,
     })
   }
 }

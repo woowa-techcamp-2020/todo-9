@@ -1,6 +1,6 @@
 import { Component } from '../../utils/wooact'
 import { Column } from '../Column'
-import { button, i } from '../../utils/wooact/defaultElements'
+import { button, div, i } from '../../utils/wooact/defaultElements'
 import { CLASS_NAME, KEY_NAME } from '../../utils/constants'
 
 interface IProps {
@@ -39,7 +39,7 @@ class ColumnAddButton extends Component<IProps, IState> {
   }
 
   render() {
-    return button(
+    return div(
       { className: 'add-button-wrapper' },
       i({
         className: 'f7-icons',

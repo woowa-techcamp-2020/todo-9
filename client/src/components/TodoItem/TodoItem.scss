@@ -2,21 +2,32 @@
 
 .item-wrapper {
   position: relative;
-  width: 300px;
+  width: 240px;
   text-overflow: ellipsis;
   overflow: hidden;
-  min-height: 70px;
+  min-height: 110px;
   padding: 15px;
+  margin: 2px 0 0 4px;
   background-color: white;
   border-radius: 7px;
-  box-shadow: 5px 5px 5px rgba(100, 100, 100, 0.1);
+  // box-shadow: 5px 5px 5px rgba(100, 100, 100, 0.1);
+  box-shadow: 0 0px 6px -2px black;
   cursor: pointer;
   list-style: none;
   // transition: all 1000ms ease;
 
+  .vertical-bar {
+    position: absolute;
+    left: 12px;
+    top: 13px;
+    border-left: 4px solid #2ac1bc;
+    height: 20px;
+    width: 0;
+  }
+
   .item-top {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .content-container {
       width: 100%;
@@ -31,17 +42,19 @@
     }
 
     .item-contents {
-      padding: 2px;
-      max-height: 29px;
+      padding: 1px;
+      max-height: 39px;
       max-width: 200px;
-      margin: 7px 0;
-      color: lightgray;
+      margin: 8px 0;
+      color: darkgray;
       font-size: 13px;
       font-weight: 400;
       text-overflow: ellipsis;
       overflow: hidden;
     }
+
     .f7-icons {
+      transition: transform 300ms ease, color 300ms ease;
       font-size: 14px;
       margin: 0 2px;
       font-weight: 500;
@@ -54,16 +67,15 @@
     .todo-close {
       cursor: pointer;
       color: rgba(226, 110, 110, 0.3);
-      transition: color 300ms ease;
     }
   }
 
   .item-bottom {
-    font-size: 12px;
+    font-size: 11px;
     position: absolute;
     right: 15px;
-    bottom: 5px;
-    font-weight: 300;
+    bottom: 10px;
+    font-weight: 200;
     color: lightgray;
 
     .todo-author {
@@ -73,7 +85,7 @@
 
   .todo-update {
     color: rgba(100, 100, 100, 0.3);
-    transition: color 300ms ease;
+    // transition: color 300ms ease;
   }
 
   &:hover {
@@ -89,6 +101,7 @@
 
 .temp {
   opacity: 0.5;
+  filter: blur(1.5px)
 }
 
 .item-wrapper + .item-wrapper {
@@ -102,4 +115,16 @@
 
 .column-items-container.overlapped {
   box-shadow: 0px 0px 10px rgba(100, 100, 100, 0.3);
+}
+
+.float-item {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  transform: scale(1.03);
+  border-radius: 5px;
+  box-shadow: 0 0 25px 0px #2ac1bc;
+  // box-shadow: 10px 20px rgba(0, 0, 0, 0.3);
+  z-index: 999;
 }
