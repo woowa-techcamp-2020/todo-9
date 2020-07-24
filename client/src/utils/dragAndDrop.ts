@@ -1,5 +1,5 @@
 import { deleteItem } from '../apis/item'
-import { updateKanbanItems, deleteKanban } from '../apis/kanban'
+import { updateKanbanItems } from '../apis/kanban'
 
 const position = { x: 0, y: 0 }
 let clicked: boolean = false
@@ -9,7 +9,7 @@ let overlappedElement: { [key: string]: Element } = {
   item: null,
   column: null,
 }
-let timeForPushed = 200
+let timeForPushed = 300
 let debounceTimeout = 0
 let moved = null
 let originColumn = null
@@ -46,6 +46,7 @@ const resetToDefault = () => {
   position.x = 0
   position.y = 0
   originColumn = null
+  trashCan = null
   resetOverlapped()
 }
 
@@ -131,10 +132,10 @@ const updateColumnIds = async (column: HTMLElement) => {
   await updateKanbanItems({ kanbanId, ids })
 
   // update column counter
-  const columnCounter = (column.closest(
-    '.column-wrapper'
-  ) as HTMLElement).querySelector('.todo-count') as HTMLDivElement
-  columnCounter.innerText = ids.length.toString()
+  // const columnCounter = (column.closest(
+  //   '.column-wrapper'
+  // ) as HTMLElement).querySelector('.todo-count') as HTMLDivElement
+  // columnCounter.innerText = ids.length.toString()
 }
 
 const onMouseItemDown = (e: MouseEvent) => {
@@ -179,6 +180,7 @@ const onMouseItemUp = async (e: MouseEvent) => {
   if (trashCan && trashCan.classList.contains('overlapped')) {
     await deleteItem(+getId(target))
     target.remove()
+    await window.dispatchEvent(new Event('item_changed'))
   } else {
     await updateIfMoved()
   }
@@ -197,7 +199,7 @@ const onMouseItemMove = (e: MouseEvent) => {
   }
 
   setFloatingItem(e)
-  findOverlappedOnTrashCan(e)
+  // findOverlappedOnTrashCan(e)
 
   resetOverlapped()
   findOverlappedColumn(e)

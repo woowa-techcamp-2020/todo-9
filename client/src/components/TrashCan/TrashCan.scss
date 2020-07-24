@@ -1,18 +1,5 @@
 @use '../../styles/_definitions.scss';
 
-.container {
-  position: relative;
-}
-.main-container {
-  width: 100%;
-  height: calc(100vh - 80px);
-  display: flex;
-  align-items: start;
-  overflow-y: hidden;
-  overflow-x: auto;
-  padding: 20px;
-}
-
 .trash-can {
 	position: absolute;
 	right: 40px;
@@ -29,7 +16,6 @@
   }
 
   .trash-can.activated {
-	// &:hover{
 	  transform: scale(1.4);
 	  border: 1px solid  rgba(226, 110, 110, 0.8);
 	  width: 100px;
@@ -38,7 +24,6 @@
 	  justify-content: center;
 	  align-items: center;
 	  opacity: 1;
-	  // }
 	}
 
 	.trash-can.activated.overlapped {

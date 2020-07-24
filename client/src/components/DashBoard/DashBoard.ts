@@ -5,7 +5,7 @@ import { ColumnAddButton } from '../ColumnAddButton'
 import { getKanbans, IKanban } from '../../apis/kanban'
 
 interface IProps {
-  userId: number
+  userId: any
 }
 interface IState {
   kanbans: IKanban[]

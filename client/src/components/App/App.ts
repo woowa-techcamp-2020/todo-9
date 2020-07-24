@@ -4,9 +4,9 @@ import { div, main, ul, i } from '../../utils/wooact/defaultElements'
 // 개발용
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
-import { Column } from '../Column'
-import { ColumnAddButton } from '../ColumnAddButton'
-import { getUsers } from '../../apis/user'
+import { getUsers, IUser } from '../../apis/user'
+import { Modal } from '../Modal'
+import { UserModal } from '../UserModal'
 import DashBoard from '../DashBoard/DashBoard'
 
 // 테스팅용
@@ -14,10 +14,13 @@ import DashBoard from '../DashBoard/DashBoard'
 // import SideBar from '../SideBar/SideBar'
 // import Column from '../Column/Column'
 
-interface IProps {}
+interface IProps {
+  users: IUser[]
+}
 interface IState {
   menuVisible: boolean
-  // userId?: number;
+  userModalVisible: boolean
+  selectedUserId: number
 }
 
 class App extends Component<IProps, IState> {
@@ -32,7 +35,8 @@ class App extends Component<IProps, IState> {
     // if (this.getState('userId')){
     //   return ;
     // }
-    const users = await getUsers()
+    // const users = await getUsers()
+    // this.setState('users', users)
   }
 
   onToggleSideMenu = () => {
@@ -44,12 +48,26 @@ class App extends Component<IProps, IState> {
     sidebar.classList.add('visible')
   }
 
+  onSelectUser = (userId: number) => {
+    this.setState('selectedUserId', userId)
+    this.setState('userModalVisible', false)
+  }
+
   render() {
-    const { onToggleSideMenu } = this
+    const {
+      onToggleSideMenu,
+      onSelectUser,
+      props: { users },
+    } = this
     return div(
       { className: 'container' },
       new Header({ title: '우와한 투두', onToggleSideMenu }),
-      new DashBoard({ userId: 1 }, { kanbans: [] }),
+      this.getState('selectedUserId')
+        ? new DashBoard(
+            { userId: this.getState('selectedUserId') },
+            { kanbans: [] }
+          )
+        : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
       new SideBar(

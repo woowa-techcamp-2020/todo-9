@@ -1,0 +1,112 @@
+@use '../../styles/_definitions.scss';
+
+.gray-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(100, 100, 100, 0.5);
+  z-index: 5;
+
+  .modal-wrapper {
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 15px;
+    border-radius: 7px;
+    box-shadow: 8px 8px 8px 8px rgba(100, 100, 100, 0.2);
+
+    .user-list-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .total-count {
+        border-radius: 50%;
+        background-color: rgba(100, 100, 100, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+        margin-right: 15px;
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      .title {
+        font: {
+          size: 25px;
+          weight: 600;
+        }
+      }
+    }
+
+    .user-list {
+      height: 20vh;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+
+      .user-item + .user-item {
+        margin-top: 10px;
+      }
+
+      .user-item {
+        background-color: rgba(100, 100, 100, 0.15);
+        padding: 10px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        width: 500px;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(100, 100, 100, 0.2);
+        }
+        .user-icon {
+          display: inline-block;
+          margin-right: 10px;
+        }
+
+        .name {
+          font-weight: 600;
+          font-size: 20px;
+        }
+      }
+    }
+
+    .user-input {
+      margin-bottom: 15px;
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 20px;
+      border-radius: 7px;
+      border: 1px solid rgba(100, 100, 100, 0.25);
+
+      &:hover {
+        border: 1px solid rgba(100, 100, 100, 0.45);
+      }
+      &:focus {
+        border: 1px solid rgba(100, 100, 100, 1);
+      }
+    }
+
+    .submit {
+      width: 100%;
+      cursor: pointer;
+      min-height: 50px;
+      border: none;
+      font: {
+        size: 30px;
+        weight: 400;
+      }
+
+      &:hover {
+        background-color: rgba(100, 100, 100, 0.2);
+      }
+    }
+  }
+}
