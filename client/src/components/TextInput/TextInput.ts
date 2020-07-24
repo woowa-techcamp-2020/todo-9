@@ -19,7 +19,7 @@ class TextInput extends Component<IProps, IState> {
     this.init()
   }
 
-  async onKeyDownHandler(e) {
+  async onKeyUpHanlder(e) {
     const target = e.target as HTMLInputElement
     if (e.key === KEY_NAME.ESC) {
       this.getElement().style.display = 'none'
@@ -59,7 +59,7 @@ class TextInput extends Component<IProps, IState> {
         value: this.props.value,
 
         onblur: () => this.props.onToggleChangeNameInput(),
-        onkeydown: (e) => this.onKeyDownHandler(e),
+        onkeyup: (e) => this.onKeyUpHanlder(e),
       })
       // i()
     )

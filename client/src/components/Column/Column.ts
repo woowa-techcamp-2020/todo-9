@@ -38,13 +38,16 @@ class Column extends Component<IProps, IState> {
     }
   }
 
-  async deleteKanbanHandler() {
+  async deleteKanbanHandler(e) {
     const result = confirm('삭제하시겠습니까?')
     if (!result) {
       return result
     }
     try {
-      await deleteKanban(String(this.props.kanbanId))
+      const $target = e.target as HTMLLIElement
+      const $kanban = $target.closest('.column-container') as HTMLLIElement
+      const kanbanName = $kanban.dataset.name
+      await deleteKanban(String(this.props.kanbanId), kanbanName)
       window.dispatchEvent(new Event('item_changed'))
     } catch (e) {
       console.error(e)
@@ -71,6 +74,7 @@ class Column extends Component<IProps, IState> {
       {
         className: 'column-container',
         id: String(kanbanId),
+        [`data-name`]: name,
       },
       div(
         { className: 'column-wrapper' },
@@ -104,7 +108,7 @@ class Column extends Component<IProps, IState> {
             i({
               className: 'f7-icons todo-more-button',
               textContent: 'trash',
-              click: () => this.deleteKanbanHandler(),
+              click: (e) => this.deleteKanbanHandler(e),
             })
           )
         ),

@@ -1,5 +1,6 @@
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
+import { createLog } from './log'
 
 export interface IKanban {
   kanbanId: number
@@ -23,12 +24,18 @@ export const getKanbans = async (userId: number): Promise<IKanban[]> => {
   }
 }
 
-export const deleteKanban = async (kanbanId: string) => {
+export const deleteKanban = async (kanbanId: string, itemName: string) => {
   try {
     const res = await fetchWrapper<IKanban, undefined>(
       'DELETE',
       `/kanban/${kanbanId}`
     )
+
+    await createLog({
+      type: 'kanban',
+      methodType: 'delete',
+      itemName,
+    })
 
     return res
   } catch (e) {
@@ -44,13 +51,18 @@ interface ICreateKanbanBody {
 }
 
 export const createKanban = async (body: ICreateKanbanBody) => {
-  console.log('call!!!')
   try {
     const res = await fetchWrapper<IKanban, ICreateKanbanBody>(
       'POST',
       '/kanban',
       body
     )
+
+    await createLog({
+      type: 'kanban',
+      methodType: 'add',
+      itemName: body.name,
+    })
 
     return res
   } catch (e) {
@@ -71,6 +83,12 @@ export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
       `/kanban/${kanbanId}`,
       body
     )
+
+    await createLog({
+      type: 'kanban',
+      methodType: 'update',
+      itemName: body.name,
+    })
 
     return res
   } catch (e) {

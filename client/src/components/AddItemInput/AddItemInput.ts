@@ -3,6 +3,7 @@ import { div } from '../../utils/wooact/defaultElements'
 import { BoxButton } from '../BoxButton'
 import { BoxInput } from '../BoxInput'
 import { updateItem, createItem } from '../../apis/item'
+import { createLog } from '../../apis/log'
 
 interface IProps {
   toggleAddItemInput: () => void
