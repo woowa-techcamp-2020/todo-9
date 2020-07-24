@@ -45,7 +45,6 @@ class App extends Component<IProps, IState> {
       onSelectUser,
       props: { users },
     } = this
-    console.log(getUserId())
     return div(
       {
         className: 'todo-container',

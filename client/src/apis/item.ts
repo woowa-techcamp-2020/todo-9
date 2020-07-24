@@ -1,7 +1,8 @@
-import { IUser } from './user'
+import { IUser, getUsers } from './user'
 import { createLog } from './log'
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { promiseHandler } from '../utils/promiseHandler'
+import { getUserId } from '../utils/getUserId'
 
 export interface IItem {
   id: number
@@ -34,6 +35,7 @@ export const updateItem = async (item: IItem): Promise<void> => {
 
   const [__, errorFromCreate] = await promiseHandler(
     createLog({
+      userId: getUserId(),
       type: 'item',
       methodType: 'update',
       itemName: item.content,
@@ -59,6 +61,7 @@ export const deleteItem = async (
 
   const [__, errorFromCreate] = await promiseHandler(
     createLog({
+      userId: getUserId(),
       type: 'item',
       methodType: 'delete',
       itemName,

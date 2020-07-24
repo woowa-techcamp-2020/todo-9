@@ -116,7 +116,6 @@ export const updateKanbanItems = async ({
   targetName,
   originName,
   itemName,
-  userId,
 }) => {
   try {
     const res = await fetchWrapper<IKanban[], IUpdateKanbanItemsBody>(
