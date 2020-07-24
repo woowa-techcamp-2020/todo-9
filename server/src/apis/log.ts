@@ -9,7 +9,6 @@ app.get('/logs/:userId', async (req: Request, res: Response) => {
   if (errorFromGetLogs) {
     throw errorFromGetLogs
   }
-  console.log(userId, logs)
   res.status(200).json(logs)
 })
 

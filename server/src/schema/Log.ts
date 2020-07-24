@@ -31,9 +31,9 @@ interface ICreateLog {
 class Log {
   async create(args: ICreateLog) {
     console.log('args', args)
-    const { type, methodType, originName, targetName, itemName } = args
+    const { type, methodType, originName, targetName, itemName, userId } = args
     const [insertId, error] = await insertQueryExecuter(
-      `INSERT INTO log(type, method_type, origin_name, target_name, item_name, created_at) VALUES('${type}', '${methodType}', '${originName}', '${targetName}', '${itemName}','${moment().format(
+      `INSERT INTO log(type, method_type, origin_name, target_name, item_name, user_id, created_at) VALUES('${type}', '${methodType}', '${originName}', '${targetName}', '${itemName}', ${userId},'${moment().format(
         'YYYY:MM:DD HH:mm:ss'
       )}' )`
     )
