@@ -1,12 +1,7 @@
 import { Component } from '../../utils/wooact'
 import { aside, div, i, span } from '../../utils/wooact/defaultElements'
-
-// 개발용
 import { SideBarItem } from '../SideBarItem'
 import { getLogs, ILog } from '../../apis/log'
-
-// 테스트용
-// import SideBarItem from '../SideBarItem/SideBarItem'
 
 interface IProps {
   userId: number
@@ -61,7 +56,7 @@ class SideBar extends Component<IProps, IState> {
           i({
             className: 'f7-icons f7-icon side-close',
             textContent: 'multiply',
-            click: () => this.props.onToggleSideMenu(),
+            onclick: () => this.props.onToggleSideMenu(),
           })
         )
       ),

@@ -52,7 +52,8 @@ class Header extends Component<IProps, IState> {
       button({
         className: 'f7-icons menu-container',
         textContent: 'menu',
-        click: () => onToggleSideMenu(),
+        type: 'button',
+        onclick: () => this.props.onToggleSideMenu(),
       })
     )
   }
