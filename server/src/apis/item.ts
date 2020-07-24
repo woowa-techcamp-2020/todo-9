@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { item } from '../schema'
+import { item, log } from '../schema'
 import { promiseHandler } from '../utils/promise-handler'
 import moment from 'moment'
 import { pool } from '../config/db'
@@ -61,9 +61,12 @@ app.delete(
   '/item/:itemId',
   async (req: Request, res: Response, next: NextFunction) => {
     const { itemId } = req.params
-    const [_, error] = await promiseHandler(item.delete(Number(itemId)))
-    if (error) {
-      next(error)
+
+    const [_, errorFromDelete] = await promiseHandler(
+      item.delete(Number(itemId))
+    )
+    if (errorFromDelete) {
+      next(errorFromDelete)
     }
 
     res.status(201).json('')

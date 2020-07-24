@@ -14,6 +14,7 @@ app.get('/logs/:userId', async (req: Request, res: Response) => {
 })
 
 app.post('/log', async (req: Request, res: Response) => {
+  console.log('req.body', req.body)
   const [_, errorFromCreateLog] = await promiseHandler(log.create(req.body))
   if (errorFromCreateLog) {
     throw errorFromCreateLog
