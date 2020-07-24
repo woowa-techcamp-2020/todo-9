@@ -46,7 +46,10 @@ class App extends Component<IProps, IState> {
       props: { users },
     } = this
     return div(
-      { className: 'container' },
+      {
+        className: 'todo-container',
+        id: `todo-${this.getState('selectedUserId')}`,
+      },
       new Header({
         title: '우와한 투두',
         onToggleSideMenu: () => this.onToggleSideMenu(),

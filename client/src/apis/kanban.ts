@@ -32,6 +32,7 @@ export const deleteKanban = async (kanbanId: string, itemName: string) => {
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'delete',
       itemName,
@@ -86,6 +87,7 @@ export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'update',
       itemName: body.name,
@@ -118,6 +120,7 @@ export const updateKanbanItems = async ({
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'item',
       methodType: 'move',
       targetName,
