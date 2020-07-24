@@ -36,7 +36,7 @@ class SideBar extends Component<IProps, IState> {
   render() {
     return aside(
       {
-        className: `sidebar-container`,
+        className: `sidebar-container `,
         // className: `sidebar-container visible`,
       },
 
