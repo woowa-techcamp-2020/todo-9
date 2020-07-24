@@ -18,46 +18,62 @@ class SideBarItem extends Component<IProps, IState> {
     this.init()
   }
 
-  getKanbanLog() {
-    const {
-      id,
-      type,
-      methodType,
-      originName,
-      targetName,
-      itemName,
-    } = this.props
+  getMethodName() {
+    switch (this.props.method_type) {
+      case 'add':
+        return '추가'
+      case 'update':
+        return '수정'
+      case 'delete':
+        return '삭제'
+      case 'move':
+        return '이동'
+    }
+  }
 
-    return `[${type}] ${itemName}이 ${
-      methodType === 'add' ? '추가' : '삭제'
-    } 되었습니당`
+  getName() {
+    return this.props.type === 'kanban' ? '[컬럼]' : '[아이템]'
+  }
+
+  getTitle() {
+    const { item_name: content } = this.props
+    const TITLE_MAX_LENGTH = 12
+
+    if (content.length < TITLE_MAX_LENGTH) {
+      return content
+    }
+
+    if (content.includes('\n')) {
+      const idx = content.indexOf('\n')
+      return content.slice(0, idx)
+    }
+
+    return content.slice(0, TITLE_MAX_LENGTH) + '...'
   }
 
   getLog() {
     const {
       id,
       type,
-      methodType,
-      originName,
-      targetName,
-      itemName,
+      item_name,
+      method_type,
+      origin_name,
+      target_name,
     } = this.props
-    if (type === 'kanban') {
-      return this.getKanbanLog()
+    if (method_type === 'move') {
+      return `${this.getName()} [${this.getTitle()}]이(가) [${origin_name}]에서 [${target_name}]으로 ${this.getMethodName()}되었습니당`
     }
+    return `${this.getName()} [${this.getTitle()}]이(가) ${this.getMethodName()}되었습니당`
+  }
+
+  getTime() {
+    const { created_at } = this.props
+    const date = created_at.slice(0, 10)
+    const time = created_at.slice(11, 19)
+    return `${date} ${time}`
   }
 
   render() {
-    const {
-      id,
-      type,
-      methodType,
-      originName,
-      targetName,
-      itemName,
-    } = this.props
-
-    console.log(type, itemName)
     return div(
       { className: 'log-item' },
       div({ className: 'vertical-bar' }),
@@ -65,19 +81,12 @@ class SideBarItem extends Component<IProps, IState> {
         { className: 'log-contents-container' },
         div(
           {},
-          q({ className: 'author', textContent: '@donguk' }),
-          span({ className: 'type', textContent: ' moved' }),
-          span({
+          div({
             className: 'content',
-            textContent:
-              ' js공부하고 복습하고 공부하고 복습하고 공부하고 또 복습하고 공부하고 테스트코드 짜고 복습하고 길게 쓰자',
-          }),
-          span({
-            className: 'place',
-            textContent: ' from 해야할일 to 하는중',
+            textContent: this.getLog(),
           })
         ),
-        div({ className: 'updatedAt', textContent: '3minutes ago' })
+        div({ className: 'updatedAt', textContent: this.getTime() })
       )
     )
   }

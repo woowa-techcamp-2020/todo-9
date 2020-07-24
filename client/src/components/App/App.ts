@@ -1,6 +1,6 @@
 import { Component } from '../../utils/wooact'
 import { div, main, ul, i } from '../../utils/wooact/defaultElements'
-
+import { getUserId } from '../../utils/getUserId'
 // 개발용
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
@@ -45,6 +45,7 @@ class App extends Component<IProps, IState> {
       onSelectUser,
       props: { users },
     } = this
+    console.log(getUserId())
     return div(
       {
         className: 'todo-container',
@@ -62,7 +63,7 @@ class App extends Component<IProps, IState> {
         : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
-      this.getState('selectedUserId') !== null
+      this.getState('menuVisible')
         ? new SideBar(
             {
               userId: this.getState('selectedUserId') as number,

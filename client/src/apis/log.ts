@@ -14,9 +14,14 @@ export interface ICreateLogBody {
   itemName?: string
 }
 
-export interface ILog extends ICreateLogBody {
+export interface ILog {
   id: number
+  type: 'item' | 'kanban'
   created_at: string
+  item_name: string
+  method_type: MethodTpyeOfItemLog
+  origin_name: string
+  target_name: string
 }
 
 export const getLogs = async (userId: number): Promise<ILog[]> => {

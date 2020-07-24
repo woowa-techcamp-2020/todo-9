@@ -1,7 +1,7 @@
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
 import { createLog } from './log'
-
+import { getUserId } from '../utils/getUserId'
 export interface IKanban {
   kanbanId: number
   name: string
@@ -27,7 +27,7 @@ export const getKanbans = async (userId: number): Promise<IKanban[]> => {
 export const deleteKanban = async (
   kanbanId: string,
   itemName: string,
-  userId: number
+  userId?: number
 ) => {
   try {
     const res = await fetchWrapper<IKanban, undefined>(
@@ -38,7 +38,6 @@ export const deleteKanban = async (
     await createLog({
       userId: getUserId(),
       type: 'kanban',
-      userId,
       methodType: 'delete',
       itemName,
     })
@@ -53,7 +52,7 @@ export const deleteKanban = async (
 
 interface ICreateKanbanBody {
   name: string
-  userId: number
+  userId?: number
 }
 
 export const createKanban = async (body: ICreateKanbanBody) => {
@@ -81,7 +80,7 @@ export const createKanban = async (body: ICreateKanbanBody) => {
 
 interface IKanbanBody {
   name: string
-  userId: number
+  userId?: number
 }
 
 export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
@@ -97,7 +96,6 @@ export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
       type: 'kanban',
       methodType: 'update',
       itemName: body.name,
-      userId: body.userId,
     })
 
     return res
@@ -131,7 +129,6 @@ export const updateKanbanItems = async ({
       userId: getUserId(),
       type: 'item',
       methodType: 'move',
-      userId,
       targetName,
       originName,
       itemName,
