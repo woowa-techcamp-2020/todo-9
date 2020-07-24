@@ -102,13 +102,27 @@ interface IUpdateKanbanItemsBody {
   ids: string[]
 }
 
-export const updateKanbanItems = async ({ kanbanId, ids }) => {
+export const updateKanbanItems = async ({
+  kanbanId,
+  ids,
+  targetName,
+  originName,
+  itemName,
+}) => {
   try {
     const res = await fetchWrapper<IKanban[], IUpdateKanbanItemsBody>(
       'PUT',
       `/kanban/${kanbanId}/items`,
       { ids }
     )
+
+    await createLog({
+      type: 'item',
+      methodType: 'move',
+      targetName,
+      originName,
+      itemName,
+    })
   } catch (e) {
     console.error(e)
 
