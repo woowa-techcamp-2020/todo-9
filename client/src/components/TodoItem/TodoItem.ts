@@ -23,7 +23,12 @@ class TodoItem extends Component<IProps, IState> {
   }
 
   async onRemoveItem() {
-    await deleteItem(this.props.id)
+    const title =
+      this.props.content.length >= 15
+        ? this.props.content.slice(0, 15) + '...'
+        : this.props.content
+
+    await deleteItem(this.props.id, title)
     await window.dispatchEvent(new Event('item_changed'))
   }
 
