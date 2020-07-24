@@ -64,7 +64,7 @@ export const createKanban = async (body: ICreateKanbanBody) => {
     )
 
     await createLog({
-      userId: body.userId,
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'add',
       itemName: body.name,

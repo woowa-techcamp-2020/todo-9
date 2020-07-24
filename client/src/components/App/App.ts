@@ -65,7 +65,7 @@ class App extends Component<IProps, IState> {
       this.getState('menuVisible')
         ? new SideBar(
             {
-              userId: this.getState('selectedUserId') as number,
+              userId: this.getState('menuVisible') as number,
               onToggleSideMenu: () => this.onToggleSideMenu(),
             },
             { logs: [] }
