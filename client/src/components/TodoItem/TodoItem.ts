@@ -39,12 +39,28 @@ class TodoItem extends Component<IProps, IState> {
     await window.dispatchEvent(new Event('item_changed'))
   }
 
+  getTitleAndContents() {
+    const { content } = this.props
+    const TITLE_MAX_LENGTH = 12
+
+    if (content.length < TITLE_MAX_LENGTH) {
+      return [content, content]
+    }
+
+    if (content.includes('\n')) {
+      const idx = content.indexOf('\n')
+      return [content.slice(0, idx), content.slice(idx + 1)]
+    }
+
+    return [content.slice(0, TITLE_MAX_LENGTH) + '...', content]
+  }
+
   render() {
     const { author, content, id } = this.props
-    const [title, ...contents] = content.split('\n')
+    const [title, contents] = this.getTitleAndContents()
 
     return div(
-      { className: 'item-wrapper', id: `item-${id}` },
+      { className: 'item-wrapper', id: `item-${id}-${title}` },
       this.getState('isEditMode')
         ? new AddItemInput({
             initialValue: content,
@@ -67,7 +83,7 @@ class TodoItem extends Component<IProps, IState> {
                 }),
                 div({
                   className: 'item-contents',
-                  textContent: contents.join(' '),
+                  textContent: contents,
                 })
               ),
               i({

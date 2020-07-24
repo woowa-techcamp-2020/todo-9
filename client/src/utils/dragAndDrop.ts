@@ -125,6 +125,10 @@ const getId = (ele: HTMLElement | Element) => {
   return ele.id.split('-')[1]
 }
 
+const getName = (ele: HTMLElement | Element) => {
+  return ele.id.split('-')[2]
+}
+
 const updateColumnIds = async (column: HTMLElement) => {
   const kanbanId = getId(column)
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
@@ -209,8 +213,12 @@ const onMouseItemUp = async (e: MouseEvent) => {
     return
   }
 
-  if (trashCan && trashCan.classList.contains('overlapped')) {
-    await deleteItem(+getId(target))
+  if (
+    trashCan &&
+    trashCan.classList.contains('overlapped') &&
+    !(overlappedElement.item || overlappedElement.column)
+  ) {
+    await deleteItem(+getId(target), getName(target))
     target.remove()
     await window.dispatchEvent(new Event('item_changed'))
   } else {
@@ -231,7 +239,7 @@ const onMouseItemMove = (e: MouseEvent) => {
   }
 
   setFloatingItem(e)
-  // findOverlappedOnTrashCan(e)
+  findOverlappedOnTrashCan(e)
 
   resetOverlapped()
   findOverlappedColumn(e)
