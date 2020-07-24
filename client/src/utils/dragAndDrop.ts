@@ -130,20 +130,52 @@ const updateColumnIds = async (column: HTMLElement) => {
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
   await updateKanbanItems({ kanbanId, ids })
-
-  // update column counter
-  // const columnCounter = (column.closest(
-  //   '.column-wrapper'
-  // ) as HTMLElement).querySelector('.todo-count') as HTMLDivElement
-  // columnCounter.innerText = ids.length.toString()
 }
 
+let initX: number
+let initY: number
+
 const onMouseItemDown = (e: MouseEvent) => {
+  initX = e.pageX
+  initY = e.pageY
+
   if (debounceTimeout) {
     window.clearTimeout(debounceTimeout)
   }
 
+  let pm: () => void
+  let pu: () => void
+
+  window.addEventListener(
+    'pointermove',
+    (pm = () => {
+      window.clearTimeout(debounceTimeout)
+
+      window.removeEventListener('pointermove', pm)
+    })
+  )
+
+  window.addEventListener(
+    'pointerup',
+    (pu = () => {
+      const laterX = e.pageX
+      const laterY = e.pageY
+
+      const deltaX = laterX - initX
+      const deltaY = laterY - initY
+
+      if (Math.sqrt(deltaX ** 2 + deltaY ** 2) < 3) {
+        window.clearTimeout(debounceTimeout)
+      }
+
+      window.removeEventListener('pointermove', pm)
+      window.removeEventListener('pointerup', pu)
+    })
+  )
+
   debounceTimeout = window.setTimeout(async () => {
+    window.removeEventListener('pointermove', pm)
+
     target = (e.target as HTMLElement).closest('.item-wrapper')
     if (!target) {
       return
