@@ -30,15 +30,16 @@ interface ICreateLog {
 
 class Log {
   async create(args: ICreateLog) {
-    const { type, methodType, userId, originName, targetName, itemName } = args
-    const [insertId, errorFromCreateLog] = await insertQueryExecuter(
-      `INSERT INTO log(type, method_type, origin_name, target_name, user_id, item_name, created_at) VALUES('${type}', '${methodType}', '${originName}', '${targetName}', '${userId}', '${itemName}','${moment().format(
+    console.log('args', args)
+    const { type, methodType, originName, targetName, itemName } = args
+    const [insertId, error] = await insertQueryExecuter(
+      `INSERT INTO log(type, method_type, origin_name, target_name, item_name, created_at) VALUES('${type}', '${methodType}', '${originName}', '${targetName}', '${itemName}','${moment().format(
         'YYYY:MM:DD HH:mm:ss'
       )}' )`
     )
 
-    if (errorFromCreateLog) {
-      throw errorFromCreateLog
+    if (error) {
+      throw error
     }
 
     return insertId
