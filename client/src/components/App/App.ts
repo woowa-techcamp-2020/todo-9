@@ -31,21 +31,8 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
-  async componentDidMount() {
-    // if (this.getState('userId')){
-    //   return ;
-    // }
-    // const users = await getUsers()
-    // this.setState('users', users)
-  }
-
   onToggleSideMenu = () => {
-    const sidebar = document.querySelector('.sidebar-container')
-    if (sidebar.classList.contains('visible')) {
-      sidebar.classList.remove('visible')
-      return
-    }
-    sidebar.classList.add('visible')
+    this.setState('menuVisible', !this.getState('menuVisible'))
   }
 
   onSelectUser = (userId: number) => {
@@ -55,13 +42,15 @@ class App extends Component<IProps, IState> {
 
   render() {
     const {
-      onToggleSideMenu,
       onSelectUser,
       props: { users },
     } = this
     return div(
       { className: 'container' },
-      new Header({ title: '우와한 투두', onToggleSideMenu }),
+      new Header({
+        title: '우와한 투두',
+        onToggleSideMenu: () => this.onToggleSideMenu(),
+      }),
       this.getState('selectedUserId')
         ? new DashBoard(
             { userId: this.getState('selectedUserId') },
@@ -70,12 +59,14 @@ class App extends Component<IProps, IState> {
         : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
-      new SideBar(
-        {
-          onToggleSideMenu: () => this.onToggleSideMenu(),
-        },
-        {}
-      ),
+      this.getState('menuVisible')
+        ? new SideBar(
+            {
+              onToggleSideMenu: () => this.onToggleSideMenu(),
+            },
+            {}
+          )
+        : null,
       div(
         {
           className: 'trash-can',
