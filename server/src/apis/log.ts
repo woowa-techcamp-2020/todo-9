@@ -9,12 +9,10 @@ app.get('/logs/:userId', async (req: Request, res: Response) => {
   if (errorFromGetLogs) {
     throw errorFromGetLogs
   }
-
   res.status(200).json(logs)
 })
 
 app.post('/log', async (req: Request, res: Response) => {
-  console.log('req.body', req.body)
   const [_, errorFromCreateLog] = await promiseHandler(log.create(req.body))
   if (errorFromCreateLog) {
     throw errorFromCreateLog

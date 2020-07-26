@@ -5,6 +5,7 @@ import { AddItemInput } from '../AddItemInput'
 import { TextInput } from '../TextInput'
 import { IKanban } from '../../apis/kanban'
 import { updateKanbanName, deleteKanban } from '../../apis/kanban'
+import { getUserId } from '../../utils/getUserId'
 
 interface IProps extends IKanban {
   userId?: number
@@ -32,6 +33,7 @@ class Column extends Component<IProps, IState> {
 
   async onSubmitChangeName(name: string) {
     try {
+      const userId = Number(getUserId())
       await updateKanbanName(String(this.props.kanbanId), { name })
     } catch (e) {
       console.error(e)
@@ -46,6 +48,7 @@ class Column extends Component<IProps, IState> {
     const $target = e.target as HTMLLIElement
     const $kanban = $target.closest('.column-container') as HTMLLIElement
     const kanbanName = $kanban.dataset.name
+    const userId = Number(getUserId())
     await deleteKanban(String(this.props.kanbanId), kanbanName)
     await window.dispatchEvent(new Event('item_changed'))
   }
@@ -116,7 +119,10 @@ class Column extends Component<IProps, IState> {
             })
           : null,
         ul(
-          { className: 'column-items-container', id: `column-${kanbanId}` },
+          {
+            className: 'column-items-container',
+            id: `column-${kanbanId}-${name}`,
+          },
           ...this.renderItems()
         )
       )

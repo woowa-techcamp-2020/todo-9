@@ -1,6 +1,6 @@
 import { Component } from '../../utils/wooact'
 import { div, main, ul, i } from '../../utils/wooact/defaultElements'
-
+import { getUserId } from '../../utils/getUserId'
 // 개발용
 import { Header } from '../Header'
 import { SideBar } from '../SideBar'
@@ -31,21 +31,8 @@ class App extends Component<IProps, IState> {
     this.init()
   }
 
-  async componentDidMount() {
-    // if (this.getState('userId')){
-    //   return ;
-    // }
-    // const users = await getUsers()
-    // this.setState('users', users)
-  }
-
   onToggleSideMenu = () => {
-    const sidebar = document.querySelector('.sidebar-container')
-    if (sidebar.classList.contains('visible')) {
-      sidebar.classList.remove('visible')
-      return
-    }
-    sidebar.classList.add('visible')
+    this.setState('menuVisible', !this.getState('menuVisible'))
   }
 
   onSelectUser = (userId: number) => {
@@ -55,14 +42,19 @@ class App extends Component<IProps, IState> {
 
   render() {
     const {
-      onToggleSideMenu,
       onSelectUser,
       props: { users },
     } = this
     return div(
-      { className: 'container' },
-      new Header({ title: '우와한 투두', onToggleSideMenu }),
-      this.getState('selectedUserId')
+      {
+        className: 'todo-container',
+        id: `todo-${this.getState('selectedUserId')}`,
+      },
+      new Header({
+        title: '우와한 투두',
+        onToggleSideMenu: () => this.onToggleSideMenu(),
+      }),
+      this.getState('selectedUserId') !== null
         ? new DashBoard(
             { userId: this.getState('selectedUserId') },
             { kanbans: [] }
@@ -70,12 +62,15 @@ class App extends Component<IProps, IState> {
         : new UserModal({ users, onSelectUser }),
       div({ className: 'float-item' }),
       div({ className: 'float-column' }),
-      new SideBar(
-        {
-          onToggleSideMenu: () => this.onToggleSideMenu(),
-        },
-        {}
-      ),
+      this.getState('menuVisible')
+        ? new SideBar(
+            {
+              userId: this.getState('menuVisible') as number,
+              onToggleSideMenu: () => this.onToggleSideMenu(),
+            },
+            { logs: [] }
+          )
+        : null,
       div(
         {
           className: 'trash-can',

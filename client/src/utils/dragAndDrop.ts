@@ -13,6 +13,7 @@ let timeForPushed = 300
 let debounceTimeout = 0
 let moved = null
 let originColumn = null
+let targetColumn = null
 let trashCan
 
 const resetOverlapped = () => {
@@ -112,12 +113,12 @@ const findOverlappedColumn = (e: MouseEvent) => {
 }
 
 const updateIfMoved = async () => {
-  const currentColumn = target.closest('.column-items-container') as HTMLElement
+  targetColumn = target.closest('.column-items-container') as HTMLElement
 
-  if (currentColumn !== originColumn) {
+  if (targetColumn !== originColumn) {
     await updateColumnIds(originColumn)
   }
-  await updateColumnIds(currentColumn)
+  await updateColumnIds(targetColumn)
   await window.dispatchEvent(new Event('item_changed'))
 }
 
@@ -125,11 +126,24 @@ const getId = (ele: HTMLElement | Element) => {
   return ele.id.split('-')[1]
 }
 
+const getName = (ele: HTMLElement | Element) => {
+  return ele.id.split('-')[2].trim()
+}
+
 const updateColumnIds = async (column: HTMLElement) => {
   const kanbanId = getId(column)
   const items = Array.from(column.querySelectorAll('.item-wrapper'))
   const ids = items.map((item) => getId(item))
-  await updateKanbanItems({ kanbanId, ids })
+
+  if (targetColumn !== originColumn) {
+    await updateKanbanItems({
+      kanbanId,
+      ids,
+      targetName: getName(targetColumn),
+      originName: getName(originColumn),
+      itemName: getName(target),
+    })
+  }
 }
 
 let initX: number
@@ -209,8 +223,12 @@ const onMouseItemUp = async (e: MouseEvent) => {
     return
   }
 
-  if (trashCan && trashCan.classList.contains('overlapped')) {
-    await deleteItem(+getId(target))
+  if (
+    trashCan &&
+    trashCan.classList.contains('overlapped') &&
+    !(overlappedElement.item || overlappedElement.column)
+  ) {
+    await deleteItem(+getId(target), getName(target))
     target.remove()
     await window.dispatchEvent(new Event('item_changed'))
   } else {
@@ -231,7 +249,7 @@ const onMouseItemMove = (e: MouseEvent) => {
   }
 
   setFloatingItem(e)
-  // findOverlappedOnTrashCan(e)
+  findOverlappedOnTrashCan(e)
 
   resetOverlapped()
   findOverlappedColumn(e)

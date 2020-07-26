@@ -1,7 +1,7 @@
 import { fetchWrapper } from '../utils/fetchWrapper'
 import { IItem } from './item'
 import { createLog } from './log'
-
+import { getUserId } from '../utils/getUserId'
 export interface IKanban {
   kanbanId: number
   name: string
@@ -24,7 +24,11 @@ export const getKanbans = async (userId: number): Promise<IKanban[]> => {
   }
 }
 
-export const deleteKanban = async (kanbanId: string, itemName: string) => {
+export const deleteKanban = async (
+  kanbanId: string,
+  itemName: string,
+  userId?: number
+) => {
   try {
     const res = await fetchWrapper<IKanban, undefined>(
       'DELETE',
@@ -32,6 +36,7 @@ export const deleteKanban = async (kanbanId: string, itemName: string) => {
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'delete',
       itemName,
@@ -47,7 +52,7 @@ export const deleteKanban = async (kanbanId: string, itemName: string) => {
 
 interface ICreateKanbanBody {
   name: string
-  userId: number
+  userId?: number
 }
 
 export const createKanban = async (body: ICreateKanbanBody) => {
@@ -59,6 +64,7 @@ export const createKanban = async (body: ICreateKanbanBody) => {
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'add',
       itemName: body.name,
@@ -74,6 +80,7 @@ export const createKanban = async (body: ICreateKanbanBody) => {
 
 interface IKanbanBody {
   name: string
+  userId?: number
 }
 
 export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
@@ -85,6 +92,7 @@ export const updateKanbanName = async (kanbanId: string, body: IKanbanBody) => {
     )
 
     await createLog({
+      userId: getUserId(),
       type: 'kanban',
       methodType: 'update',
       itemName: body.name,
@@ -102,13 +110,28 @@ interface IUpdateKanbanItemsBody {
   ids: string[]
 }
 
-export const updateKanbanItems = async ({ kanbanId, ids }) => {
+export const updateKanbanItems = async ({
+  kanbanId,
+  ids,
+  targetName,
+  originName,
+  itemName,
+}) => {
   try {
     const res = await fetchWrapper<IKanban[], IUpdateKanbanItemsBody>(
       'PUT',
       `/kanban/${kanbanId}/items`,
       { ids }
     )
+
+    await createLog({
+      userId: getUserId(),
+      type: 'item',
+      methodType: 'move',
+      targetName,
+      originName,
+      itemName,
+    })
   } catch (e) {
     console.error(e)
 
